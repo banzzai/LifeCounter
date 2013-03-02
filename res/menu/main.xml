@@ -1,0 +1,34 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item
+        android:id="@+id/action_restart"
+        android:orderInCategory="1"
+        android:showAsAction="never"
+        android:title="@string/action_restart"/>
+    <item
+        android:id="@+id/action_dice"
+        android:orderInCategory="1"
+        android:showAsAction="never"
+        android:title="@string/action_dice"/>
+    <item
+        android:id="@+id/action_coin"
+        android:orderInCategory="1"
+        android:showAsAction="never"
+        android:title="@string/action_coin"/>
+	<item
+        android:id="@+id/action_flip"
+        android:orderInCategory="1"
+        android:showAsAction="never"
+        android:title="@string/action_flip"/>
+    <item
+        android:id="@+id/action_settings"
+        android:orderInCategory="2"
+        android:showAsAction="never"
+        android:title="@string/action_settings"/>
+    <item
+        android:id="@+id/action_load"
+        android:orderInCategory="2"
+        android:showAsAction="never"
+        android:title="@string/action_load"/>
+
+</menu>

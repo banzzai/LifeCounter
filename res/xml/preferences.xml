@@ -1,0 +1,107 @@
+<PreferenceScreen
+        xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory
+            android:title="@string/layout_settings">
+
+        <CheckBoxPreference
+                android:key="@string/key_show_buttons"
+                android:title="@string/show_buttons"
+                android:summary="@string/summary_show_buttons"
+                android:defaultValue="false" />
+        
+        <CheckBoxPreference
+                android:key="@string/key_show_wheels"
+                android:title="@string/show_wheels"
+                android:defaultValue="true"/>
+
+        <net.margaritov.preference.colorpicker.ColorPickerPreference
+		    android:key="@string/key_color"
+		    android:title="@string/color_pick"
+		    android:summary="@string/pick_a_color"
+		    android:defaultValue="@color/lifeText"
+		    alphaSlider="true"                              
+		/>
+        
+    </PreferenceCategory>
+
+    <PreferenceCategory
+            android:title="@string/game_settings">
+
+        <EditTextPreference
+                android:key="@string/key_life_start"
+                android:title="@string/life_total_start"
+                android:summary="@string/click_to_edit"
+                android:dialogTitle="@string/life_total_start"
+                android:defaultValue="20" />
+        
+<!--        <PreferenceScreen
+        	android:key="test"
+  			android:title="title_intent_preference"
+  			android:summary="summary_intent_preference">
+
+		<intent android:action="android.intent.action.VIEW"
+	     	android:data="http://www.android.com" />
+
+       		</PreferenceScreen>
+ 
+        <ListPreference
+                android:key="list_preference"
+                android:title="title_list_preference"
+                android:summary="summary_list_preference"
+                android:entries="@array/entries_list_preference"
+                android:entryValues="@array/entryvalues_list_preference"
+                android:dialogTitle="dialog_title_list_preference" />
+ -->
+    </PreferenceCategory>
+<!-- 
+    <PreferenceCategory
+            android:title="@string/layout_settings">
+
+        <!- This PreferenceScreen tag serves as a screen break (similar to page break
+             in word processing). Like for other preference types, we assign a key
+             here so it is able to save and restore its instance state. ->
+        <PreferenceScreen
+                android:key="screen_preference"
+                android:title="title_screen_preference"
+                android:summary="summary_screen_preference">
+
+            <!- You can place more preferences here that will be shown on the next screen. ->
+
+            <CheckBoxPreference
+                    android:key="next_screen_checkbox_preference"
+                    android:title="title_next_screen_toggle_preference"
+                    android:summary="summary_next_screen_toggle_preference" />
+
+        </PreferenceScreen>
+
+        <PreferenceScreen
+                android:title="title_intent_preference"
+                android:summary="summary_intent_preference">
+
+            <intent android:action="android.intent.action.VIEW"
+                    android:data="http://www.android.com" />
+
+        </PreferenceScreen>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+            android:title="preference_attributes">
+
+        <CheckBoxPreference
+                android:key="parent_checkbox_preference"
+                android:title="title_parent_preference"
+                android:summary="summary_parent_preference" />
+
+        <!- The visual style of a child is defined by this styled theme attribute. ->
+        <CheckBoxPreference
+                android:key="child_checkbox_preference"
+                android:dependency="parent_checkbox_preference"
+                android:layout="?android:attr/preferenceLayoutChild"
+                android:title="title_child_preference"
+                android:summary="summary_child_preference" />
+
+    </PreferenceCategory> -->
+
+</PreferenceScreen>
