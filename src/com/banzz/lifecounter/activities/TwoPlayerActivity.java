@@ -12,6 +12,7 @@ import com.banzz.lifecounter.R;
 import com.banzz.lifecounter.utils.SystemUiHider;
 import com.banzz.lifecounter.utils.Utils.Constants;
 import com.banzz.lifecounter.commons.LifeAdapter;
+import com.banzz.lifecounter.commons.Player;
 import com.google.gson.Gson;
 
 import android.app.Activity;
