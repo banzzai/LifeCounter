@@ -122,7 +122,7 @@ public class EditPlayerActivity extends Activity implements OnClickListener, Loa
 	//This function should just update what shows on screen, and not change any value. This is not starting a new game!
 	private void updateUI() {
 		Player player = players[mSelectedPlayer];
-		int color = player.getColor();
+		int color = player.getColor() != -1 ? player.getColor() : getResources().getColor(R.color.lifeText);
 		boolean showButtons = player.showButons();
 		boolean showWheel = player.showWheel();
 		int background_id = player.getBackGroundId();

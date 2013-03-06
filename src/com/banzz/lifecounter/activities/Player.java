@@ -13,7 +13,7 @@ public class Player {
 	}
 	
 	public Player(String id, String name) {
-		this(id, name, 0, false, true, 0);
+		this(id, name, -1, false, true, 0);
 	}
 	
 	public Player(String mId, String mName, int mColor, boolean mShowButtons, boolean mShowWheel, int mBackGroundId) {
