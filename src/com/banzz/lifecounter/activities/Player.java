@@ -8,10 +8,12 @@ public class Player {
 	private boolean mShowWheel;
 	private int mBackGroundId;
 
+	public Player() {
+		this("id", "Player");
+	}
+	
 	public Player(String id, String name) {
-		super();
-		this.mId = id;
-		this.mName = name;
+		this(id, name, 0, false, true, 0);
 	}
 	
 	public Player(String mId, String mName, int mColor, boolean mShowButtons, boolean mShowWheel, int mBackGroundId) {

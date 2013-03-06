@@ -18,22 +18,14 @@
     <string name="donations">Donations</string>
     
     <!-- Context menu -->
-    <string name="action_lock">imageLock</string>
     <string name="string_action_lock">Background lock</string>
-    
-    <string name="action_settings">settings</string>
-    <string name="action_flip">rotatePlayerTwo</string>
-    <string name="action_restart">restart</string>
-    <string name="action_dice">rollDice</string>
-    <string name="action_coin">flipCoin</string>
-    <string name="action_load">loadPlayer</string>
-    
     <string name="string_action_settings">Settings</string>
     <string name="string_action_flip">Rotate player 2</string>
     <string name="string_action_restart">Restart</string>
     <string name="string_action_dice">Roll dice</string>
     <string name="string_action_coin">Flip coin</string>
     <string name="string_action_load">Load player</string>
+	<string name="string_action_edit">Edit player</string>
     
     <!-- Settings -->
 	<string name="key_background_lock">backgroundLock</string>

@@ -16,13 +16,7 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
-        <activity
-            android:name="com.banzz.lifecounter.activities.TwoPlayerActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="@string/app_name" >
-            <!-- android:theme="@android:style/Theme.NoTitleBar" > -->
-        </activity>
-
+        
         <activity
             android:name="com.banzz.lifecounter.activities.FrontMenuActivity">
             <intent-filter>
@@ -31,6 +25,20 @@
             </intent-filter>
         </activity>
         
+        <activity
+            android:name="com.banzz.lifecounter.activities.TwoPlayerActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/app_name" >
+            <!-- android:theme="@android:style/Theme.NoTitleBar" > -->
+        </activity>
+        
+        <activity
+            android:name="com.banzz.lifecounter.activities.EditPlayerActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>
+
         <activity
             android:name="com.banzz.lifecounter.activities.SettingsActivity"
             android:theme="@android:style/Theme.Black">

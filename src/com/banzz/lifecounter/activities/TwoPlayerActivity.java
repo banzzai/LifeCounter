@@ -348,19 +348,6 @@ public class TwoPlayerActivity extends Activity implements OnClickListener, Load
     	preferenceEditor.putInt(getString(player==Constants.PLAYER_ONE?R.string.key_back1:R.string.key_back2), playerBacks[player]);
     	preferenceEditor.commit();
     	updatePlayerUI(player);
-    	
-    	/*switch(player) {
-    		case Constants.PLAYER_ONE:
-    			player1_back_number = (player1_back_number + 1) % backgrounds_ids.length;
-    			preferenceEditor.putInt(getString(R.string.key_back1), player1_back_number);
-    			break;
-    		case Constants.PLAYER_TWO:
-    			player2_back_number = (player2_back_number + 1) % backgrounds_ids.length;
-    			preferenceEditor.putInt(getString(R.string.key_back2), player2_back_number);
-    			break;
-    	}
-    	updateUI();
-    	preferenceEditor.commit();*/
 	}
 
 	//SINCE WE ARE HACKING A WHEEL THAT WORKS BACKWARDS OF INDEX ALWAYS USE THIS GETTER
@@ -413,12 +400,11 @@ public class TwoPlayerActivity extends Activity implements OnClickListener, Load
     		player2_rotate(player2_screen.getRotation() == 180 ? false : true);
     	} else if (R.id.action_load == item.getItemId()) {
     		LoadPlayerDialog loadDialog = new LoadPlayerDialog();
-    		//loadDialog.setUsers(knownPlayers);
     		loadDialog.setListener(this);
     	    loadDialog.show(getFragmentManager(), getString(R.string.load_player));
-    	}/* else if (R.id.action_crop) {
-    		cropImage();
-    	}*/
+    	} else if (R.id.action_edit == item.getItemId()) {
+    		startActivityForResult(new Intent(getApplicationContext(), EditPlayerActivity.class), Constants.REQUEST_EDIT_PLAYER);
+    	}
     	else if (R.id.action_lock == item.getItemId()) {
     		switchBackgroundLock();
     	}
@@ -436,20 +422,6 @@ public class TwoPlayerActivity extends Activity implements OnClickListener, Load
     	preferenceEditor.commit();
 
     	Toast.makeText(this, "Background images "+(mBackGroundLock?"":"un")+"locked", Toast.LENGTH_LONG).show();
-	}
-
-
-	private void cropImage() {
-    	/*final Intent intent = new Intent("com.android.camera.action.CROP");
-        intent.setData(uriOfImageToCrop);
-        intent.putExtra("outputX", 400);
-        intent.putExtra("outputY", 400);
-        intent.putExtra("aspectX", 1);
-        intent.putExtra("aspectY", 1);
-        intent.putExtra("scale", true);
-        intent.putExtra("noFaceDetection", true);
-        intent.putExtra("output", Uri.fromFile(someOutputFile));
-        startActivityForResult(intent, SOME_RANDOM_REQUEST_CODE);*/
 	}
 
 	private void player2_rotate(boolean doRotate) {

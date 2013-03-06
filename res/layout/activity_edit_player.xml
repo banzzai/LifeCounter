@@ -1,0 +1,101 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".TwoPlayerActivity" >
+
+    <!--
+         The primary full-screen view. This can be replaced with whatever view
+         is needed to present your content, e.g. VideoView, SurfaceView,
+         TextureView, etc.
+    -->
+
+    <!--
+         This FrameLayout insets its children based on system windows using
+         android:fitsSystemWindows.
+    -->
+
+        <LinearLayout
+            android:id="@+id/fullscreen_content_edit"
+            style="?buttonBarStyle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/black_overlay"
+            android:orientation="horizontal"
+            tools:ignore="UselessParent" >
+
+            <LinearLayout 
+			    android:id="@+id/player_zero_screen"
+			    android:layout_width="wrap_content"
+			    android:layout_height="match_parent"
+			    android:layout_weight="1"
+                android:orientation="vertical"
+			    >
+
+          	<RelativeLayout
+            	android:layout_width="match_parent"
+            	android:layout_height="match_parent"
+			    android:layout_weight="1"
+                >
+			    
+			    <ImageView
+			        android:id="@+id/background_player0"
+			        android:layout_width="match_parent"
+			        android:layout_height="match_parent" />
+			    
+				<TextView
+				    android:id="@+id/edit_player0"
+				    android:layout_width="match_parent"
+				    android:layout_height="wrap_content"
+				    android:background="#00ffffff"
+				    android:gravity="center_horizontal"
+				    android:textAppearance="@style/ButtonText"
+				    android:textColor="#FFF" />
+				
+                <TextView
+                    android:id="@+id/big_life_0"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:textAppearance="@style/bigLife" />
+
+				<TextView
+                    android:id="@+id/plus_0"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@+id/big_life_0"
+                    android:layout_centerHorizontal="true"
+                    android:text="@string/plus"
+                    android:textAppearance="@style/bigLife" />
+                
+                <TextView
+                    android:id="@+id/minus_0"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/big_life_0"
+                    android:layout_centerHorizontal="true"
+                    android:text="@string/minus"
+                    android:textAppearance="@style/bigLife" />
+
+                <kankan.wheel.widget.WheelView
+                    android:id="@+id/player_zero"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true" />
+	            
+            </RelativeLayout>
+        </LinearLayout>
+		
+		<LinearLayout 
+			android:id="@+id/edit_controls"
+		    android:layout_width="wrap_content"
+		    android:layout_height="match_parent"
+		    android:layout_weight="1"
+            android:orientation="vertical"
+		    >
+            
+        </LinearLayout>
+            
+	</LinearLayout>
+
+</RelativeLayout>
