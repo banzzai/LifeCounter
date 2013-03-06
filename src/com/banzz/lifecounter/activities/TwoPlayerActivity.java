@@ -1,5 +1,8 @@
 package com.banzz.lifecounter.activities;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.util.Random;
 
 import kankan.wheel.widget.OnWheelScrollListener;
@@ -82,6 +85,7 @@ public class TwoPlayerActivity extends Activity implements OnClickListener, Load
 	private LinearLayout player2_screen;
 	
 	private WakeLock wl;
+	private boolean mBackGroundLock = false;
 
 	@Override
 	protected void onPause() {
@@ -135,7 +139,28 @@ public class TwoPlayerActivity extends Activity implements OnClickListener, Load
    		knownPlayers[3] = new Player("id4", "Greg", getResources().getColor(R.color.lifeText), true, false, 6);
 		knownPlayers[4] = new Player("id5", "Olivier", getResources().getColor(R.color.lifeText), true, false, 1);
 		knownPlayers[5] = new Player("id6", "Tanisha", getResources().getColor(R.color.lifeText), true, false, 8);
-        
+		
+//		Gson gson = new Gson();
+//		String json = gson.toJson(knownPlayers);
+//		String fileName = "players.JSON";
+//		File externalDir = getExternalFilesDir(null);
+//		
+//		FileOutputStream fos;
+//		try {
+//			File image = new File(externalDir, fileName);
+//			if (!image.exists()) {
+//				image.createNewFile();
+//			}	
+//			
+//			fos = new FileOutputStream(image);
+//			//fos = openFileOutput(externalDir + fileName, Context.MODE_PRIVATE);
+//			fos.write(json.getBytes());
+//			fos.close();
+//		} catch (Exception e) {
+//			Toast.makeText(this, "JSON WRITE FAILED", Toast.LENGTH_LONG).show();
+//			e.printStackTrace();
+//		}
+		
         mEditName1	= (EditText) findViewById(R.id.edit_player1);
         /*mEditName1.setImeActionLabel("OK", KeyEvent.KEYCODE_ENTER);
         mEditName1.setOnEditorActionListener(new OnEditorActionListener() {
@@ -211,6 +236,7 @@ public class TwoPlayerActivity extends Activity implements OnClickListener, Load
 		});
 		
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+		mBackGroundLock = preferences.getBoolean(getString(R.string.key_background_lock), false);
 		player1_back_number = preferences.getInt(getString(R.string.key_back1), 0);
 		player2_back_number = preferences.getInt(getString(R.string.key_back2), 1);
 		setLife(player_one_wheel, preferences.getInt(getString(R.string.key_life1), 20), true);
@@ -224,39 +250,32 @@ public class TwoPlayerActivity extends Activity implements OnClickListener, Load
 
 
 	private void initArrays() {
-		playerBacks[0] = player1_back_number;
-		playerBacks[1] = player2_back_number;
+		playerBacks[Constants.PLAYER_ONE] = player1_back_number;
+		playerBacks[Constants.PLAYER_TWO] = player2_back_number;
 
-		/*Player dude = new Player("id", "SpongeBob", R.color.black_overlay, false, true, 6);
-		Player dude2 = new Player("id", "Patrick", R.color.lifeText, true, false, 3);
-		List<Player> list = new ArrayList<Player>();
-		list.add(dude);
-		list.add(dude2);
+		players[Constants.PLAYER_ONE] = player_1;
+		players[Constants.PLAYER_TWO] = player_2;
+
+		editNames[Constants.PLAYER_ONE] = mEditName1;
+		editNames[Constants.PLAYER_TWO] = mEditName2;
+
+		bigLifes[Constants.PLAYER_ONE] = mBigLife1;
+		bigLifes[Constants.PLAYER_TWO] = mBigLife2;
 		
-		Gson gson = new Gson();
-		String json = gson.toJson(list);
-		players = gson.fromJson(json, Player[].class);*/ 
+		pluses[Constants.PLAYER_ONE] = mPlus1;
+		pluses[Constants.PLAYER_TWO] = mPlus2;
 
-		players[0] = player_1;
-		players[1] = player_2;
-
-		editNames[0] = mEditName1;
-		editNames[1] = mEditName2;
-
-		bigLifes[0] = mBigLife1;
-		bigLifes[1] = mBigLife2;
+		minuses[Constants.PLAYER_ONE] = mMinus1;
+		minuses[Constants.PLAYER_TWO] = mMinus2;
 		
-		pluses[0] = mPlus1;
-		pluses[1] = mPlus2;
-
-		minuses[0] = mMinus1;
-		minuses[1] = mMinus2;
+		wheels[Constants.PLAYER_ONE] = player_one_wheel;
+		wheels[Constants.PLAYER_TWO] = player_two_wheel;
 		
-		wheels[0] = player_one_wheel;
-		wheels[1] = player_two_wheel;
+		backgrounds[Constants.PLAYER_ONE] = player1_background;
+		backgrounds[Constants.PLAYER_TWO] = player2_background;
 		
-		backgrounds[0] = player1_background;
-		backgrounds[1] = player2_background;
+		players[Constants.PLAYER_ONE] = new Player("", mEditName1.getText().toString(), 0, true, true, player1_back_number);
+		players[Constants.PLAYER_TWO] = new Player("", mEditName2.getText().toString(), 0, true, true, player2_back_number);
 	}
 
 	//This function should just update what shows on screen, and not change any value. This is not starting a new game!
@@ -336,7 +355,13 @@ public class TwoPlayerActivity extends Activity implements OnClickListener, Load
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
     	Editor preferenceEditor = preferences.edit();
     	
-    	switch(player) {
+    	playerBacks[player] = (playerBacks[player] + 1) % backgrounds_ids.length;
+    	players[player].setBackGroundId(playerBacks[player]);
+    	preferenceEditor.putInt(getString(player==Constants.PLAYER_ONE?R.string.key_back1:R.string.key_back2), playerBacks[player]);
+    	preferenceEditor.commit();
+    	updatePlayerUI(player);
+    	
+    	/*switch(player) {
     		case Constants.PLAYER_ONE:
     			player1_back_number = (player1_back_number + 1) % backgrounds_ids.length;
     			preferenceEditor.putInt(getString(R.string.key_back1), player1_back_number);
@@ -347,7 +372,7 @@ public class TwoPlayerActivity extends Activity implements OnClickListener, Load
     			break;
     	}
     	updateUI();
-    	preferenceEditor.commit();
+    	preferenceEditor.commit();*/
 	}
 
 	//SINCE WE ARE HACKING A WHEEL THAT WORKS BACKWARDS OF INDEX ALWAYS USE THIS GETTER
@@ -400,17 +425,33 @@ public class TwoPlayerActivity extends Activity implements OnClickListener, Load
     		player2_rotate(player2_screen.getRotation() == 180 ? false : true);
     	} else if (R.id.action_load == item.getItemId()) {
     		LoadPlayerDialog loadDialog = new LoadPlayerDialog();
-    		loadDialog.setUsers(knownPlayers);
+    		//loadDialog.setUsers(knownPlayers);
     		loadDialog.setListener(this);
     	    loadDialog.show(getFragmentManager(), getString(R.string.load_player));
     	}/* else if (R.id.action_crop) {
     		cropImage();
     	}*/
+    	else if (R.id.action_lock == item.getItemId()) {
+    		switchBackgroundLock();
+    	}
     	
     	return super.onMenuItemSelected(featureId, item);
     }
     
-    private void cropImage() {
+    private void switchBackgroundLock() {
+    	SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+    	
+    	mBackGroundLock  = !mBackGroundLock;
+    	Editor preferenceEditor = preferences.edit();
+    	
+    	preferenceEditor.putBoolean(getString(R.string.key_background_lock), mBackGroundLock);
+    	preferenceEditor.commit();
+
+    	Toast.makeText(this, "Background images "+(mBackGroundLock?"":"un")+"locked", Toast.LENGTH_LONG).show();
+	}
+
+
+	private void cropImage() {
     	/*final Intent intent = new Intent("com.android.camera.action.CROP");
         intent.setData(uriOfImageToCrop);
         intent.putExtra("outputX", 400);
@@ -435,7 +476,7 @@ public class TwoPlayerActivity extends Activity implements OnClickListener, Load
 	private void roll_dice(int max_value) {
     	Random random = new Random();
     	//Both random and % seems to like negative values, hence the double trick...
-    	int dice_value = (((random.nextInt() % max_value) + max_value) % max_value) + 1;
+    	int dice_value = ((random.nextInt() + max_value) % max_value) + 1;
 		Toast dice_rolled = Toast.makeText(this, dice_value + (dice_value == 1 ? " :(" : dice_value == max_value ? "!!" : ""), Toast.LENGTH_SHORT);
 		dice_rolled.show();
 	}
@@ -456,7 +497,7 @@ public class TwoPlayerActivity extends Activity implements OnClickListener, Load
 
 	@Override
 	public void onValidateLoad(Player player, int player_slot) {
-		players[player_slot] = player;
+		players[player_slot] = new Player(player);
 		updatePlayerUI(player_slot);
 	}
 }

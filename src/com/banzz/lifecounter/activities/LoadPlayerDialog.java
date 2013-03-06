@@ -1,11 +1,18 @@
 package com.banzz.lifecounter.activities;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+
 import com.banzz.lifecounter.R;
 import com.banzz.lifecounter.utils.Utils.Constants;
+import com.google.gson.Gson;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -17,13 +24,8 @@ import android.widget.RadioGroup;
 
 public class LoadPlayerDialog extends DialogFragment {
 	LoadPlayerDialogListener mListener;
-	private Player[] mUsers;
 	private RadioGroup mRadio;
 	private ListView mSelectUser;
-
-	public void setUsers(Player[] users) {
-		this.mUsers = users;
-	}
 
 	public void setListener(LoadPlayerDialogListener mListener) {
 		this.mListener = mListener;
@@ -40,21 +42,41 @@ public class LoadPlayerDialog extends DialogFragment {
 
 	    View view = inflater.inflate(R.layout.load_player, null);
 	    mRadio = (RadioGroup) view.findViewById(R.id.radio_group);
-	    
 	    mSelectUser = (ListView) view.findViewById(R.id.player_select);
 	    
-	    mSelectUser.setAdapter(new UserListAdapter(mUsers, getActivity()));
-	    mSelectUser.setOnItemClickListener(new OnItemClickListener() {
+	    final Player[] mUsers;
+	    String fileName = "/players.JSON";
+	    //Bad bad casts here. Then again, this is not meant to be adaptable code, used in x different activities;
+	    //worse case scenario it crashes and it'll serve as a reminder to set a listener...
+	    File externalDir = ((Context)mListener).getExternalFilesDir(null);
+		FileInputStream fis = null;
+		try {
+			fis = new FileInputStream(externalDir + fileName);
 
-			@Override
-			public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
-				mListener.onValidateLoad(mUsers[position], (mRadio.getCheckedRadioButtonId() == R.id.radio_player_1 ? Constants.PLAYER_ONE : Constants.PLAYER_TWO));
-				dismiss();
-			}
-		});
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		Gson gson = new Gson();
+		if (fis == null) {
+			//Empty list
+		} else {
+			Reader reader = new InputStreamReader(fis);
+			mUsers = gson.fromJson(reader, Player[].class);
+		
+			mSelectUser.setAdapter(new UserListAdapter(mUsers, getActivity()));
+		    mSelectUser.setOnItemClickListener(new OnItemClickListener() {
 
+				@Override
+				public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
+					mListener.onValidateLoad(mUsers[position], (mRadio.getCheckedRadioButtonId() == R.id.radio_player_1 ? Constants.PLAYER_ONE : Constants.PLAYER_TWO));
+					dismiss();
+				}
+			});
+		}
+			
 	    builder.setView(view)
-	    // Add action buttons
 	           .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
 	               public void onClick(DialogInterface dialog, int id) {
 	                   LoadPlayerDialog.this.getDialog().cancel();

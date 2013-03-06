@@ -24,6 +24,15 @@ public class Player {
 		this.mBackGroundId = mBackGroundId;
 	}
 
+	public Player(Player player) {
+		super();
+		this.mBackGroundId = player.getBackGroundId();
+		this.mColor = player.getColor();
+		this.mName = player.getName();
+		this.mShowButtons = player.showButons();
+		this.mShowWheel = player.showWheel();
+	}
+
 	public String getId() {
 		return mId;
 	}
@@ -71,5 +80,4 @@ public class Player {
 	public void setBackGroundId(int mBackGroundId) {
 		this.mBackGroundId = mBackGroundId;
 	}
-	
 }

@@ -1,12 +1,15 @@
 package com.banzz.lifecounter.activities;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.banzz.lifecounter.R;
+import com.banzz.lifecounter.utils.Utils.Constants;
 
 public class FrontMenuActivity extends android.app.Activity {
 	
@@ -38,12 +41,22 @@ public class FrontMenuActivity extends android.app.Activity {
 			}
 		});
         
-        Button mImagePicker = (Button) findViewById(R.id.pick_image);
+        Button mImagePicker = (Button) findViewById(R.id.pick_image_button);
         mImagePicker.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View arg0) {
 				startActivity(new Intent(getApplicationContext(), ActionPickDemo.class));
+			}
+		});
+        
+        Button mDonations = (Button) findViewById(R.id.donations_button);
+        mDonations.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				Toast.makeText(FrontMenuActivity.this, FrontMenuActivity.this.getString(R.string.donation_thanks), Toast.LENGTH_LONG).show();
+				startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.PAYPAL_DONATIONS)));
 			}
 		});
 	}

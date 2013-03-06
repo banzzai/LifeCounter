@@ -1,7 +1,5 @@
 package com.banzz.lifecounter.activities;
 
-import java.util.List;
-
 import com.banzz.lifecounter.R;
 
 import android.content.Context;

@@ -21,17 +21,21 @@ import android.widget.Button;
 import android.widget.ImageView;
 
 import com.banzz.lifecounter.R;
+import com.banzz.lifecounter.utils.SingleMediaScanner;
 
 public class ActionPickDemo extends Activity {
 
     protected static final int REQUEST_PICK_IMAGE = 1;
     protected static final int REQUEST_PICK_CROP_IMAGE = 2;
-    private Button mPickImageButton;
-    private Button mPickCropImageButton;
+    private Button mCropLargeButton;
+    private Button mCropImageButton;
     private Button mSaveImageButton;
     private ImageView mImageViewLarge;
     private ImageView mImageViewTall;
 
+	public String playerName = "Bob";
+	public boolean isLargeImage = false;
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
            super.onCreate(savedInstanceState);
@@ -39,25 +43,26 @@ public class ActionPickDemo extends Activity {
 
            mImageViewLarge = (ImageView) findViewById(R.id.image_large);
            mImageViewTall = (ImageView) findViewById(R.id.image_tall);
-           mPickImageButton = (Button) findViewById(R.id.pick_image_button);
-           mPickCropImageButton = (Button) findViewById(R.id.pick_crop_image_button);
+           mCropLargeButton = (Button) findViewById(R.id.crop_large_button);
+           mCropImageButton = (Button) findViewById(R.id.crop_image_button);
            mSaveImageButton = (Button) findViewById(R.id.save_image);
-           mPickImageButton.setOnClickListener(mButtonListener);
-           mPickCropImageButton.setOnClickListener(mButtonListener);
+           mCropLargeButton.setOnClickListener(mButtonListener);
+           mCropImageButton.setOnClickListener(mButtonListener);
            mSaveImageButton.setOnClickListener(mButtonListener);
     }
 
     private View.OnClickListener mButtonListener = new View.OnClickListener() {
-
+    	
            @Override
            public void onClick(View v) {
         	   String status = Environment.getExternalStorageState();
         	   
         	   switch (v.getId()) {
 
-                  case R.id.pick_image_button:
+                  case R.id.crop_large_button:
+                	  isLargeImage  = true;
                 	  if (status.equals(Environment.MEDIA_MOUNTED)) {
-                             File tempFile = new File(Environment.getExternalStorageDirectory() + "/temp.jpg");
+                             File tempFile = new File(Environment.getExternalStorageDirectory() + "/temp_large.jpg");
                              Uri tempUri = Uri.fromFile(tempFile);
                              Intent pickCropImageIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                              pickCropImageIntent.setType("image/*");
@@ -68,10 +73,10 @@ public class ActionPickDemo extends Activity {
                              display.getSize(size);
                              int width = size.x;
                              int height = size.y;
-                             pickCropImageIntent.putExtra("outputX", width);
-                             pickCropImageIntent.putExtra("outputY", height/2);
-                             pickCropImageIntent.putExtra("aspectX", width);
-                             pickCropImageIntent.putExtra("aspectY", height/2);
+                             pickCropImageIntent.putExtra("outputX", height/2);
+                             pickCropImageIntent.putExtra("outputY", width);
+                             pickCropImageIntent.putExtra("aspectX", height/2);
+                             pickCropImageIntent.putExtra("aspectY", width);
                              pickCropImageIntent.putExtra(MediaStore.EXTRA_OUTPUT,
                                            tempUri);
                               pickCropImageIntent.putExtra("outputFormat",
@@ -82,7 +87,8 @@ public class ActionPickDemo extends Activity {
                             
                       }
                       break;
-                  case R.id.pick_crop_image_button:
+                  case R.id.crop_image_button:
+                	  isLargeImage = false;
                         if (status.equals(Environment.MEDIA_MOUNTED)) {
                                File tempFile = new File(Environment.getExternalStorageDirectory() + "/temp.jpg");
                                Uri tempUri = Uri.fromFile(tempFile);
@@ -110,36 +116,59 @@ public class ActionPickDemo extends Activity {
                         }
                         break;
                   case R.id.save_image:
-				try {
-					MediaStore.Images.Media.insertImage(getContentResolver(), Environment.getExternalStorageDirectory() + "/temp.jpg", "LargeTest" , "Alriiiiiiight");
-				} catch (FileNotFoundException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-                	  
-                	  /*File sdCardDirectory = Environment.getExternalStorageDirectory();
-                	  //Bitmap selectedImage = BitmapFactory.decodeFile(Environment
-                      //        .getExternalStorageDirectory() + "/temp.jpg");
-                	  File image = new File(sdCardDirectory, "test.png");
+                	  File sdCardDirectory = Environment.getExternalStorageDirectory();
+                	  Bitmap selectedImage = BitmapFactory.decodeFile(Environment
+                              .getExternalStorageDirectory() + "/temp_large.jpg");
+                	  String dirString = sdCardDirectory + "/" + getString(R.string.app_name) + "/";
+            	      boolean success = false;
+            	      boolean success2 = false;
+            	      
+            	      // Encode the file as a PNG image.
+            	      FileOutputStream outStream;
+            	      try {
+            	    	  File dir = new File(dirString);
+            	    	  if (!dir.isDirectory()) {
+            	    		  dir.mkdirs();
+            	    	  }
+            	    	  File image = new File(dirString, playerName + "_large.png");
+            	    	  if (!image.exists()) {
+                    		  image.createNewFile();
+                    	  }
+            	    	  
+            	          outStream = new FileOutputStream(image);
+            	          selectedImage.compress(Bitmap.CompressFormat.PNG, 100, outStream); 
+            	          // 100 to keep full quality of the image
 
-                	      boolean success = false;
+            	          outStream.flush();
+            	          outStream.close();
+            	          success = true;
+            	          
+            	          File image2 = new File(dirString, playerName + ".png");
+            	    	  if (!image2.exists()) {
+                    		  image2.createNewFile();
+                    	  }
+            	    	  
+            	          outStream = new FileOutputStream(image2);
+            	          Bitmap selectedImage2 = BitmapFactory.decodeFile(Environment
+                                  .getExternalStorageDirectory() + "/temp.jpg");
+                    	  selectedImage2.compress(Bitmap.CompressFormat.PNG, 100, outStream); 
+            	          // 100 to keep full quality of the image
 
-                	      // Encode the file as a PNG image.
-                	      FileOutputStream outStream;
-                	      try {
-
-                	          outStream = new FileOutputStream(image);
-                	          croppedImage.compress(Bitmap.CompressFormat.PNG, 100, outStream); 
-                	          // 100 to keep full quality of the image
-
-                	          outStream.flush();
-                	          outStream.close();
-                	          success = true;
-                	      } catch (FileNotFoundException e) {
-                	          e.printStackTrace();
-                	      } catch (IOException e) {
-                	          e.printStackTrace();
-                	      }*/
+            	          outStream.flush();
+            	          outStream.close();
+            	          success2 = true;
+            	          
+            	          if (success) {
+                	    	  new SingleMediaScanner(ActionPickDemo.this, image);
+                	      }
+                	      if (success2) {
+                	    	  new SingleMediaScanner(ActionPickDemo.this, image2);
+                	      }
+            	      } catch (FileNotFoundException e) {
+            	    	  e.printStackTrace();
+            	      } catch (IOException e) {
+            	          e.printStackTrace();
+            	      }
                 	  break;
                   }
            }
@@ -148,9 +177,9 @@ public class ActionPickDemo extends Activity {
 	protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
            switch (requestCode) {
 	           case REQUEST_PICK_CROP_IMAGE:
-                  Bitmap croppedImage = BitmapFactory.decodeFile(Environment
-                               .getExternalStorageDirectory() + "/temp.jpg");
-                  mImageViewTall.setImageBitmap(croppedImage);
+	        	  Bitmap croppedImage = BitmapFactory.decodeFile(Environment
+                               .getExternalStorageDirectory() + "/temp"+(isLargeImage?"_large":"")+".jpg");
+                  (isLargeImage?mImageViewLarge:mImageViewTall).setImageBitmap(croppedImage);
                   break;
            }
     }
