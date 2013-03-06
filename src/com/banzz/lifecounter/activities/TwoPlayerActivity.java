@@ -27,7 +27,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
@@ -58,9 +57,9 @@ public class TwoPlayerActivity extends Activity implements OnClickListener, Load
     
 	private Player[] knownPlayers = new Player[6];
 	
-	private EditText mEditName1;
-	private EditText mEditName2;
-	private EditText[] editNames = {null, null};
+	private TextView mEditName1;
+	private TextView mEditName2;
+	private TextView[] editNames = {null, null};
 	
 	private TextView mBigLife1;
 	private TextView mBigLife2;
@@ -161,18 +160,7 @@ public class TwoPlayerActivity extends Activity implements OnClickListener, Load
 //			e.printStackTrace();
 //		}
 		
-        mEditName1	= (EditText) findViewById(R.id.edit_player1);
-        /*mEditName1.setImeActionLabel("OK", KeyEvent.KEYCODE_ENTER);
-        mEditName1.setOnEditorActionListener(new OnEditorActionListener() {
-			@Override
-			public boolean onEditorAction(TextView arg0, int actionId, KeyEvent event) {
-				if (actionId == android.view.inputmethod.EditorInfo.IME_NULL  
-					      && event.getAction() == KeyEvent.ACTION_DOWN) { 
-					Toast.makeText(TwoPlayerActivity.this, mEditName1.getText(), Toast.LENGTH_SHORT).show();
-					   }
-					   return true;
-			}
-		});*/
+        mEditName1	= (TextView) findViewById(R.id.edit_player1);
         
         mBigLife1 	= (TextView) findViewById(R.id.big_life_1);
         mBigLife1.setOnClickListener(this);
@@ -181,7 +169,7 @@ public class TwoPlayerActivity extends Activity implements OnClickListener, Load
         mMinus1		= (TextView) findViewById(R.id.minus_1);
         mMinus1.setOnClickListener(this);
         
-        mEditName2	= (EditText) findViewById(R.id.edit_player2);
+        mEditName2	= (TextView) findViewById(R.id.edit_player2);
         mBigLife2 	= (TextView) findViewById(R.id.big_life_2);
         mBigLife2.setOnClickListener(this);
         mPlus2 		= (TextView) findViewById(R.id.plus_2);

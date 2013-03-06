@@ -5,6 +5,9 @@
     <string name="cancel">Cancel</string>
     <string name="load_player">Load Player</string>
     
+    <string name="plus">+</string>
+    <string name="minus">-</string>
+    
     <!-- Toasts -->
     <string name="donation_thanks">Thank you! :D</string>
     

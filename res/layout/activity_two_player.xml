@@ -43,21 +43,18 @@
 			        android:layout_width="match_parent"
 			        android:layout_height="match_parent" />
 			    
-				<EditText
+				<TextView
 				    android:id="@+id/edit_player1"
 				    android:layout_width="match_parent"
 				    android:layout_height="wrap_content"
 				    android:background="#00ffffff"
-				    android:cursorVisible="false"
 				    android:gravity="center_horizontal"
 				    android:text="@string/player_1"
 				    android:textAppearance="@style/ButtonText"
-				    android:inputType="textNoSuggestions"
 				    android:textColor="#FFF" />
 				
                 <TextView
                     android:id="@+id/big_life_1"
-                    android:text="20"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
@@ -69,7 +66,7 @@
                     android:layout_height="wrap_content"
                     android:layout_above="@+id/big_life_1"
                     android:layout_centerHorizontal="true"
-                    android:text="+"
+                    android:text="@string/plus"
                     android:textAppearance="@style/bigLife" />
                 
                 <TextView
@@ -78,7 +75,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/big_life_1"
                     android:layout_centerHorizontal="true"
-                    android:text="-"
+                    android:text="@string/minus"
                     android:textAppearance="@style/bigLife" />
 
                 <kankan.wheel.widget.WheelView
@@ -109,13 +106,11 @@
 			        android:layout_height="match_parent"
 			        android:scaleType="centerCrop" />
                 
-				<EditText
+				<TextView
 				    android:id="@+id/edit_player2"
 				    android:layout_width="match_parent"
 				    android:layout_height="wrap_content"
 				    android:background="#00ffffff"
-				    android:cursorVisible="false"
-				    android:inputType="textNoSuggestions"
 				    android:gravity="center_horizontal"
 				    android:text="@string/player_2"
 				    android:textAppearance="@style/ButtonText"
@@ -123,7 +118,6 @@
 				
                 <TextView
                     android:id="@+id/big_life_2"
-                    android:text="20"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
@@ -135,7 +129,7 @@
                     android:layout_height="wrap_content"
                     android:layout_above="@+id/big_life_2"
                     android:layout_centerHorizontal="true"
-                    android:text="+"
+                    android:text="@string/plus"
                     android:textAppearance="@style/bigLife" />
                 
                 <TextView
@@ -144,7 +138,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/big_life_2"
                     android:layout_centerHorizontal="true"
-                    android:text="-"
+                    android:text="@string/minus"
                     android:textAppearance="@style/bigLife" />
 
                 <kankan.wheel.widget.WheelView
