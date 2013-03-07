@@ -5,6 +5,9 @@
     <string name="cancel">Cancel</string>
     <string name="load_player">Load Player</string>
     
+    <!-- Edit Player -->
+    <string name="edit_player">Edit Player</string>
+    
     <string name="plus">+</string>
     <string name="minus">-</string>
     

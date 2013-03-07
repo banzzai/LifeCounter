@@ -404,7 +404,11 @@ public class TwoPlayerActivity extends Activity implements OnClickListener, Load
     		loadDialog.setListener(this);
     	    loadDialog.show(getFragmentManager(), getString(R.string.load_player));
     	} else if (R.id.action_edit == item.getItemId()) {
-    		startActivityForResult(new Intent(getApplicationContext(), EditPlayerActivity.class), Constants.REQUEST_EDIT_PLAYER);
+    		Intent editIntent = new Intent(getApplicationContext(), EditPlayerActivity.class);
+    		editIntent.putExtra("player1", players[Constants.PLAYER_ONE]);
+    		editIntent.putExtra("player2", players[Constants.PLAYER_TWO]);
+    		
+    		startActivityForResult(editIntent, Constants.REQUEST_EDIT_PLAYER);
     	}
     	else if (R.id.action_lock == item.getItemId()) {
     		switchBackgroundLock();

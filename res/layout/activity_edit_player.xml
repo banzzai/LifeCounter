@@ -20,13 +20,13 @@
             style="?buttonBarStyle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/black_overlay"
+            android:background="@android:color/black"
             android:orientation="horizontal"
             tools:ignore="UselessParent" >
 
             <LinearLayout 
 			    android:id="@+id/player_zero_screen"
-			    android:layout_width="wrap_content"
+			    android:layout_width="match_parent"
 			    android:layout_height="match_parent"
 			    android:layout_weight="1"
                 android:orientation="vertical"
@@ -88,11 +88,39 @@
 		
 		<LinearLayout 
 			android:id="@+id/edit_controls"
-		    android:layout_width="wrap_content"
+		    android:layout_width="match_parent"
 		    android:layout_height="match_parent"
 		    android:layout_weight="1"
             android:orientation="vertical"
 		    >
+          	
+		    <TextView
+		        android:layout_width="match_parent"
+		        android:layout_height="64dp"
+		        android:scaleType="center"
+		        android:text="@string/edit_player" />
+		    
+		    <RadioGroup
+		        android:id="@+id/edit_radio"
+		        android:layout_width="fill_parent"
+		        android:layout_height="wrap_content"
+		        android:layout_gravity="center_horizontal"
+		        android:gravity="center_horizontal"
+		        android:orientation="horizontal" >
+			    
+			    <RadioButton 
+			        android:id="@+id/radio_edit_1"
+			        android:layout_width="wrap_content"
+			        android:layout_height="wrap_content"
+			        android:checked="true"
+			        android:text="@string/player_1"
+				/>
+			    <RadioButton android:id="@+id/radio_edit_2"
+			        android:layout_width="wrap_content"
+			        android:layout_height="wrap_content"
+			        android:text="@string/player_2"
+			    />
+			</RadioGroup>
             
         </LinearLayout>
             

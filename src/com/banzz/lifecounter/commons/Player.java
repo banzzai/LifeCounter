@@ -1,6 +1,9 @@
 package com.banzz.lifecounter.commons;
 
-public class Player {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class Player implements Parcelable {
 	String mId;
 	String mName;
 	private int mColor;
@@ -82,4 +85,44 @@ public class Player {
 	public void setBackGroundId(int mBackGroundId) {
 		this.mBackGroundId = mBackGroundId;
 	}
+
+	@Override
+	public int describeContents() {
+		//Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void writeToParcel(Parcel out, int flags) {
+		//http://stackoverflow.com/questions/2139134/how-to-send-an-object-from-one-android-activity-to-another-using-intents/2141166#2141166
+		out.writeString(mId);
+		out.writeString(mName);
+		out.writeInt(mColor);
+		out.writeInt(mBackGroundId);
+		out.writeBooleanArray(new boolean[]{mShowButtons, mShowWheel});
+	}
+	
+	// this is used to regenerate your object. All Parcelables must have a CREATOR that implements these two methods
+    public static final Parcelable.Creator<Player> CREATOR = new Parcelable.Creator<Player>() {
+        public Player createFromParcel(Parcel in) {
+            return new Player(in);
+        }
+
+        public Player[] newArray(int size) {
+            return new Player[size];
+        }
+    };
+    
+    // example constructor that takes a Parcel and gives you an object populated with it's values
+    private Player(Parcel in) {
+        mId = in.readString();
+        mName = in.readString();
+        mColor = in.readInt();
+        mBackGroundId = in.readInt();
+        boolean[] myVals = new boolean[2];
+        in.readBooleanArray(myVals);
+        
+        mShowButtons = myVals[0];
+        mShowWheel = myVals[1];
+    }
 }

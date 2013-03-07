@@ -10,6 +10,7 @@ import com.banzz.lifecounter.commons.LifeAdapter;
 import com.banzz.lifecounter.commons.Player;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -85,7 +86,10 @@ public class EditPlayerActivity extends Activity implements OnClickListener, Loa
 //			Toast.makeText(this, "JSON WRITE FAILED", Toast.LENGTH_LONG).show();
 //			e.printStackTrace();
 //		}
-		
+        Intent i = getIntent();
+        players[Constants.PLAYER_ONE] = (Player) i.getParcelableExtra("player1");
+        players[Constants.PLAYER_TWO] = (Player) i.getParcelableExtra("player2");
+        
         mEditName0	= (TextView) findViewById(R.id.edit_player0);
         
         mBigLife0 	= (TextView) findViewById(R.id.big_life_0);
