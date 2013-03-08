@@ -2,22 +2,30 @@ package com.banzz.lifecounter.activities;
 
 import kankan.wheel.widget.OnWheelScrollListener;
 import kankan.wheel.widget.WheelView;
-
-import com.banzz.lifecounter.R;
-import com.banzz.lifecounter.utils.SystemUiHider;
-import com.banzz.lifecounter.utils.Utils.Constants;
-import com.banzz.lifecounter.commons.LifeAdapter;
-import com.banzz.lifecounter.commons.Player;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.inputmethod.EditorInfo;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
+import android.widget.RadioGroup;
+import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.TextView;
+import android.widget.TextView.OnEditorActionListener;
 import android.widget.Toast;
+
+import com.banzz.lifecounter.R;
+import com.banzz.lifecounter.commons.LifeAdapter;
+import com.banzz.lifecounter.commons.Player;
+import com.banzz.lifecounter.utils.SystemUiHider;
+import com.banzz.lifecounter.utils.Utils.Constants;
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
@@ -48,6 +56,8 @@ public class EditPlayerActivity extends Activity implements OnClickListener, Loa
 	private WheelView player_zero_wheel;
 	
 	private ImageView player0_background;
+
+	private EditText mTextBox;
 	
 	@Override
 	protected void onPause() {
@@ -66,6 +76,15 @@ public class EditPlayerActivity extends Activity implements OnClickListener, Loa
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_player);
 		
+        Button mImagePicker = (Button) findViewById(R.id.pick_image_button);
+        mImagePicker.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				startActivity(new Intent(getApplicationContext(), ActionPickDemo.class));
+			}
+		});
+        
 //		Gson gson = new Gson();
 //		String json = gson.toJson(knownPlayers);
 //		String fileName = "players.JSON";
@@ -86,6 +105,7 @@ public class EditPlayerActivity extends Activity implements OnClickListener, Loa
 //			Toast.makeText(this, "JSON WRITE FAILED", Toast.LENGTH_LONG).show();
 //			e.printStackTrace();
 //		}
+        
         Intent i = getIntent();
         players[Constants.PLAYER_ONE] = (Player) i.getParcelableExtra("player1");
         players[Constants.PLAYER_TWO] = (Player) i.getParcelableExtra("player2");
@@ -118,6 +138,32 @@ public class EditPlayerActivity extends Activity implements OnClickListener, Loa
 				if (!sDelta.isEmpty()) {
 					Toast.makeText(EditPlayerActivity.this, sDelta, Toast.LENGTH_SHORT).show();
 				}
+			}
+		});
+		
+		//EDIT PART
+		RadioGroup mGroup = (RadioGroup) findViewById(R.id.edit_radio);
+		mGroup.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(RadioGroup arg0, int radioId) {
+				mSelectedPlayer = (radioId == R.id.radio_edit_1) ? Constants.PLAYER_ONE : Constants.PLAYER_TWO;
+				updateUI();
+			}
+		});
+		
+		mTextBox = (EditText) findViewById(R.id.edit_name);
+		mTextBox.setImeOptions(EditorInfo.IME_ACTION_DONE);
+		mTextBox.setImeActionLabel("Go", EditorInfo.IME_ACTION_DONE);
+		mTextBox.setOnEditorActionListener(new OnEditorActionListener() {
+			
+			@Override
+			public boolean onEditorAction(TextView text, int actionId, KeyEvent event) {
+				if (actionId == EditorInfo.IME_ACTION_DONE) {
+					players[mSelectedPlayer].setName(text.getText().toString());
+					updateUI();
+		            return false;
+		        }
+				return false;
 			}
 		});
 		
@@ -154,6 +200,9 @@ public class EditPlayerActivity extends Activity implements OnClickListener, Loa
 		
 		player0_background.setImageResource(backgrounds_ids[background_id]);
 		player0_background.setScaleType(ScaleType.CENTER_CROP);
+	
+		//Adjusting editor values
+		mTextBox.setText(player.getName());
 	}
 
 	@Override

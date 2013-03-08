@@ -41,15 +41,6 @@ public class FrontMenuActivity extends android.app.Activity {
 			}
 		});
         
-        Button mImagePicker = (Button) findViewById(R.id.pick_image_button);
-        mImagePicker.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View arg0) {
-				startActivity(new Intent(getApplicationContext(), ActionPickDemo.class));
-			}
-		});
-        
         Button mDonations = (Button) findViewById(R.id.donations_button);
         mDonations.setOnClickListener(new OnClickListener() {
 			

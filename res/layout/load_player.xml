@@ -34,6 +34,17 @@
 	    />
 	</RadioGroup>
     
+    <Button
+	    android:id="@+id/pick_image_button"
+	    style="@style/ButtonText"
+	    android:background="@drawable/btn_green_matte"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:text="@string/button_pick_image"
+	    android:layout_gravity="center"
+    />
+    
+    
     <ListView
         android:id="@+id/player_select"
         android:layout_width="match_parent"
