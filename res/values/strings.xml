@@ -28,12 +28,14 @@
     <string name="string_action_dice">Roll dice</string>
     <string name="string_action_coin">Flip coin</string>
     <string name="string_action_load">Load player</string>
-	<string name="string_action_edit">Edit player</string>
+	<string name="string_action_edit">Edit players</string>
     
     <!-- Settings -->
 	<string name="key_background_lock">backgroundLock</string>
 	<string name="key_life2">lifeTwo</string>
 	<string name="key_life1">lifeOne</string>
+	<string name="key_color_p1">colorPlayerOne</string>
+	<string name="key_color_p2">colorPlayerTwo</string>
 
  	<string name="click_to_edit">Click to edit</string>
 

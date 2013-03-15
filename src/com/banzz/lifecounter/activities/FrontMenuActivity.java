@@ -47,6 +47,7 @@ public class FrontMenuActivity extends android.app.Activity {
 			@Override
 			public void onClick(View arg0) {
 				Toast.makeText(FrontMenuActivity.this, FrontMenuActivity.this.getString(R.string.donation_thanks), Toast.LENGTH_LONG).show();
+				//startActivity(new Intent(getApplicationContext(), TestActivity.class));
 				startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.PAYPAL_DONATIONS)));
 			}
 		});

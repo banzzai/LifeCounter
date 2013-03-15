@@ -167,6 +167,16 @@ public class EditPlayerActivity extends Activity implements OnClickListener, Loa
 			}
 		});
 		
+		Button colorButton = (Button) findViewById(R.id.color_button);
+		colorButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				Intent editColor = new Intent(getApplicationContext(), SettingsActivity.class);
+				editColor.putExtra(Constants.KEY_PLAYER_TARGET, mSelectedPlayer);
+				startActivity(editColor);
+			}
+		});
+		
 		updateUI();
 	}
 

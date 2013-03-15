@@ -1,4 +1,7 @@
 <resources>
     <color name="black_overlay">#660000</color>
 	<color name="lifeText">#AAFFFFFF</color>
+	<color name="GRADIENT_START">#00FFFFFF</color>
+	<color name="SHADE">#55FFFFFF</color>
+	<color name="GRADIENT_END">#FFFFFFFF</color>
 </resources>

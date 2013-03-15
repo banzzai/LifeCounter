@@ -1,0 +1,17 @@
+<PreferenceScreen
+        xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory
+            android:title="@string/layout_settings">
+
+        <net.margaritov.preference.colorpicker.ColorPickerPreference
+		    android:key="@string/key_color_p2"
+		    android:title="@string/color_pick"
+		    android:summary="@string/pick_a_color"
+		    android:defaultValue="@color/lifeText"
+		    alphaSlider="true"                              
+		/>
+        
+    </PreferenceCategory>
+
+</PreferenceScreen>
