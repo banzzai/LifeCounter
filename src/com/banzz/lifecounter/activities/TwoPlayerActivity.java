@@ -404,6 +404,14 @@ public class TwoPlayerActivity extends Activity implements OnClickListener, Load
     		loadDialog.setListener(this);
     	    loadDialog.show(getFragmentManager(), getString(R.string.load_player));
     	} else if (R.id.action_edit == item.getItemId()) {
+    		//Save current player colors in the settings used for setColor options (trick comes from the fact the color picker widget is a preference menu)
+    		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+    		Editor preferenceEditor = preferences.edit();
+        	preferenceEditor.putInt(getString(R.string.key_color_p1), players[Constants.PLAYER_ONE].getColor());
+        	preferenceEditor.putInt(getString(R.string.key_color_p2), players[Constants.PLAYER_TWO].getColor());
+        	preferenceEditor.commit();
+        	
+        	//Launch edit player activity with both players
     		Intent editIntent = new Intent(getApplicationContext(), EditPlayerActivity.class);
     		editIntent.putExtra("player1", players[Constants.PLAYER_ONE]);
     		editIntent.putExtra("player2", players[Constants.PLAYER_TWO]);

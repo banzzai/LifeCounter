@@ -4,7 +4,9 @@ import kankan.wheel.widget.OnWheelScrollListener;
 import kankan.wheel.widget.WheelView;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
@@ -183,7 +185,10 @@ public class EditPlayerActivity extends Activity implements OnClickListener, Loa
 	//This function should just update what shows on screen, and not change any value. This is not starting a new game!
 	private void updateUI() {
 		Player player = players[mSelectedPlayer];
-		int color = player.getColor() != -1 ? player.getColor() : getResources().getColor(R.color.lifeText);
+		//int color = player.getColor() != -1 ? player.getColor() : getResources().getColor(R.color.lifeText);
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+		int color = preferences.getInt(getString(mSelectedPlayer == Constants.PLAYER_ONE ? R.string.key_color_p1 : R.string.key_color_p2), R.color.lifeText);
+		
 		boolean showButtons = player.showButons();
 		boolean showWheel = player.showWheel();
 		int background_id = player.getBackGroundId();
