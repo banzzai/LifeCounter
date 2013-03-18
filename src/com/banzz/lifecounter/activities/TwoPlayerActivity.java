@@ -133,33 +133,33 @@ public class TwoPlayerActivity extends Activity implements OnClickListener, Load
         setContentView(R.layout.activity_two_player);
         
         //TODO add save player profile
-        knownPlayers[0] = new Player("id1", "Alex", getResources().getColor(R.color.lifeText), true, false, 7);
-        knownPlayers[1] = new Player("id2", "Charles-Basile", getResources().getColor(R.color.lifeText), true, false, 4);
-        knownPlayers[2] = new Player("id3", "David", getResources().getColor(R.color.lifeText), true, false, 0);
-   		knownPlayers[3] = new Player("id4", "Greg", getResources().getColor(R.color.lifeText), true, false, 6);
-		knownPlayers[4] = new Player("id5", "Olivier", getResources().getColor(R.color.lifeText), true, false, 1);
-		knownPlayers[5] = new Player("id6", "Tanisha", getResources().getColor(R.color.lifeText), true, false, 8);
-		
-		Gson gson = new Gson();
-		String json = gson.toJson(knownPlayers);
-		String fileName = "players.JSON";
-		File externalDir = getExternalFilesDir(null);
-		
-		FileOutputStream fos;
-		try {
-			File image = new File(externalDir, fileName);
-			if (!image.exists()) {
-				image.createNewFile();
-			}	
-			
-			fos = new FileOutputStream(image);
-			//fos = openFileOutput(externalDir + fileName, Context.MODE_PRIVATE);
-			fos.write(json.getBytes());
-			fos.close();
-		} catch (Exception e) {
-			Toast.makeText(this, "JSON WRITE FAILED", Toast.LENGTH_LONG).show();
-			e.printStackTrace();
-		}
+//        knownPlayers[0] = new Player("id1", "Alex", getResources().getColor(R.color.lifeText), true, false, 7);
+//        knownPlayers[1] = new Player("id2", "Charles-Basile", getResources().getColor(R.color.lifeText), true, false, 4);
+//        knownPlayers[2] = new Player("id3", "David", getResources().getColor(R.color.lifeText), true, false, 0);
+//   		knownPlayers[3] = new Player("id4", "Greg", getResources().getColor(R.color.lifeText), true, false, 6);
+//		knownPlayers[4] = new Player("id5", "Olivier", getResources().getColor(R.color.lifeText), true, false, 1);
+//		knownPlayers[5] = new Player("id6", "Tanisha", getResources().getColor(R.color.lifeText), true, false, 8);
+//		
+//		Gson gson = new Gson();
+//		String json = gson.toJson(knownPlayers);
+//		String fileName = "players.JSON";
+//		File externalDir = getExternalFilesDir(null);
+//		
+//		FileOutputStream fos;
+//		try {
+//			File image = new File(externalDir, fileName);
+//			if (!image.exists()) {
+//				image.createNewFile();
+//			}	
+//			
+//			fos = new FileOutputStream(image);
+//			//fos = openFileOutput(externalDir + fileName, Context.MODE_PRIVATE);
+//			fos.write(json.getBytes());
+//			fos.close();
+//		} catch (Exception e) {
+//			Toast.makeText(this, "JSON WRITE FAILED", Toast.LENGTH_LONG).show();
+//			e.printStackTrace();
+//		}
 		
         mEditName1	= (TextView) findViewById(R.id.edit_player1);
         
@@ -263,8 +263,8 @@ public class TwoPlayerActivity extends Activity implements OnClickListener, Load
 		backgrounds[Constants.PLAYER_ONE] = player1_background;
 		backgrounds[Constants.PLAYER_TWO] = player2_background;
 		
-		players[Constants.PLAYER_ONE] = new Player("", mEditName1.getText().toString(), -1, true, true, player1_back_number);
-		players[Constants.PLAYER_TWO] = new Player("", mEditName2.getText().toString(), -1, true, true, player2_back_number);
+		//players[Constants.PLAYER_ONE] = new Player("", mEditName1.getText().toString(), -1, true, true, player1_back_number);
+		//players[Constants.PLAYER_TWO] = new Player("", mEditName2.getText().toString(), -1, true, true, player2_back_number);
 	}
 
 	//This function should just update what shows on screen, and not change any value. This is not starting a new game!
@@ -279,25 +279,28 @@ public class TwoPlayerActivity extends Activity implements OnClickListener, Load
 			return;
 		}
 		
-		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-		int defaultColor = preferences.getInt(getString(R.string.key_color), R.color.lifeText);
-		boolean defaultShowButtons  = preferences.getBoolean(getString(R.string.key_show_buttons), false);
-		boolean defaultShowWheel  = preferences.getBoolean(getString(R.string.key_show_wheels), true);
-
 		boolean loadPlayer = players[player_number] != null;
-		Player player = loadPlayer ? players[player_number] : null;
-		int color = loadPlayer && player.getColor() != -1 ? player.getColor() : defaultColor;
-		boolean showButtons = loadPlayer ? player.showButons() : defaultShowButtons;
-		boolean showWheel = loadPlayer ? player.showWheel(): defaultShowWheel;
-		int background_id = loadPlayer ? player.getBackGroundId() : playerBacks[player_number];
+		if (players[player_number] == null) {
+			//Loading default into Player x
+			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+			players[player_number] = new Player();
+			players[player_number].setColor(preferences.getInt(getString(R.string.key_color), R.color.lifeText));
+			players[player_number].setShowButtons(preferences.getBoolean(getString(R.string.key_show_buttons), false));
+			players[player_number].setShowWheel(preferences.getBoolean(getString(R.string.key_show_wheels), true));
+			players[player_number].setBackGroundId(playerBacks[player_number]);
+			players[player_number].setName("Player " + (player_number + 1));
+		}
+		
+		
+		int color = players[player_number].getColor();
 
 		bigLifes[player_number].setTextColor(color);
 		minuses[player_number].setTextColor(color);
 		pluses[player_number].setTextColor(color);
 		editNames[player_number].setTextColor(color);
-		editNames[player_number].setText(loadPlayer ? player.getName() : "Player");
+		editNames[player_number].setText(loadPlayer ? players[player_number].getName() : "Player");
 		
-		if (showButtons) {
+		if (players[player_number].showButons()) {
 			pluses[player_number].setVisibility(View.VISIBLE);
 			minuses[player_number].setVisibility(View.VISIBLE);
         } else {
@@ -305,13 +308,13 @@ public class TwoPlayerActivity extends Activity implements OnClickListener, Load
 			minuses[player_number].setVisibility(View.GONE);
         }
 		
-		if (showWheel) {
+		if (players[player_number].showWheel()) {
         	wheels[player_number].setVisibility(View.VISIBLE);
         } else {
         	wheels[player_number].setVisibility(View.GONE);
         }
 		
-		backgrounds[player_number].setImageResource(backgrounds_ids[background_id]);
+		backgrounds[player_number].setImageResource(backgrounds_ids[players[player_number].getBackGroundId()]);
 		backgrounds[player_number].setScaleType(ScaleType.CENTER_CROP);
 	}
 
