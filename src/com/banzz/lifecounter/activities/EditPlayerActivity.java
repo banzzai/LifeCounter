@@ -5,6 +5,7 @@ import kankan.wheel.widget.WheelView;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.Editable;
@@ -14,11 +15,13 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 import android.widget.RadioGroup;
-import android.widget.RadioGroup.OnCheckedChangeListener;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 import android.widget.Toast;
@@ -37,7 +40,8 @@ import com.banzz.lifecounter.utils.Utils.Constants;
  */
 public class EditPlayerActivity extends Activity implements OnClickListener, LoadPlayerDialog.LoadPlayerDialogListener {
 	public static int LIFE_START = 20;
-
+	private int PLAYER_NUMBER = 2;
+	
 	private int player0_back_number = 0;
 
 	private int mSelectedPlayer = Constants.PLAYER_ONE;
@@ -60,6 +64,8 @@ public class EditPlayerActivity extends Activity implements OnClickListener, Loa
 	private ImageView player0_background;
 
 	private EditText mTextBox;
+	private CheckBox check_wheels;
+	private CheckBox check_buttons;
 	
 	@Override
 	protected void onPause() {
@@ -70,6 +76,9 @@ public class EditPlayerActivity extends Activity implements OnClickListener, Loa
 	@Override
 	protected void onResume() {
 		super.onResume();
+//		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+//		players[Constants.PLAYER_ONE].setColor(preferences.getInt(getString(R.string.key_color_p1), R.color.lifeText));
+//		players[Constants.PLAYER_TWO].setColor(preferences.getInt(getString(R.string.key_color_p2), R.color.lifeText));
 		updateUI();
 	};
 	
@@ -145,7 +154,7 @@ public class EditPlayerActivity extends Activity implements OnClickListener, Loa
 		
 		//EDIT PART
 		RadioGroup mGroup = (RadioGroup) findViewById(R.id.edit_radio);
-		mGroup.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+		mGroup.setOnCheckedChangeListener(new android.widget.RadioGroup.OnCheckedChangeListener() {
 			@Override
 			public void onCheckedChanged(RadioGroup arg0, int radioId) {
 				mSelectedPlayer = (radioId == R.id.radio_edit_1) ? Constants.PLAYER_ONE : Constants.PLAYER_TWO;
@@ -161,6 +170,7 @@ public class EditPlayerActivity extends Activity implements OnClickListener, Loa
 			@Override
 			public boolean onEditorAction(TextView text, int actionId, KeyEvent event) {
 				if (actionId == EditorInfo.IME_ACTION_DONE) {
+					//Change name in UI -> save name in object
 					players[mSelectedPlayer].setName(text.getText().toString());
 					updateUI();
 		            return false;
@@ -179,6 +189,31 @@ public class EditPlayerActivity extends Activity implements OnClickListener, Loa
 			}
 		});
 		
+		Button saveButton = (Button) findViewById(R.id.save_button);
+		saveButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+			}
+		});
+		
+		check_buttons = (CheckBox) findViewById(R.id.check_buttons);
+		check_buttons.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				players[mSelectedPlayer].setShowButtons(isChecked);
+				updateUI();
+			}
+		});
+		
+		check_wheels = (CheckBox) findViewById(R.id.check_wheels);
+		check_wheels.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				players[mSelectedPlayer].setShowWheel(isChecked);
+				updateUI();
+			}
+		});
+		
 		updateUI();
 	}
 
@@ -188,6 +223,9 @@ public class EditPlayerActivity extends Activity implements OnClickListener, Loa
 		//int color = player.getColor() != -1 ? player.getColor() : getResources().getColor(R.color.lifeText);
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
 		int color = preferences.getInt(getString(mSelectedPlayer == Constants.PLAYER_ONE ? R.string.key_color_p1 : R.string.key_color_p2), R.color.lifeText);
+		//There is no callback when coming from settings, so we're going to set the player object color property from settings whenever we refresh display.
+		//At least the reducancy is used for both UI and save data now. Other values are saved in the object when they are actually being set.
+		player.setColor(color);
 		
 		boolean showButtons = player.showButons();
 		boolean showWheel = player.showWheel();
@@ -218,6 +256,9 @@ public class EditPlayerActivity extends Activity implements OnClickListener, Loa
 	
 		//Adjusting editor values
 		mTextBox.setText(player.getName());
+		
+		check_buttons.setChecked(player.showButons());
+		check_wheels.setChecked(player.showWheel());
 	}
 
 	@Override
@@ -237,6 +278,7 @@ public class EditPlayerActivity extends Activity implements OnClickListener, Loa
 	
 	private void rollBackground(int player) {
     	player0_back_number = (player0_back_number + 1) % backgrounds_ids.length;
+    	//Change background in UI -> save background in object
     	players[mSelectedPlayer].setBackGroundId(player0_back_number);
     	updateUI();
 	}

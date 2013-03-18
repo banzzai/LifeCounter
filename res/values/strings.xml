@@ -4,9 +4,11 @@
     <string name="app_name">LifeCounter</string>
     <string name="cancel">Cancel</string>
     <string name="load_player">Load Player</string>
+    <string name="Save">Save</string>
     
     <!-- Edit Player -->
     <string name="edit_player">Edit Player</string>
+	<string name="pick_color">Pick color</string>
     
     <string name="plus">+</string>
     <string name="minus">-</string>
