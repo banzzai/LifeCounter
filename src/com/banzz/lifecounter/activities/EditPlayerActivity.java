@@ -195,6 +195,16 @@ public class EditPlayerActivity extends Activity implements OnClickListener, Loa
 			public void onClick(View arg0) {
 			}
 		});
+
+		Button loadButton = (Button) findViewById(R.id.load_button);
+		loadButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				LoadPlayerDialog loadDialog = new LoadPlayerDialog();
+				loadDialog.setListener(EditPlayerActivity.this);
+			    loadDialog.show(getFragmentManager(), getString(R.string.load_player));
+			}
+		});
 		
 		check_buttons = (CheckBox) findViewById(R.id.check_buttons);
 		check_buttons.setOnCheckedChangeListener(new OnCheckedChangeListener() {
@@ -305,6 +315,7 @@ public class EditPlayerActivity extends Activity implements OnClickListener, Loa
 
 	@Override
 	public void onValidateLoad(Player player, int player_slot) {
+		mSelectedPlayer = player_slot;
 		players[player_slot] = new Player(player);
 		updateUI();
 	}

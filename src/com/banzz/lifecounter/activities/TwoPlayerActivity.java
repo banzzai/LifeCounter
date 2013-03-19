@@ -133,33 +133,33 @@ public class TwoPlayerActivity extends Activity implements OnClickListener, Load
         setContentView(R.layout.activity_two_player);
         
         //TODO add save player profile
-//        knownPlayers[0] = new Player("id1", "Alex", getResources().getColor(R.color.lifeText), true, false, 7);
-//        knownPlayers[1] = new Player("id2", "Charles-Basile", getResources().getColor(R.color.lifeText), true, false, 4);
-//        knownPlayers[2] = new Player("id3", "David", getResources().getColor(R.color.lifeText), true, false, 0);
-//   		knownPlayers[3] = new Player("id4", "Greg", getResources().getColor(R.color.lifeText), true, false, 6);
-//		knownPlayers[4] = new Player("id5", "Olivier", getResources().getColor(R.color.lifeText), true, false, 1);
-//		knownPlayers[5] = new Player("id6", "Tanisha", getResources().getColor(R.color.lifeText), true, false, 8);
-//		
-//		Gson gson = new Gson();
-//		String json = gson.toJson(knownPlayers);
-//		String fileName = "players.JSON";
-//		File externalDir = getExternalFilesDir(null);
-//		
-//		FileOutputStream fos;
-//		try {
-//			File image = new File(externalDir, fileName);
-//			if (!image.exists()) {
-//				image.createNewFile();
-//			}	
-//			
-//			fos = new FileOutputStream(image);
-//			//fos = openFileOutput(externalDir + fileName, Context.MODE_PRIVATE);
-//			fos.write(json.getBytes());
-//			fos.close();
-//		} catch (Exception e) {
-//			Toast.makeText(this, "JSON WRITE FAILED", Toast.LENGTH_LONG).show();
-//			e.printStackTrace();
-//		}
+        knownPlayers[0] = new Player("id1", "Alex", getResources().getColor(R.color.lifeText), true, false, 7);
+        knownPlayers[1] = new Player("id2", "Charles-Basile", getResources().getColor(R.color.lifeText), true, false, 4);
+        knownPlayers[2] = new Player("id3", "David", getResources().getColor(R.color.lifeText), true, false, 0);
+   		knownPlayers[3] = new Player("id4", "Greg", getResources().getColor(R.color.lifeText), true, false, 6);
+		knownPlayers[4] = new Player("id5", "Olivier", getResources().getColor(R.color.lifeText), true, false, 1);
+		knownPlayers[5] = new Player("id6", "Tanisha", getResources().getColor(R.color.lifeText), true, false, 8);
+		
+		Gson gson = new Gson();
+		String json = gson.toJson(knownPlayers);
+		String fileName = "players.JSON";
+		File externalDir = getExternalFilesDir(null);
+		
+		FileOutputStream fos;
+		try {
+			File image = new File(externalDir, fileName);
+			if (!image.exists()) {
+				image.createNewFile();
+			}	
+			
+			fos = new FileOutputStream(image);
+			//fos = openFileOutput(externalDir + fileName, Context.MODE_PRIVATE);
+			fos.write(json.getBytes());
+			fos.close();
+		} catch (Exception e) {
+			Toast.makeText(this, "JSON WRITE FAILED", Toast.LENGTH_LONG).show();
+			e.printStackTrace();
+		}
 		
         mEditName1	= (TextView) findViewById(R.id.edit_player1);
         

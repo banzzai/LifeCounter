@@ -4,6 +4,7 @@
     <string name="app_name">LifeCounter</string>
     <string name="cancel">Cancel</string>
     <string name="Save">Save</string>
+    <string name="Load">Load</string>
     
     <!-- Load Player -->
     <string name="load_player">Load Player (select which player slot to load in, then click on the player you want to load)</string>

@@ -3,6 +3,7 @@ package com.banzz.lifecounter.commons;
 import com.banzz.lifecounter.R;
 import com.banzz.lifecounter.activities.TwoPlayerActivity;
 
+import android.app.Activity;
 import android.content.Context;
 import android.database.DataSetObserver;
 import android.view.LayoutInflater;
@@ -45,7 +46,7 @@ public class UserListAdapter implements ListAdapter {
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		LayoutInflater inflater = ((TwoPlayerActivity)mContext).getLayoutInflater();
+		LayoutInflater inflater = ((Activity)mContext).getLayoutInflater();
 		View view = convertView;
 		if (convertView == null) {
 			view = inflater.inflate(R.layout.user_list_item, null);

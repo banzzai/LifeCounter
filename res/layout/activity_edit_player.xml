@@ -188,6 +188,16 @@
 			/>
 		    
 		    <Button
+                android:id="@+id/load_button"
+                style="@style/ButtonText"
+                android:background="@drawable/btn_green_matte"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/Load"
+                android:layout_gravity="center"
+			/>
+		    
+		    <Button
                 android:id="@+id/save_button"
                 style="@style/ButtonText"
                 android:background="@drawable/btn_green_matte"
