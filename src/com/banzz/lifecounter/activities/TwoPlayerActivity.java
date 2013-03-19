@@ -287,7 +287,7 @@ public class TwoPlayerActivity extends Activity implements OnClickListener, Load
 			players[player_number].setColor(preferences.getInt(getString(R.string.key_color), R.color.lifeText));
 			players[player_number].setShowButtons(preferences.getBoolean(getString(R.string.key_show_buttons), false));
 			players[player_number].setShowWheel(preferences.getBoolean(getString(R.string.key_show_wheels), true));
-			players[player_number].setBackGroundId(playerBacks[player_number]);
+			players[player_number].setBackGroundId(player_number);
 			players[player_number].setName("Player " + (player_number + 1));
 		}
 		
@@ -345,13 +345,16 @@ public class TwoPlayerActivity extends Activity implements OnClickListener, Load
 	
 	private void rollBackground(int player) {
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-    	Editor preferenceEditor = preferences.edit();
     	
-    	playerBacks[player] = (playerBacks[player] + 1) % backgrounds_ids.length;
-    	players[player].setBackGroundId(playerBacks[player]);
-    	preferenceEditor.putInt(getString(player==Constants.PLAYER_ONE?R.string.key_back1:R.string.key_back2), playerBacks[player]);
-    	preferenceEditor.commit();
-    	updatePlayerUI(player);
+		if (!preferences.getBoolean(getString(R.string.key_background_lock), false)) {
+			Editor preferenceEditor = preferences.edit();
+	    	
+	    	playerBacks[player] = (playerBacks[player] + 1) % backgrounds_ids.length;
+	    	players[player].setBackGroundId(playerBacks[player]);
+	    	preferenceEditor.putInt(getString(player==Constants.PLAYER_ONE?R.string.key_back1:R.string.key_back2), playerBacks[player]);
+	    	preferenceEditor.commit();
+	    	updatePlayerUI(player);
+		}
 	}
 
 	//SINCE WE ARE HACKING A WHEEL THAT WORKS BACKWARDS OF INDEX ALWAYS USE THIS GETTER
