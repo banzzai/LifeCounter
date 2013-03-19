@@ -38,7 +38,7 @@ import com.banzz.lifecounter.utils.Utils.Constants;
  *
  * @see SystemUiHider
  */
-public class EditPlayerActivity extends Activity implements OnClickListener, LoadPlayerDialog.LoadPlayerDialogListener {
+public class EditPlayerActivity extends Activity implements OnClickListener, LoadPlayerDialog.LoadPlayerDialogListener, SavePlayerDialog.SavePlayerDialogListener {
 	public static int LIFE_START = 20;
 	private int PLAYER_NUMBER = 2;
 	
@@ -193,6 +193,9 @@ public class EditPlayerActivity extends Activity implements OnClickListener, Loa
 		saveButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
+				SavePlayerDialog savePlayerDialog = new SavePlayerDialog();
+				savePlayerDialog.setListener(EditPlayerActivity.this);
+				savePlayerDialog.show(getFragmentManager(), getString(R.string.save_player));
 			}
 		});
 
@@ -318,5 +321,12 @@ public class EditPlayerActivity extends Activity implements OnClickListener, Loa
 		mSelectedPlayer = player_slot;
 		players[player_slot] = new Player(player);
 		updateUI();
+	}
+
+
+	@Override
+	public void onValidateSave(Player user, int slot) {
+		// TODO Auto-generated method stub
+		
 	}
 }
