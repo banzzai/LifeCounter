@@ -31,6 +31,7 @@
     <string name="string_action_coin">Flip coin</string>
     <string name="string_action_load">Load player</string>
 	<string name="string_action_edit">Edit players</string>
+	<string name="string_action_reset">Reset players</string>
     
     <!-- Settings -->
 	<string name="key_background_lock">backgroundLock</string>

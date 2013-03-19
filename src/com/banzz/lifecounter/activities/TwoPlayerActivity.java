@@ -423,6 +423,10 @@ public class TwoPlayerActivity extends Activity implements OnClickListener, Load
     	}
     	else if (R.id.action_lock == item.getItemId()) {
     		switchBackgroundLock();
+    	} else if (R.id.action_reset == item.getItemId()) {
+    		players[Constants.PLAYER_ONE] = null;
+    		players[Constants.PLAYER_TWO] = null;
+    		updateUI();
     	}
     	
     	return super.onMenuItemSelected(featureId, item);

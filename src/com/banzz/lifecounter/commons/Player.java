@@ -12,7 +12,7 @@ public class Player implements Parcelable {
 	private int mBackGroundId;
 
 	public Player() {
-		this("id", "Player");
+		this(null, "Player");
 	}
 	
 	public Player(String id, String name) {
