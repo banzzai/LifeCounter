@@ -15,5 +15,8 @@ public class Utils {
 		//Intent request codes
 		public static final int REQUEST_EDIT_PLAYER = 0;
 		public static final String KEY_PLAYER_TARGET = "player_target";
+		
+		//Config
+		public static final String PROFILES_FILE_NAME = "/players.JSON";
 	}
 }

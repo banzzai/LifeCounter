@@ -142,7 +142,7 @@ public class TwoPlayerActivity extends Activity implements OnClickListener, Load
 //		
 //		Gson gson = new Gson();
 //		String json = gson.toJson(knownPlayers);
-//		String fileName = "players.JSON";
+//		String fileName = Constants.PROFILES_FILE_NAME;
 //		File externalDir = getExternalFilesDir(null);
 //		
 //		FileOutputStream fos;

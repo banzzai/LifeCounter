@@ -47,7 +47,7 @@ public class LoadPlayerDialog extends DialogFragment {
 	    mSelectUser = (ListView) view.findViewById(R.id.player_select);
 	    
 	    final Player[] mUsers;
-	    String fileName = "/players.JSON";
+	    String fileName = Constants.PROFILES_FILE_NAME;
 	    boolean empty = true;
 	    //Bad bad casts here. Then again, this is not meant to be adaptable code, used in x different activities;
 	    //worse case scenario it crashes and it'll serve as a reminder to set a listener...

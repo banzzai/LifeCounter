@@ -17,6 +17,9 @@
     
     <!-- Save Player -->
     <string name="save_player">Save Player</string>
+    <string name="save_confirmation">Do you want to save current player?</string>
+    <string name="save_overwrite">\nIt will replace existing profile:\n</string>
+    <string name="save_error_empty_name">Please enter a player name before saving.</string>
     
     <!-- Game Layout -->
     <string name="plus">+</string>

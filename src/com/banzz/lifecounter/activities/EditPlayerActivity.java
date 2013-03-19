@@ -1,15 +1,20 @@
 package com.banzz.lifecounter.activities;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+
 import kankan.wheel.widget.OnWheelScrollListener;
 import kankan.wheel.widget.WheelView;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -17,11 +22,11 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 import android.widget.RadioGroup;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 import android.widget.Toast;
@@ -31,6 +36,7 @@ import com.banzz.lifecounter.commons.LifeAdapter;
 import com.banzz.lifecounter.commons.Player;
 import com.banzz.lifecounter.utils.SystemUiHider;
 import com.banzz.lifecounter.utils.Utils.Constants;
+import com.google.gson.Gson;
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
@@ -38,9 +44,8 @@ import com.banzz.lifecounter.utils.Utils.Constants;
  *
  * @see SystemUiHider
  */
-public class EditPlayerActivity extends Activity implements OnClickListener, LoadPlayerDialog.LoadPlayerDialogListener, SavePlayerDialog.SavePlayerDialogListener {
+public class EditPlayerActivity extends Activity implements OnClickListener, LoadPlayerDialog.LoadPlayerDialogListener {
 	public static int LIFE_START = 20;
-	private int PLAYER_NUMBER = 2;
 	
 	private int player0_back_number = 0;
 
@@ -66,6 +71,8 @@ public class EditPlayerActivity extends Activity implements OnClickListener, Loa
 	private EditText mTextBox;
 	private CheckBox check_wheels;
 	private CheckBox check_buttons;
+
+	private Player[] mUsers;
 	
 	@Override
 	protected void onPause() {
@@ -76,9 +83,6 @@ public class EditPlayerActivity extends Activity implements OnClickListener, Loa
 	@Override
 	protected void onResume() {
 		super.onResume();
-//		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-//		players[Constants.PLAYER_ONE].setColor(preferences.getInt(getString(R.string.key_color_p1), R.color.lifeText));
-//		players[Constants.PLAYER_TWO].setColor(preferences.getInt(getString(R.string.key_color_p2), R.color.lifeText));
 		updateUI();
 	};
 	
@@ -98,7 +102,7 @@ public class EditPlayerActivity extends Activity implements OnClickListener, Loa
         
 //		Gson gson = new Gson();
 //		String json = gson.toJson(knownPlayers);
-//		String fileName = "players.JSON";
+//		String fileName = Constants.PROFILES_FILE_NAME;
 //		File externalDir = getExternalFilesDir(null);
 //		
 //		FileOutputStream fos;
@@ -178,37 +182,7 @@ public class EditPlayerActivity extends Activity implements OnClickListener, Loa
 				return false;
 			}
 		});
-		
-		Button colorButton = (Button) findViewById(R.id.color_button);
-		colorButton.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View arg0) {
-				Intent editColor = new Intent(getApplicationContext(), SettingsActivity.class);
-				editColor.putExtra(Constants.KEY_PLAYER_TARGET, mSelectedPlayer);
-				startActivity(editColor);
-			}
-		});
-		
-		Button saveButton = (Button) findViewById(R.id.save_button);
-		saveButton.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View arg0) {
-				SavePlayerDialog savePlayerDialog = new SavePlayerDialog();
-				savePlayerDialog.setListener(EditPlayerActivity.this);
-				savePlayerDialog.show(getFragmentManager(), getString(R.string.save_player));
-			}
-		});
 
-		Button loadButton = (Button) findViewById(R.id.load_button);
-		loadButton.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View arg0) {
-				LoadPlayerDialog loadDialog = new LoadPlayerDialog();
-				loadDialog.setListener(EditPlayerActivity.this);
-			    loadDialog.show(getFragmentManager(), getString(R.string.load_player));
-			}
-		});
-		
 		check_buttons = (CheckBox) findViewById(R.id.check_buttons);
 		check_buttons.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			@Override
@@ -227,8 +201,149 @@ public class EditPlayerActivity extends Activity implements OnClickListener, Loa
 			}
 		});
 		
+		Button colorButton = (Button) findViewById(R.id.color_button);
+		colorButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				Intent editColor = new Intent(getApplicationContext(), SettingsActivity.class);
+				editColor.putExtra(Constants.KEY_PLAYER_TARGET, mSelectedPlayer);
+				startActivity(editColor);
+			}
+		});
+		
+		Button loadButton = (Button) findViewById(R.id.load_button);
+		loadButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				LoadPlayerDialog loadDialog = new LoadPlayerDialog();
+				loadDialog.setListener(EditPlayerActivity.this);
+			    loadDialog.show(getFragmentManager(), getString(R.string.load_player));
+			}
+		});
+
+		Button saveButton = (Button) findViewById(R.id.save_button);
+		saveButton.setOnClickListener(new OnClickListener() {
+			private int mReplaceIndex = -1;
+
+			@Override
+			public void onClick(View arg0) {
+				AlertDialog dialog;
+				
+				if (players[mSelectedPlayer].getName() == null || players[mSelectedPlayer].getName().isEmpty()) {
+					dialog = new AlertDialog.Builder(EditPlayerActivity.this).create();
+				    dialog.setTitle(EditPlayerActivity.this.getString(R.string.Save));
+				    String message = EditPlayerActivity.this.getString(R.string.save_error_empty_name);
+				    dialog.setMessage(message);
+				    dialog.setCancelable(true);
+				    dialog.setButton(DialogInterface.BUTTON_POSITIVE, EditPlayerActivity.this.getString(android.R.string.yes), new DialogInterface.OnClickListener() {
+				        public void onClick(DialogInterface dialog, int buttonId) {
+				        }
+				    });
+				} else {
+					dialog = new AlertDialog.Builder(EditPlayerActivity.this).create();
+				    dialog.setTitle(EditPlayerActivity.this.getString(R.string.Save));
+				    String message = EditPlayerActivity.this.getString(R.string.save_confirmation);
+				    
+				    mReplaceIndex = -1;
+				    for(int i=0; mUsers != null && i<mUsers.length; i++) {
+				    	if (players[mSelectedPlayer].getName().equals(mUsers[i].getName())) {
+				    		mReplaceIndex = i;
+				    		message += EditPlayerActivity.this.getString(R.string.save_overwrite) + players[mSelectedPlayer].getName();
+				    		break;
+				    	}
+				    }
+				   
+				    dialog.setMessage(message);
+				    dialog.setCancelable(true);
+				    dialog.setButton(DialogInterface.BUTTON_POSITIVE, EditPlayerActivity.this.getString(android.R.string.yes), new DialogInterface.OnClickListener() {
+				        public void onClick(DialogInterface dialog, int buttonId) {
+				            EditPlayerActivity.this.onValidateSave(mReplaceIndex);
+				        }
+				    });
+				    dialog.setButton(DialogInterface.BUTTON_NEGATIVE, EditPlayerActivity.this.getString(android.R.string.cancel), new DialogInterface.OnClickListener() {
+				        public void onClick(DialogInterface dialog, int buttonId) {
+				        }
+				    });
+				}
+			    dialog.show();
+			}
+		});
+		
+		loadSavedProfiles();
 		updateUI();
 	}
+
+	private void loadSavedProfiles() {
+	    String fileName = Constants.PROFILES_FILE_NAME;
+	    //Bad bad casts here. Then again, this is not meant to be adaptable code, used in x different activities;
+	    //worse case scenario it crashes and it'll serve as a reminder to set a listener...
+	    File externalDir = getExternalFilesDir(null);
+		FileInputStream fis = null;
+		try {
+			fis = new FileInputStream(externalDir + fileName);
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		Gson gson = new Gson();
+		if (fis == null) {
+			//Empty list
+		} else {
+			Reader reader = new InputStreamReader(fis);
+			mUsers = gson.fromJson(reader, Player[].class);
+		}
+	}
+
+	//TODO Remove this abomination and use ArrayList or something (it was to make it easier on json and probably a bad idea; now there's [] all over the place)
+	private Player[] addPlayer(Player player, Player[] players) {
+		int length = players == null ? 0 : players.length;
+		Player[] newPlayerList = new Player[length+1];
+		
+		for (int i=0; i < length; i++) {
+			newPlayerList[i] = players[i];
+		}
+		
+		newPlayerList[length] = new Player(player);
+		return newPlayerList;
+	}
+	
+	public void onValidateSave(int mReplaceIndex) {
+		if (mReplaceIndex == -1) {
+			Toast.makeText(this, "Saving profile " + players[mSelectedPlayer].getName(), Toast.LENGTH_LONG).show();
+			mUsers = addPlayer(players[mSelectedPlayer], mUsers);
+		} else {
+			Toast.makeText(this, "Replacing profile " + players[mSelectedPlayer].getName(), Toast.LENGTH_LONG).show();
+			mUsers[mReplaceIndex] = new Player(players[mSelectedPlayer]);
+		}
+		
+		savePlayers();
+	}
+	
+	private void savePlayers() {
+		Gson gson = new Gson();
+		String json = gson.toJson(mUsers);
+		String fileName = Constants.PROFILES_FILE_NAME;
+		File externalDir = getExternalFilesDir(null);
+		
+		FileOutputStream fos;
+		try {
+			File image = new File(externalDir, fileName);
+			if (!image.exists()) {
+				image.createNewFile();
+			}	
+			
+			fos = new FileOutputStream(image);
+			//fos = openFileOutput(externalDir + fileName, Context.MODE_PRIVATE);
+			fos.write(json.getBytes());
+			fos.close();
+		} catch (Exception e) {
+			Toast.makeText(this, "JSON WRITE FAILED", Toast.LENGTH_LONG).show();
+			e.printStackTrace();
+		}
+	}
+
 
 	//This function should just update what shows on screen, and not change any value. This is not starting a new game!
 	private void updateUI() {
@@ -321,12 +436,5 @@ public class EditPlayerActivity extends Activity implements OnClickListener, Loa
 		mSelectedPlayer = player_slot;
 		players[player_slot] = new Player(player);
 		updateUI();
-	}
-
-
-	@Override
-	public void onValidateSave(Player user, int slot) {
-		// TODO Auto-generated method stub
-		
 	}
 }
