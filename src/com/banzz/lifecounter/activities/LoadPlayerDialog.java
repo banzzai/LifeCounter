@@ -48,6 +48,7 @@ public class LoadPlayerDialog extends DialogFragment {
 	    
 	    final Player[] mUsers;
 	    String fileName = "/players.JSON";
+	    boolean empty = true;
 	    //Bad bad casts here. Then again, this is not meant to be adaptable code, used in x different activities;
 	    //worse case scenario it crashes and it'll serve as a reminder to set a listener...
 	    File externalDir = ((Context)mListener).getExternalFilesDir(null);
@@ -67,17 +68,25 @@ public class LoadPlayerDialog extends DialogFragment {
 			Reader reader = new InputStreamReader(fis);
 			mUsers = gson.fromJson(reader, Player[].class);
 		
-			mSelectUser.setAdapter(new UserListAdapter(mUsers, getActivity()));
-		    mSelectUser.setOnItemClickListener(new OnItemClickListener() {
-
-				@Override
-				public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
-					mListener.onValidateLoad(mUsers[position], (mRadio.getCheckedRadioButtonId() == R.id.radio_player_1 ? Constants.PLAYER_ONE : Constants.PLAYER_TWO));
-					dismiss();
-				}
-			});
+			if (mUsers != null && mUsers.length > 0) {
+				empty = false;
+				mSelectUser.setAdapter(new UserListAdapter(mUsers, getActivity()));
+			    mSelectUser.setOnItemClickListener(new OnItemClickListener() {
+	
+					@Override
+					public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
+						mListener.onValidateLoad(mUsers[position], (mRadio.getCheckedRadioButtonId() == R.id.radio_player_1 ? Constants.PLAYER_ONE : Constants.PLAYER_TWO));
+						dismiss();
+					}
+				});
+			}
 		}
 			
+		if (empty) {
+			mSelectUser.setVisibility(View.GONE);
+			view.findViewById(R.id.no_saved_players).setVisibility(View.VISIBLE);
+		}
+		
 	    builder.setView(view)
 	           .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
 	               public void onClick(DialogInterface dialog, int id) {
