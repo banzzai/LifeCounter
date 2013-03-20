@@ -2,47 +2,38 @@
 
     <item
         android:id="@+id/action_restart"
-        android:orderInCategory="1"
         android:showAsAction="never"
         android:title="@string/string_action_restart"/>
     <item
         android:id="@+id/action_dice"
-        android:orderInCategory="1"
         android:showAsAction="never"
         android:title="@string/string_action_dice"/>
     <item
         android:id="@+id/action_load"
-        android:orderInCategory="2"
         android:showAsAction="never"
         android:title="@string/string_action_load"/>
     <item
         android:id="@+id/action_edit"
-        android:orderInCategory="2"
         android:showAsAction="never"
         android:title="@string/string_action_edit"/>
     <item
         android:id="@+id/action_reset"
-        android:orderInCategory="2"
         android:showAsAction="never"
         android:title="@string/string_action_reset"/>
 	<item
         android:id="@+id/action_coin"
-        android:orderInCategory="1"
         android:showAsAction="never"
         android:title="@string/string_action_coin"/>
 	<item
         android:id="@+id/action_flip"
-        android:orderInCategory="1"
         android:showAsAction="never"
         android:title="@string/string_action_flip"/>
 	<item
         android:id="@+id/action_lock"
-        android:orderInCategory="2"
         android:showAsAction="never"
         android:title="@string/string_action_lock"/>
     <item
         android:id="@+id/action_settings"
-        android:orderInCategory="2"
         android:showAsAction="never"
         android:title="@string/string_action_settings"/>
 </menu>
