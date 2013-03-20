@@ -91,12 +91,12 @@ public class EditPlayerActivity extends Activity implements OnClickListener, Loa
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_player);
 		
-        Button mImagePicker = (Button) findViewById(R.id.pick_image_button);
+        Button mImagePicker = (Button) findViewById(R.id.images_button);
         mImagePicker.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View arg0) {
-				startActivity(new Intent(getApplicationContext(), ActionPickDemo.class));
+				startActivity(new Intent(getApplicationContext(), PickImageActivity.class));
 			}
 		});
         

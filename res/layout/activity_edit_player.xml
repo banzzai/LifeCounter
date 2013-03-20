@@ -168,12 +168,12 @@
 		    </LinearLayout>"
 		    
 		    <Button
-                android:id="@+id/pick_image_button"
-                style="@style/ButtonText"
+                android:id="@+id/images_button"
+                style="@style/ButtonSmall"
                 android:background="@drawable/btn_green_matte"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/button_pick_image"
+                android:text="@string/button_pick_images"
                 android:layout_gravity="center"
 			/>
 		    
