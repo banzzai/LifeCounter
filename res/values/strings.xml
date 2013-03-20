@@ -6,6 +6,7 @@
     <string name="cancel">Cancel</string>
     <string name="Save">Save</string>
     <string name="Load">Load</string>
+    <string name="sd_not_found">Cannot access SD storage!</string>
     
     <!-- Load Player -->
     <string name="load_player">Load Player (select which player slot to load in, then click on the player you want to load)</string>

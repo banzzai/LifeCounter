@@ -96,7 +96,10 @@ public class EditPlayerActivity extends Activity implements OnClickListener, Loa
 			
 			@Override
 			public void onClick(View arg0) {
-				startActivity(new Intent(getApplicationContext(), PickImageActivity.class));
+				Intent pickIntent = new Intent(getApplicationContext(), PickImageActivity.class);
+				pickIntent.putExtra(Constants.KEY_PLAYER_TARGET, players[mSelectedPlayer].getName());
+				
+				startActivity(pickIntent);
 			}
 		});
         

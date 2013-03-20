@@ -18,5 +18,7 @@ public class Utils {
 		
 		//Config
 		public static final String PROFILES_FILE_NAME = "/players.JSON";
+		public static final String TEMP_FILE_NAME = "temp.jpg";
+		public static final String TEMP_LARGE_FILE_NAME = "temp_large.jpg";
 	}
 }
