@@ -35,14 +35,14 @@
     <string name="donations">Donations</string>
     
     <!-- Context menu -->
-    <string name="string_action_lock">Background lock</string>
+    <string name="string_action_lock">Lock images</string>
     <string name="string_action_settings">Settings</string>
     <string name="string_action_flip">Rotate player 2</string>
     <string name="string_action_restart">Restart</string>
     <string name="string_action_dice">Roll dice</string>
     <string name="string_action_coin">Flip coin</string>
     <string name="string_action_load">Load player</string>
-	<string name="string_action_edit">Edit players</string>
+	<string name="string_action_edit">Edit/save players</string>
 	<string name="string_action_reset">Reset players</string>
     
     <!-- Settings:keys -->
