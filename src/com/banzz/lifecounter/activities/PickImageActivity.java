@@ -88,7 +88,7 @@ public class PickImageActivity extends Activity {
 				
 				//Crop options, if set
 				if (cropImage) {
-					String fileName = isLarge ? Constants.TEMP_FILE_NAME : Constants.TEMP_LARGE_FILE_NAME;
+					String fileName = isLarge ? Constants.TEMP_LARGE_FILE_NAME : Constants.TEMP_FILE_NAME;
 					File tempFile = new File(Environment.getExternalStorageDirectory() + "/" + fileName);
 					Uri tempUri = Uri.fromFile(tempFile);
 
@@ -143,66 +143,57 @@ public class PickImageActivity extends Activity {
 					break;
 					
 				case R.id.image_ok:
-					File sdCardDirectory = Environment
-							.getExternalStorageDirectory();
-					Bitmap selectedImage = BitmapFactory.decodeFile(Environment
-							.getExternalStorageDirectory() + "/temp_large.jpg");
-					String dirString = sdCardDirectory + "/"
-							+ getString(R.string.app_name) + "/";
-					boolean success = false;
-					boolean success2 = false;
-	
-					// Encode the file as a PNG image.
-					FileOutputStream outStream;
-					try {
+					if (imageStatus[INDEX_LARGE] == STATUS_CROPPED || imageStatus[INDEX_TALL] == STATUS_CROPPED) {
+						File sdCardDirectory = Environment
+								.getExternalStorageDirectory();
+						String dirString = sdCardDirectory + "/"
+								+ getString(R.string.app_name) + "/";
+			
+						// Encode the file as a PNG image.
+						FileOutputStream outStream;
+						
 						File dir = new File(dirString);
 						if (!dir.isDirectory()) {
 							dir.mkdirs();
 						}
-						File image = new File(dirString, playerName + "_large.png");
-						if (!image.exists()) {
-							image.createNewFile();
+						
+						//Once for each format, if it's cropped and not just picked
+						for (int index: new int[]{INDEX_LARGE, INDEX_TALL}) {
+							try {
+								if (imageStatus[index] == STATUS_CROPPED) {
+									boolean success = false;
+									
+									File image = new File(dirString, playerName + (index==INDEX_LARGE?"_large":"") + ".png");
+									if (!image.exists()) {
+										image.createNewFile();
+									}
+
+									outStream = new FileOutputStream(image);
+
+									String fileName = index==INDEX_LARGE ? Constants.TEMP_LARGE_FILE_NAME : Constants.TEMP_FILE_NAME;
+									
+									Bitmap selectedImage = BitmapFactory.decodeFile(Environment
+											.getExternalStorageDirectory() + "/" + fileName);
+									selectedImage.compress(Bitmap.CompressFormat.PNG, 100,
+											outStream);
+									// 100 to keep full quality of the image
+				
+									outStream.flush();
+									outStream.close();
+									success = true;
+									
+									if (success) {
+										new SingleMediaScanner(PickImageActivity.this, image);
+									}
+								}
+							} catch (FileNotFoundException e) {
+								e.printStackTrace();
+							} catch (IOException e) {
+								e.printStackTrace();
+							}
 						}
-	
-						outStream = new FileOutputStream(image);
-						selectedImage.compress(Bitmap.CompressFormat.PNG, 100,
-								outStream);
-						// 100 to keep full quality of the image
-	
-						outStream.flush();
-						outStream.close();
-						success = true;
-	
-						File image2 = new File(dirString, playerName + ".png");
-						if (!image2.exists()) {
-							image2.createNewFile();
-						}
-	
-						outStream = new FileOutputStream(image2);
-						Bitmap selectedImage2 = BitmapFactory
-								.decodeFile(Environment
-										.getExternalStorageDirectory()
-										+ "/temp.jpg");
-						selectedImage2.compress(Bitmap.CompressFormat.PNG, 100,
-								outStream);
-						// 100 to keep full quality of the image
-	
-						outStream.flush();
-						outStream.close();
-						success2 = true;
-	
-						if (success) {
-							new SingleMediaScanner(PickImageActivity.this, image);
-						}
-						if (success2) {
-							new SingleMediaScanner(PickImageActivity.this, image2);
-						}
-					} catch (FileNotFoundException e) {
-						e.printStackTrace();
-					} catch (IOException e) {
-						e.printStackTrace();
 					}
-					break;
+				break;
 			}
 		}
 	};
