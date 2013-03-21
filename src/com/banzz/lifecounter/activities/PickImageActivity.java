@@ -4,8 +4,11 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Date;
 
 import android.app.Activity;
+import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -14,6 +17,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.provider.MediaStore.Images;
 import android.view.Display;
 import android.view.View;
 import android.widget.Button;
@@ -163,14 +167,16 @@ public class PickImageActivity extends Activity {
 								if (imageStatus[index] == STATUS_CROPPED) {
 									boolean success = false;
 									
+									String newImagePath = dirString + playerName + (index==INDEX_LARGE?"_large":"") + ".png";
 									File image = new File(dirString, playerName + (index==INDEX_LARGE?"_large":"") + ".png");
-									if (!image.exists()) {
-										image.createNewFile();
-									}
-
+									if (image.exists()) {
+										image.delete();
+									}									
+									image.createNewFile();
+									
 									outStream = new FileOutputStream(image);
 
-									String fileName = index==INDEX_LARGE ? Constants.TEMP_LARGE_FILE_NAME : Constants.TEMP_FILE_NAME;
+									String fileName = (index==INDEX_LARGE) ? Constants.TEMP_LARGE_FILE_NAME : Constants.TEMP_FILE_NAME;
 									
 									Bitmap selectedImage = BitmapFactory.decodeFile(Environment
 											.getExternalStorageDirectory() + "/" + fileName);
@@ -180,9 +186,17 @@ public class PickImageActivity extends Activity {
 				
 									outStream.flush();
 									outStream.close();
+									
+									//Deleting temp file
+									File tempFile = new File(Environment.getExternalStorageDirectory() + "/" + fileName);
+									if (tempFile.exists()) {
+										tempFile.delete();
+									}
+									
 									success = true;
 									
 									if (success) {
+										//addToDatabase(PickImageActivity.this, image, playerName, isLargeImage);
 										new SingleMediaScanner(PickImageActivity.this, image);
 									}
 								}
@@ -195,6 +209,31 @@ public class PickImageActivity extends Activity {
 					}
 				break;
 			}
+		}
+
+		private void addToDatabase(Context context, File imageFile, String playerName, boolean isLarge) {
+		    ContentValues image = new ContentValues();
+
+		    image.put(Images.Media.TITLE, playerName + (isLarge?"_large":"_tall"));
+		    image.put(Images.Media.DISPLAY_NAME, playerName + (isLarge?"_large":"_tall"));
+		    image.put(Images.Media.DESCRIPTION,  (isLarge?"Large":"Tall") + " image for " + playerName);
+		    String dateTaken = "" + (new Date()).getTime();
+		    image.put(Images.Media.DATE_ADDED, dateTaken);
+		    image.put(Images.Media.DATE_TAKEN, dateTaken);
+		    image.put(Images.Media.DATE_MODIFIED, dateTaken);
+		    image.put(Images.Media.MIME_TYPE, "image/jpg");
+		    image.put(Images.Media.ORIENTATION, 0);
+
+		     File parent = imageFile.getParentFile();
+		     String path = parent.toString().toLowerCase();
+		     String name = parent.getName().toLowerCase();
+		     image.put(Images.ImageColumns.BUCKET_ID, path.hashCode());
+		     image.put(Images.ImageColumns.BUCKET_DISPLAY_NAME, name);
+		     image.put(Images.Media.SIZE, imageFile.length());
+
+		     image.put(Images.Media.DATA, imageFile.getAbsolutePath());
+
+		     Uri result = context.getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, image);
 		}
 	};
 

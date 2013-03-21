@@ -15,12 +15,19 @@ import com.banzz.lifecounter.commons.LifeAdapter;
 import com.banzz.lifecounter.commons.Player;
 import com.google.gson.Gson;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
 import android.preference.PreferenceManager;
@@ -393,12 +400,23 @@ public class TwoPlayerActivity extends Activity implements OnClickListener, Load
         return true;
     }
     
-    @Override
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+	@Override
     public boolean onMenuItemSelected(int featureId, MenuItem item) {
     	if (R.id.action_restart == item.getItemId()) {
     		restart_game();
     	} else if (R.id.action_coin == item.getItemId()) {
-    		flip_coin();
+    		File sdCardDirectory = Environment
+					.getExternalStorageDirectory();
+			String dirString = sdCardDirectory + "/"
+					+ getString(R.string.app_name) + "/";
+			String newImagePath = dirString + "Player 1.png";
+			Resources res = getResources();
+	        Bitmap bitmap = BitmapFactory.decodeFile(newImagePath);
+	        BitmapDrawable bd = new BitmapDrawable(res, bitmap);
+	        player1_background.setImageDrawable(bd);
+			
+			flip_coin();
     	} else if (R.id.action_dice == item.getItemId()) {
     		roll_dice(20);
     	} else if (R.id.action_settings == item.getItemId()) {
