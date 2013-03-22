@@ -4,22 +4,20 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public class Player implements Parcelable {
-	String mId;
-	String mName;
+	private String mId;
+	private String mName;
 	private int mColor;
 	private boolean mShowButtons;
 	private boolean mShowWheel;
 	private int mBackGroundId;
-
+	private String mTallBgUrl;
+	private String mLargeBgUrl;
+		
 	public Player() {
-		this(null, "Player");
+		this(null, "Player 0", -1, false, true, 0, null, null);
 	}
 	
-	public Player(String id, String name) {
-		this(id, name, -1, false, true, 0);
-	}
-	
-	public Player(String mId, String mName, int mColor, boolean mShowButtons, boolean mShowWheel, int mBackGroundId) {
+	public Player(String mId, String mName, int mColor, boolean mShowButtons, boolean mShowWheel, int mBackGroundId, String tallUrl, String largeUrl) {
 		super();
 		this.mId = mId;
 		this.mName = mName;
@@ -27,6 +25,8 @@ public class Player implements Parcelable {
 		this.mShowButtons = mShowButtons;
 		this.mShowWheel = mShowWheel;
 		this.mBackGroundId = mBackGroundId;
+		this.mTallBgUrl = tallUrl;
+		this.mLargeBgUrl = largeUrl;
 	}
 
 	public Player(Player player) {
@@ -36,6 +36,8 @@ public class Player implements Parcelable {
 		this.mName = player.getName();
 		this.mShowButtons = player.showButons();
 		this.mShowWheel = player.showWheel();
+		this.mTallBgUrl = player.getTallBgUrl();
+		this.mLargeBgUrl = player.getLargeBgUrl();
 	}
 
 	public String getId() {
@@ -86,6 +88,22 @@ public class Player implements Parcelable {
 		this.mBackGroundId = mBackGroundId;
 	}
 
+	public String getTallBgUrl() {
+		return mTallBgUrl;
+	}
+
+	public void setTallBgUrl(String mTallBgUrl) {
+		this.mTallBgUrl = mTallBgUrl;
+	}
+
+	public String getLargeBgUrl() {
+		return mLargeBgUrl;
+	}
+
+	public void setLargeBgUrl(String mLargeBgUrl) {
+		this.mLargeBgUrl = mLargeBgUrl;
+	}
+	
 	@Override
 	public int describeContents() {
 		//Auto-generated method stub
@@ -97,6 +115,8 @@ public class Player implements Parcelable {
 		//http://stackoverflow.com/questions/2139134/how-to-send-an-object-from-one-android-activity-to-another-using-intents/2141166#2141166
 		out.writeString(mId);
 		out.writeString(mName);
+		out.writeString(mTallBgUrl);
+		out.writeString(mLargeBgUrl);
 		out.writeInt(mColor);
 		out.writeInt(mBackGroundId);
 		out.writeBooleanArray(new boolean[]{mShowButtons, mShowWheel});
@@ -117,6 +137,8 @@ public class Player implements Parcelable {
     private Player(Parcel in) {
         mId = in.readString();
         mName = in.readString();
+        mTallBgUrl = in.readString();
+        mLargeBgUrl = in.readString();
         mColor = in.readInt();
         mBackGroundId = in.readInt();
         boolean[] myVals = new boolean[2];

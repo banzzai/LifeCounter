@@ -25,14 +25,11 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.banzz.lifecounter.R;
+import com.banzz.lifecounter.commons.Player;
 import com.banzz.lifecounter.utils.SingleMediaScanner;
 import com.banzz.lifecounter.utils.Utils.Constants;
 
 public class PickImageActivity extends Activity {
-
-    private static final int REQUEST_PICK_IMAGE = 1;
-    private static final int REQUEST_PICK_CROP_IMAGE = 2;
-
     private static final int INDEX_LARGE = 0;
     private static final int INDEX_TALL = 1;
     
@@ -49,7 +46,7 @@ public class PickImageActivity extends Activity {
     private ImageView mImageViewTall;
 
 	public boolean isLargeImage = false;
-	private String playerName;
+	private Player mPlayer;
 	
 	private int imageStatus[] = new int[]{STATUS_EMPTY, STATUS_EMPTY};
 	
@@ -58,7 +55,7 @@ public class PickImageActivity extends Activity {
            super.onCreate(savedInstanceState);
 
            Intent bundle = getIntent();
-           playerName = bundle.getStringExtra(Constants.KEY_PLAYER_TARGET);
+           mPlayer = (Player) bundle.getParcelableExtra(Constants.KEY_PLAYER_TARGET);
            
            setContentView(R.layout.pick_images_activity);
 
@@ -83,7 +80,7 @@ public class PickImageActivity extends Activity {
     private View.OnClickListener mButtonListener = new View.OnClickListener() {
 		private void pickImage(boolean isLarge, boolean cropImage, String status) {
 			isLargeImage = isLarge;
-			int actionCode = cropImage ? REQUEST_PICK_CROP_IMAGE : REQUEST_PICK_IMAGE;
+			int actionCode = cropImage ? Constants.REQUEST_PICK_CROP_IMAGE : Constants.REQUEST_PICK_IMAGE;
 			
 			if (status.equals(Environment.MEDIA_MOUNTED)) {
 				Intent pickCropImageIntent = new Intent(
@@ -167,8 +164,8 @@ public class PickImageActivity extends Activity {
 								if (imageStatus[index] == STATUS_CROPPED) {
 									boolean success = false;
 									
-									String newImagePath = dirString + playerName + (index==INDEX_LARGE?"_large":"") + ".png";
-									File image = new File(dirString, playerName + (index==INDEX_LARGE?"_large":"") + ".png");
+									String newImagePath = dirString + mPlayer.getName() + (index==INDEX_LARGE?"_large":"") + ".png";
+									File image = new File(dirString, mPlayer.getName() + (index==INDEX_LARGE?"_large":"") + ".png");
 									if (image.exists()) {
 										image.delete();
 									}									
@@ -193,6 +190,12 @@ public class PickImageActivity extends Activity {
 										tempFile.delete();
 									}
 									
+									if (isLargeImage) {
+					                  	mPlayer.setLargeBgUrl(newImagePath);
+					                  } else {
+					                  	mPlayer.setTallBgUrl(newImagePath);
+					                  }
+									
 									success = true;
 									
 									if (success) {
@@ -207,6 +210,11 @@ public class PickImageActivity extends Activity {
 							}
 						}
 					}
+				//Quit the image picking activity
+				Intent resultIntent = new Intent();
+				resultIntent.putExtra(Constants.KEY_PLAYER_TARGET, mPlayer);
+				setResult(Activity.RESULT_OK, resultIntent);
+				finish();
 				break;
 			}
 		}
@@ -238,8 +246,8 @@ public class PickImageActivity extends Activity {
 	};
 
 	protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
-           switch (requestCode) {
-           case REQUEST_PICK_IMAGE:
+		switch (requestCode) {
+           case Constants.REQUEST_PICK_IMAGE:
                if (RESULT_OK == resultCode) {
                      Uri imageUri = intent.getData();
                      Bitmap bitmap;
@@ -248,7 +256,13 @@ public class PickImageActivity extends Activity {
                                           getContentResolver(), imageUri);
                             (isLargeImage?mImageViewLarge:mImageViewTall).setImageBitmap(bitmap);
                             
+                            if (isLargeImage) {
+                            	mPlayer.setLargeBgUrl(imageUri.toString());
+                            } else {
+                            	mPlayer.setTallBgUrl(imageUri.toString());
+                            }
                             imageStatus[isLargeImage?INDEX_LARGE:INDEX_TALL] = STATUS_PICKED;
+                            checkDone();
                      } catch (FileNotFoundException e) {
                             // TODO Auto-generated catch block
                             e.printStackTrace();
@@ -259,12 +273,21 @@ public class PickImageActivity extends Activity {
 
                }
                break;
-           case REQUEST_PICK_CROP_IMAGE:
+           case Constants.REQUEST_PICK_CROP_IMAGE:
 	        	  Bitmap croppedImage = BitmapFactory.decodeFile(Environment
                                .getExternalStorageDirectory() + "/"+ (isLargeImage?Constants.TEMP_LARGE_FILE_NAME:Constants.TEMP_FILE_NAME));
                   (isLargeImage?mImageViewLarge:mImageViewTall).setImageBitmap(croppedImage);
+                  
                   imageStatus[isLargeImage?INDEX_LARGE:INDEX_TALL] = STATUS_CROPPED;
+                  checkDone();
                   break;
-           }
+		}
     }
+	
+	//Make sure both images have been selected
+	private void checkDone() {
+		if (imageStatus[INDEX_TALL]!=STATUS_EMPTY && imageStatus[INDEX_LARGE]!=STATUS_EMPTY) {
+			mSaveImageButton.setVisibility(View.VISIBLE);
+		}
+	}
 }

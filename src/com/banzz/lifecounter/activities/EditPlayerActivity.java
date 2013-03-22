@@ -69,6 +69,7 @@ public class EditPlayerActivity extends Activity implements OnClickListener, Loa
 	private ImageView player0_background;
 
 	private EditText mTextBox;
+	private TextView mResultText;
 	private CheckBox check_wheels;
 	private CheckBox check_buttons;
 
@@ -97,9 +98,9 @@ public class EditPlayerActivity extends Activity implements OnClickListener, Loa
 			@Override
 			public void onClick(View arg0) {
 				Intent pickIntent = new Intent(getApplicationContext(), PickImageActivity.class);
-				pickIntent.putExtra(Constants.KEY_PLAYER_TARGET, players[mSelectedPlayer].getName());
+				pickIntent.putExtra(Constants.KEY_PLAYER_TARGET, players[mSelectedPlayer]);
 				
-				startActivity(pickIntent);
+				startActivityForResult(pickIntent, Constants.REQUEST_PICK_IMAGES);
 			}
 		});
         
@@ -170,6 +171,7 @@ public class EditPlayerActivity extends Activity implements OnClickListener, Loa
 		});
 		
 		mTextBox = (EditText) findViewById(R.id.edit_name);
+		mResultText = (TextView) findViewById(R.id.image_result);
 		mTextBox.setImeOptions(EditorInfo.IME_ACTION_DONE);
 		mTextBox.setImeActionLabel("Go", EditorInfo.IME_ACTION_DONE);
 		mTextBox.setOnEditorActionListener(new OnEditorActionListener() {
@@ -439,5 +441,14 @@ public class EditPlayerActivity extends Activity implements OnClickListener, Loa
 		mSelectedPlayer = player_slot;
 		players[player_slot] = new Player(player);
 		updateUI();
+	}
+	
+	protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
+		switch (requestCode) {
+           case Constants.REQUEST_PICK_IMAGES:
+        	   Player playerResult = (Player) intent.getParcelableExtra(Constants.KEY_PLAYER_TARGET);
+        	   mResultText.setText("large:\n"+playerResult.getLargeBgUrl()+"tall:"+playerResult.getTallBgUrl());
+        	   break;
+		}
 	}
 }
