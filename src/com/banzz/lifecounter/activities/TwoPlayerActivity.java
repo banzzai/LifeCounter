@@ -17,7 +17,10 @@ import com.google.gson.Gson;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
@@ -437,10 +440,10 @@ public class TwoPlayerActivity extends Activity implements OnClickListener, Load
         	
         	//Launch edit player activity with both players
     		Intent editIntent = new Intent(getApplicationContext(), EditPlayerActivity.class);
-    		editIntent.putExtra("player1", players[Constants.PLAYER_ONE]);
-    		editIntent.putExtra("player2", players[Constants.PLAYER_TWO]);
+    		editIntent.putExtra(Constants.KEY_PLAYER_ONE, players[Constants.PLAYER_ONE]);
+    		editIntent.putExtra(Constants.KEY_PLAYER_TWO, players[Constants.PLAYER_TWO]);
     		
-    		startActivityForResult(editIntent, Constants.REQUEST_EDIT_PLAYER);
+    		startActivityForResult(editIntent, Constants.REQUEST_EDIT_PLAYERS);
     	}
     	else if (R.id.action_lock == item.getItemId()) {
     		switchBackgroundLock();
@@ -500,5 +503,17 @@ public class TwoPlayerActivity extends Activity implements OnClickListener, Load
 	public void onValidateLoad(Player player, int player_slot) {
 		players[player_slot] = new Player(player);
 		updatePlayerUI(player_slot);
+	}
+	
+	protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
+		switch (requestCode) {
+           case Constants.REQUEST_EDIT_PLAYERS:
+        	   if (resultCode == Activity.RESULT_OK) {
+	        	   players[Constants.PLAYER_ONE] = (Player) intent.getParcelableExtra(Constants.KEY_PLAYER_ONE);
+	        	   players[Constants.PLAYER_TWO] = (Player) intent.getParcelableExtra(Constants.KEY_PLAYER_TWO);
+	        	   updateUI();
+        	   }
+        	   break;
+		}
 	}
 }

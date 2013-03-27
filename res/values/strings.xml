@@ -15,7 +15,8 @@
     <!-- Edit Player -->
     <string name="edit_player">Edit Player</string>
 	<string name="pick_color">Pick color</string>
-    
+	<string name="keyboard_go">Go</string>
+	
     <!-- Pick Images -->
 	<string name="pick_large">Pick large</string>
 	<string name="crop_large">Create large</string>

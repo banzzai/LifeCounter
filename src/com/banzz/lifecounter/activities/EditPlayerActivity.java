@@ -126,8 +126,8 @@ public class EditPlayerActivity extends Activity implements OnClickListener, Loa
 //		}
         
         Intent i = getIntent();
-        players[Constants.PLAYER_ONE] = (Player) i.getParcelableExtra("player1");
-        players[Constants.PLAYER_TWO] = (Player) i.getParcelableExtra("player2");
+        players[Constants.PLAYER_ONE] = (Player) i.getParcelableExtra(Constants.KEY_PLAYER_ONE);
+        players[Constants.PLAYER_TWO] = (Player) i.getParcelableExtra(Constants.KEY_PLAYER_TWO);
         
         mEditName0	= (TextView) findViewById(R.id.edit_player0);
         
@@ -173,7 +173,7 @@ public class EditPlayerActivity extends Activity implements OnClickListener, Loa
 		mTextBox = (EditText) findViewById(R.id.edit_name);
 		mResultText = (TextView) findViewById(R.id.image_result);
 		mTextBox.setImeOptions(EditorInfo.IME_ACTION_DONE);
-		mTextBox.setImeActionLabel("Go", EditorInfo.IME_ACTION_DONE);
+		mTextBox.setImeActionLabel(getString(R.string.keyboard_go), EditorInfo.IME_ACTION_DONE);
 		mTextBox.setOnEditorActionListener(new OnEditorActionListener() {
 			
 			@Override
@@ -228,49 +228,9 @@ public class EditPlayerActivity extends Activity implements OnClickListener, Loa
 
 		Button saveButton = (Button) findViewById(R.id.save_button);
 		saveButton.setOnClickListener(new OnClickListener() {
-			private int mReplaceIndex = -1;
-
 			@Override
 			public void onClick(View arg0) {
-				AlertDialog dialog;
-				
-				if (players[mSelectedPlayer].getName() == null || players[mSelectedPlayer].getName().isEmpty()) {
-					dialog = new AlertDialog.Builder(EditPlayerActivity.this).create();
-				    dialog.setTitle(EditPlayerActivity.this.getString(R.string.Save));
-				    String message = EditPlayerActivity.this.getString(R.string.save_error_empty_name);
-				    dialog.setMessage(message);
-				    dialog.setCancelable(true);
-				    dialog.setButton(DialogInterface.BUTTON_POSITIVE, EditPlayerActivity.this.getString(android.R.string.yes), new DialogInterface.OnClickListener() {
-				        public void onClick(DialogInterface dialog, int buttonId) {
-				        }
-				    });
-				} else {
-					dialog = new AlertDialog.Builder(EditPlayerActivity.this).create();
-				    dialog.setTitle(EditPlayerActivity.this.getString(R.string.Save));
-				    String message = EditPlayerActivity.this.getString(R.string.save_confirmation);
-				    
-				    mReplaceIndex = -1;
-				    for(int i=0; mUsers != null && i<mUsers.length; i++) {
-				    	if (players[mSelectedPlayer].getName().equals(mUsers[i].getName())) {
-				    		mReplaceIndex = i;
-				    		message += EditPlayerActivity.this.getString(R.string.save_overwrite) + players[mSelectedPlayer].getName();
-				    		break;
-				    	}
-				    }
-				   
-				    dialog.setMessage(message);
-				    dialog.setCancelable(true);
-				    dialog.setButton(DialogInterface.BUTTON_POSITIVE, EditPlayerActivity.this.getString(android.R.string.yes), new DialogInterface.OnClickListener() {
-				        public void onClick(DialogInterface dialog, int buttonId) {
-				            EditPlayerActivity.this.onValidateSave(mReplaceIndex);
-				        }
-				    });
-				    dialog.setButton(DialogInterface.BUTTON_NEGATIVE, EditPlayerActivity.this.getString(android.R.string.cancel), new DialogInterface.OnClickListener() {
-				        public void onClick(DialogInterface dialog, int buttonId) {
-				        }
-				    });
-				}
-			    dialog.show();
+				validateSave(mSelectedPlayer);
 			}
 		});
 		
@@ -278,6 +238,49 @@ public class EditPlayerActivity extends Activity implements OnClickListener, Loa
 		updateUI();
 	}
 
+	private void validateSave(int selectedPlayer) {
+		AlertDialog dialog;
+		
+		if (players[selectedPlayer].getName() == null || players[selectedPlayer].getName().isEmpty()) {
+			dialog = new AlertDialog.Builder(EditPlayerActivity.this).create();
+		    dialog.setTitle(EditPlayerActivity.this.getString(R.string.Save));
+		    String message = EditPlayerActivity.this.getString(R.string.save_error_empty_name);
+		    dialog.setMessage(message);
+		    dialog.setCancelable(true);
+		    dialog.setButton(DialogInterface.BUTTON_POSITIVE, EditPlayerActivity.this.getString(android.R.string.yes), new DialogInterface.OnClickListener() {
+		        public void onClick(DialogInterface dialog, int buttonId) {
+		        }
+		    });
+		} else {
+			dialog = new AlertDialog.Builder(EditPlayerActivity.this).create();
+		    dialog.setTitle(EditPlayerActivity.this.getString(R.string.Save));
+		    String message = EditPlayerActivity.this.getString(R.string.save_confirmation);
+		    
+		    int replaceIndex = -1;
+		    for(int i=0; mUsers != null && i<mUsers.length; i++) {
+		    	if (players[selectedPlayer].getName().equals(mUsers[i].getName())) {
+		    		replaceIndex = i;
+		    		message += EditPlayerActivity.this.getString(R.string.save_overwrite) + players[selectedPlayer].getName();
+		    		break;
+		    	}
+		    }
+		   
+		    final int fReplaceIndex = replaceIndex;
+		    dialog.setMessage(message);
+		    dialog.setCancelable(true);
+		    dialog.setButton(DialogInterface.BUTTON_POSITIVE, EditPlayerActivity.this.getString(android.R.string.yes), new DialogInterface.OnClickListener() {
+		        public void onClick(DialogInterface dialog, int buttonId) {
+		            EditPlayerActivity.this.onValidateSave(fReplaceIndex);
+		        }
+		    });
+		    dialog.setButton(DialogInterface.BUTTON_NEGATIVE, EditPlayerActivity.this.getString(android.R.string.cancel), new DialogInterface.OnClickListener() {
+		        public void onClick(DialogInterface dialog, int buttonId) {
+		        }
+		    });
+		}
+	    dialog.show();
+	}
+	
 	private void loadSavedProfiles() {
 	    String fileName = Constants.PROFILES_FILE_NAME;
 	    //Bad bad casts here. Then again, this is not meant to be adaptable code, used in x different activities;
@@ -450,5 +453,36 @@ public class EditPlayerActivity extends Activity implements OnClickListener, Loa
         	   mResultText.setText("large:\n"+playerResult.getLargeBgUrl()+"tall:"+playerResult.getTallBgUrl());
         	   break;
 		}
+	}
+	
+	
+	@Override
+	public void onBackPressed() {
+		AlertDialog dialog = new AlertDialog.Builder(this).create();
+	    dialog.setTitle(getString(R.string.Save));
+	    String message = getString(R.string.save_confirmation);
+	    	   
+	    dialog.setMessage(message);
+	    dialog.setCancelable(true);
+	    dialog.setButton(DialogInterface.BUTTON_POSITIVE, EditPlayerActivity.this.getString(android.R.string.yes), new DialogInterface.OnClickListener() {
+	        public void onClick(DialogInterface dialog, int buttonId) {
+	        	//TODO Better save on goback
+	        	EditPlayerActivity.this.onValidateSave(Constants.PLAYER_ONE);
+	        	Intent resultIntent = new Intent();
+	        	resultIntent.putExtra(Constants.KEY_PLAYER_ONE, players[Constants.PLAYER_ONE]);
+	        	resultIntent.putExtra(Constants.KEY_PLAYER_TWO, players[Constants.PLAYER_TWO]);
+				setResult(Activity.RESULT_OK, resultIntent);
+				finish();
+	        }
+	    });
+	    dialog.setButton(DialogInterface.BUTTON_NEGATIVE, EditPlayerActivity.this.getString(android.R.string.cancel), new DialogInterface.OnClickListener() {
+	    	public void onClick(DialogInterface dialog, int buttonId) {
+	    		//TODO fix text, make sure what goback action we want
+				setResult(Activity.RESULT_CANCELED, new Intent());
+				finish();        
+	    	}
+	    });
+
+	    dialog.show();
 	}
 }
