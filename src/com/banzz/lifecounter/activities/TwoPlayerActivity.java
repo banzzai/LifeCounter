@@ -408,17 +408,7 @@ public class TwoPlayerActivity extends Activity implements OnClickListener, Load
     public boolean onMenuItemSelected(int featureId, MenuItem item) {
     	if (R.id.action_restart == item.getItemId()) {
     		restart_game();
-    	} else if (R.id.action_coin == item.getItemId()) {
-    		File sdCardDirectory = Environment
-					.getExternalStorageDirectory();
-			String dirString = sdCardDirectory + "/"
-					+ getString(R.string.app_name) + "/";
-			String newImagePath = dirString + "Player 1.png";
-			Resources res = getResources();
-	        Bitmap bitmap = BitmapFactory.decodeFile(newImagePath);
-	        BitmapDrawable bd = new BitmapDrawable(res, bitmap);
-	        player1_background.setImageDrawable(bd);
-			
+    	} else if (R.id.action_coin == item.getItemId()) {			
 			flip_coin();
     	} else if (R.id.action_dice == item.getItemId()) {
     		roll_dice(20);
@@ -480,7 +470,7 @@ public class TwoPlayerActivity extends Activity implements OnClickListener, Load
 	private void roll_dice(int max_value) {
     	Random random = new Random();
     	//Both random and % seems to like negative values, hence the double trick...
-    	int dice_value = ((random.nextInt() + max_value) % max_value) + 1;
+    	int dice_value = (((random.nextInt() % max_value) + max_value) % max_value) + 1;
 		Toast dice_rolled = Toast.makeText(this, dice_value + (dice_value == 1 ? " :(" : dice_value == max_value ? "!!" : ""), Toast.LENGTH_SHORT);
 		dice_rolled.show();
 	}
