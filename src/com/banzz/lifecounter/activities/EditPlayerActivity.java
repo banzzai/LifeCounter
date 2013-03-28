@@ -233,6 +233,35 @@ public class EditPlayerActivity extends Activity implements OnClickListener, Loa
 			}
 		});
 		
+		Button applyButton = (Button) findViewById(R.id.apply_button);
+		applyButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				AlertDialog dialog = new AlertDialog.Builder(EditPlayerActivity.this).create();
+			    dialog.setTitle(getString(R.string.apply));
+			    String message = getString(R.string.apply_confirmation);
+			    	   
+			    dialog.setMessage(message);
+			    dialog.setCancelable(true);
+			    dialog.setButton(DialogInterface.BUTTON_POSITIVE, EditPlayerActivity.this.getString(android.R.string.ok), new DialogInterface.OnClickListener() {
+			        public void onClick(DialogInterface dialog, int buttonId) {
+			        	Intent applyIntent = new Intent();
+			        	applyIntent.putExtra(Constants.KEY_PLAYER_ONE, players[Constants.PLAYER_ONE]);
+			        	applyIntent.putExtra(Constants.KEY_PLAYER_TWO, players[Constants.PLAYER_TWO]);
+			        	setResult(Activity.RESULT_OK, applyIntent);
+						finish();
+			        }
+			    });
+			    dialog.setButton(DialogInterface.BUTTON_NEGATIVE, EditPlayerActivity.this.getString(R.string.cancel), new DialogInterface.OnClickListener() {
+			    	public void onClick(DialogInterface dialog, int buttonId) {
+			    		dialog.dismiss();        
+			    	}
+			    });
+
+			    dialog.show();
+			}
+		});
+		
 		loadSavedProfiles();
 		updateUI();
 	}
