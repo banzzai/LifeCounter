@@ -103,13 +103,13 @@ public class PickImageActivity extends Activity {
 					int width = size.x;
 					int height = size.y;
 					if (isLarge) {
-						pickCropImageIntent.putExtra("outputX", height / 2);
-						pickCropImageIntent.putExtra("outputY", width);
+						//pickCropImageIntent.putExtra("outputX", height / 2);
+						//pickCropImageIntent.putExtra("outputY", width);
 						pickCropImageIntent.putExtra("aspectX", height / 2);
 						pickCropImageIntent.putExtra("aspectY", width);
 					} else {
-						pickCropImageIntent.putExtra("outputX", width / 2);
-						pickCropImageIntent.putExtra("outputY", height);
+						//pickCropImageIntent.putExtra("outputX", width / 2);
+						//pickCropImageIntent.putExtra("outputY", height);
 						pickCropImageIntent.putExtra("aspectX", width / 2);
 						pickCropImageIntent.putExtra("aspectY", height);
 					}

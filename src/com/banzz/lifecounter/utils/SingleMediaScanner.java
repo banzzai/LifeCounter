@@ -18,8 +18,8 @@ private String mPath;
 
 public SingleMediaScanner(Context context, File imageFile) {
     mPath = imageFile.getAbsolutePath();
-//    mMs = new MediaScannerConnection(context, this);
-//    mMs.connect();
+    mMs = new MediaScannerConnection(context, this);
+    mMs.connect();
 
 }
 

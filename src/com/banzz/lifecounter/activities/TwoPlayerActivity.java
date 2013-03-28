@@ -28,6 +28,7 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -324,8 +325,13 @@ public class TwoPlayerActivity extends Activity implements OnClickListener, Load
         	wheels[player_number].setVisibility(View.GONE);
         }
 		
-		backgrounds[player_number].setImageResource(backgrounds_ids[players[player_number].getBackGroundId()]);
-		backgrounds[player_number].setScaleType(ScaleType.CENTER_CROP);
+		if (players[player_number].getTallBgUrl() != null) {
+			backgrounds[player_number].setImageURI(Uri.parse(players[player_number].getTallBgUrl()));
+			backgrounds[player_number].setScaleType(ScaleType.FIT_XY);
+		} else {
+			backgrounds[player_number].setImageResource(backgrounds_ids[players[player_number].getBackGroundId()]);
+			backgrounds[player_number].setScaleType(ScaleType.CENTER_CROP);
+		}
 	}
 
 	@Override

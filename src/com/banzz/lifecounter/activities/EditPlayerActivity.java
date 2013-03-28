@@ -13,6 +13,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.KeyEvent;
@@ -69,7 +70,6 @@ public class EditPlayerActivity extends Activity implements OnClickListener, Loa
 	private ImageView player0_background;
 
 	private EditText mTextBox;
-	private TextView mResultText;
 	private CheckBox check_wheels;
 	private CheckBox check_buttons;
 
@@ -171,7 +171,6 @@ public class EditPlayerActivity extends Activity implements OnClickListener, Loa
 		});
 		
 		mTextBox = (EditText) findViewById(R.id.edit_name);
-		mResultText = (TextView) findViewById(R.id.image_result);
 		mTextBox.setImeOptions(EditorInfo.IME_ACTION_DONE);
 		mTextBox.setImeActionLabel(getString(R.string.keyboard_go), EditorInfo.IME_ACTION_DONE);
 		mTextBox.setOnEditorActionListener(new OnEditorActionListener() {
@@ -387,8 +386,13 @@ public class EditPlayerActivity extends Activity implements OnClickListener, Loa
         	player_zero_wheel.setVisibility(View.GONE);
         }
 		
-		player0_background.setImageResource(backgrounds_ids[background_id]);
-		player0_background.setScaleType(ScaleType.CENTER_CROP);
+		if (player.getTallBgUrl() != null) {
+			player0_background.setImageURI(Uri.parse(player.getTallBgUrl()));
+			player0_background.setScaleType(ScaleType.FIT_XY);
+		} else {
+			player0_background.setImageResource(backgrounds_ids[background_id]);
+			player0_background.setScaleType(ScaleType.CENTER_CROP);
+		}
 	
 		//Adjusting editor values
 		mTextBox.setText(player.getName());
@@ -449,8 +453,7 @@ public class EditPlayerActivity extends Activity implements OnClickListener, Loa
 	protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
 		switch (requestCode) {
            case Constants.REQUEST_PICK_IMAGES:
-        	   Player playerResult = (Player) intent.getParcelableExtra(Constants.KEY_PLAYER_TARGET);
-        	   mResultText.setText("large:\n"+playerResult.getLargeBgUrl()+"tall:"+playerResult.getTallBgUrl());
+        	   players[mSelectedPlayer] = (Player) intent.getParcelableExtra(Constants.KEY_PLAYER_TARGET);
         	   break;
 		}
 	}
