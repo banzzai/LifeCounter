@@ -460,26 +460,19 @@ public class EditPlayerActivity extends Activity implements OnClickListener, Loa
 	public void onBackPressed() {
 		AlertDialog dialog = new AlertDialog.Builder(this).create();
 	    dialog.setTitle(getString(R.string.Save));
-	    String message = getString(R.string.save_confirmation);
+	    String message = getString(R.string.save_goback_confirmation);
 	    	   
 	    dialog.setMessage(message);
 	    dialog.setCancelable(true);
-	    dialog.setButton(DialogInterface.BUTTON_POSITIVE, EditPlayerActivity.this.getString(android.R.string.yes), new DialogInterface.OnClickListener() {
+	    dialog.setButton(DialogInterface.BUTTON_POSITIVE, EditPlayerActivity.this.getString(R.string.go_back), new DialogInterface.OnClickListener() {
 	        public void onClick(DialogInterface dialog, int buttonId) {
-	        	//TODO Better save on goback
-	        	EditPlayerActivity.this.onValidateSave(Constants.PLAYER_ONE);
-	        	Intent resultIntent = new Intent();
-	        	resultIntent.putExtra(Constants.KEY_PLAYER_ONE, players[Constants.PLAYER_ONE]);
-	        	resultIntent.putExtra(Constants.KEY_PLAYER_TWO, players[Constants.PLAYER_TWO]);
-				setResult(Activity.RESULT_OK, resultIntent);
+	        	setResult(Activity.RESULT_CANCELED, new Intent());
 				finish();
 	        }
 	    });
-	    dialog.setButton(DialogInterface.BUTTON_NEGATIVE, EditPlayerActivity.this.getString(android.R.string.cancel), new DialogInterface.OnClickListener() {
+	    dialog.setButton(DialogInterface.BUTTON_NEGATIVE, EditPlayerActivity.this.getString(R.string.cancel), new DialogInterface.OnClickListener() {
 	    	public void onClick(DialogInterface dialog, int buttonId) {
-	    		//TODO fix text, make sure what goback action we want
-				setResult(Activity.RESULT_CANCELED, new Intent());
-				finish();        
+	    		dialog.dismiss();        
 	    	}
 	    });
 

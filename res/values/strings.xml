@@ -4,6 +4,7 @@
     <!-- General -->
     <string name="app_name">LifeCounter</string>
     <string name="cancel">Cancel</string>
+    <string name="go_back">Go back</string>
     <string name="Save">Save</string>
     <string name="Load">Load</string>
     <string name="sd_not_found">Cannot access SD storage!</string>
@@ -26,6 +27,7 @@
     <!-- Save Player -->
     <string name="save_player">Save Player</string>
     <string name="save_confirmation">Do you want to save current player?</string>
+    <string name="save_goback_confirmation">If you go back now your changes will be lost next time you load your profile. You can still cancel and save if needed.</string>
     <string name="save_overwrite">\nIt will replace existing profile:\n</string>
     <string name="save_error_empty_name">Please enter a player name before saving.</string>
     
