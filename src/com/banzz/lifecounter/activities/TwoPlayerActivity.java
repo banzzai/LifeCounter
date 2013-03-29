@@ -24,6 +24,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -97,6 +98,7 @@ public class TwoPlayerActivity extends Activity implements OnClickListener, Load
 	
 	private WakeLock wl;
 	private boolean mBackGroundLock = false;
+	private int mOrientation = -1;
 
 	@Override
 	protected void onPause() {
@@ -123,6 +125,8 @@ public class TwoPlayerActivity extends Activity implements OnClickListener, Load
 			Toast serious = Toast.makeText(this, "Seriously though, check your settings", Toast.LENGTH_LONG);
 			serious.show();
 		}
+		
+		checkOrientation(getResources().getConfiguration().orientation);
 		updateUI();
 		
 		if (wl == null) {
@@ -137,6 +141,14 @@ public class TwoPlayerActivity extends Activity implements OnClickListener, Load
 			wl.acquire();
 		}
 	};
+	
+	private boolean checkOrientation(int orientation) {
+		if (orientation != mOrientation) {
+			mOrientation = orientation;
+			return true;
+		}
+		return false;
+	}
 	
 	@Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -325,8 +337,11 @@ public class TwoPlayerActivity extends Activity implements OnClickListener, Load
         	wheels[player_number].setVisibility(View.GONE);
         }
 		
-		if (players[player_number].getTallBgUrl() != null) {
+		if (mOrientation == Configuration.ORIENTATION_PORTRAIT && players[player_number].getTallBgUrl() != null) {
 			backgrounds[player_number].setImageURI(Uri.parse(players[player_number].getTallBgUrl()));
+			backgrounds[player_number].setScaleType(ScaleType.FIT_XY);
+		} else if (mOrientation == Configuration.ORIENTATION_LANDSCAPE && players[player_number].getLargeBgUrl() != null) {
+			backgrounds[player_number].setImageURI(Uri.parse(players[player_number].getLargeBgUrl()));
 			backgrounds[player_number].setScaleType(ScaleType.FIT_XY);
 		} else {
 			backgrounds[player_number].setImageResource(backgrounds_ids[players[player_number].getBackGroundId()]);
@@ -511,5 +526,14 @@ public class TwoPlayerActivity extends Activity implements OnClickListener, Load
         	   }
         	   break;
 		}
+	}
+	
+	@Override
+	public void onConfigurationChanged(Configuration newConfig) {
+	  super.onConfigurationChanged(newConfig);
+	  
+	  if (checkOrientation(newConfig.orientation)) {
+		  updateUI();
+	  }
 	}
 }
