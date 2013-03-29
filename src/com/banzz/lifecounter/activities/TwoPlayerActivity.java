@@ -40,6 +40,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
@@ -256,8 +257,15 @@ public class TwoPlayerActivity extends Activity implements OnClickListener, Load
 		player2_rotate(preferences.getBoolean(getString(R.string.key_rotate_player2), false));
 		
 		initArrays();
-		
 		updateUI();
+		
+		Button close_wizard = (Button) findViewById(R.id.close_wizard);
+		close_wizard.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				findViewById(R.id.wizard_layout).setVisibility(View.GONE);
+			}
+		});
 	}
 
 

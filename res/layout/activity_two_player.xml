@@ -3,7 +3,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".TwoPlayerActivity" >
-
     <!--
          The primary full-screen view. This can be replaced with whatever view
          is needed to present your content, e.g. VideoView, SurfaceView,
@@ -152,4 +151,27 @@
             
 		</LinearLayout>
 
+        <RelativeLayout
+            android:id="@+id/wizard_layout"
+	        android:layout_width="match_parent"
+	        android:layout_height="match_parent"
+	        android:background="#990055BB"
+        >
+			<Button
+			    android:id="@+id/close_wizard"
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content"
+			    android:layout_alignParentTop="true"
+			    android:layout_alignParentRight="true"
+			    android:text="X"
+			    />
+	        <TextView 
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_centerInParent="true"
+	            style="@style/ButtonSmall"
+	            android:text="Here's MTG20 LifeCounter, where all dreams come true. Step in, have a seat, take a deep breath, and click on the button at the top of the screen."
+	        />
+    </RelativeLayout>
+        
 </RelativeLayout>
