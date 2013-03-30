@@ -13,6 +13,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -54,6 +55,7 @@ public class EditPlayerActivity extends Activity implements OnClickListener, Loa
 	private Player player_1 = new Player();
 	private Player player_2 = new Player();
 	private Player[] players = {player_1, player_2};
+	private int mOrientation = -1;
 	
 	private int backgrounds_ids[] =
             new int[] {R.drawable.azorius, R.drawable.boros, R.drawable.dimir, R.drawable.golgari, R.drawable.rakdos,
@@ -84,6 +86,7 @@ public class EditPlayerActivity extends Activity implements OnClickListener, Loa
 	@Override
 	protected void onResume() {
 		super.onResume();
+		checkOrientation(getResources().getConfiguration().orientation);
 		updateUI();
 	};
 	
@@ -415,14 +418,18 @@ public class EditPlayerActivity extends Activity implements OnClickListener, Loa
         	player_zero_wheel.setVisibility(View.GONE);
         }
 		
-		if (player.getTallBgUrl() != null) {
-			player0_background.setImageURI(Uri.parse(player.getTallBgUrl()));
+		String tallUrl = player.getTallBgUrl();
+		String largeUrl = player.getLargeBgUrl();
+		if (tallUrl != null || largeUrl != null) {
+			player0_background.setImageURI(Uri.parse(mOrientation == Configuration.ORIENTATION_PORTRAIT ? 
+					tallUrl != null ? tallUrl : largeUrl
+					: largeUrl != null ? largeUrl : tallUrl));
 			player0_background.setScaleType(ScaleType.FIT_XY);
 		} else {
 			player0_background.setImageResource(backgrounds_ids[background_id]);
 			player0_background.setScaleType(ScaleType.CENTER_CROP);
 		}
-	
+		
 		//Adjusting editor values
 		mTextBox.setText(player.getName());
 		
@@ -430,6 +437,14 @@ public class EditPlayerActivity extends Activity implements OnClickListener, Loa
 		check_wheels.setChecked(player.showWheel());
 	}
 
+	private boolean checkOrientation(int orientation) {
+		if (orientation != mOrientation) {
+			mOrientation = orientation;
+			return true;
+		}
+		return false;
+	}
+	
 	@Override
 	public void onClick(View clickedView) {
 		if (clickedView.equals(mBigLife0)) {
@@ -509,5 +524,14 @@ public class EditPlayerActivity extends Activity implements OnClickListener, Loa
 	    });
 
 	    dialog.show();
+	}
+	
+	@Override
+	public void onConfigurationChanged(Configuration newConfig) {
+	  super.onConfigurationChanged(newConfig);
+	  
+	  if (checkOrientation(newConfig.orientation)) {
+		  updateUI();
+	  }
 	}
 }

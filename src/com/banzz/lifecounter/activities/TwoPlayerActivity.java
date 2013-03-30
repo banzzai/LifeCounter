@@ -36,6 +36,7 @@ import android.os.Environment;
 import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
 import android.preference.PreferenceManager;
+import android.test.suitebuilder.annotation.LargeTest;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -345,11 +346,12 @@ public class TwoPlayerActivity extends Activity implements OnClickListener, Load
         	wheels[player_number].setVisibility(View.GONE);
         }
 		
-		if (mOrientation == Configuration.ORIENTATION_PORTRAIT && players[player_number].getTallBgUrl() != null) {
-			backgrounds[player_number].setImageURI(Uri.parse(players[player_number].getTallBgUrl()));
-			backgrounds[player_number].setScaleType(ScaleType.FIT_XY);
-		} else if (mOrientation == Configuration.ORIENTATION_LANDSCAPE && players[player_number].getLargeBgUrl() != null) {
-			backgrounds[player_number].setImageURI(Uri.parse(players[player_number].getLargeBgUrl()));
+		String tallUrl = players[player_number].getTallBgUrl();
+		String largeUrl = players[player_number].getLargeBgUrl();
+		if (tallUrl != null || largeUrl != null) {
+			backgrounds[player_number].setImageURI(Uri.parse(mOrientation == Configuration.ORIENTATION_PORTRAIT ? 
+					tallUrl != null ? tallUrl : largeUrl
+					: largeUrl != null ? largeUrl : tallUrl));
 			backgrounds[player_number].setScaleType(ScaleType.FIT_XY);
 		} else {
 			backgrounds[player_number].setImageResource(backgrounds_ids[players[player_number].getBackGroundId()]);
