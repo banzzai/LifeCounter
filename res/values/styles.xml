@@ -38,6 +38,12 @@
         <item name="android:textSize">100sp</item>
     </style>
 
+    <style name="poison">
+        <item name="android:textColor">@color/poison</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">40sp</item>
+    </style>
+    
     <style name="error">
         <item name="android:textColor">@color/error</item>
         <item name="android:textSize">15sp</item>

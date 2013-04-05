@@ -1,42 +1,22 @@
 package com.banzz.lifecounter.activities;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.util.Random;
 
 import kankan.wheel.widget.OnWheelScrollListener;
 import kankan.wheel.widget.WheelView;
-
-import com.banzz.lifecounter.R;
-import com.banzz.lifecounter.utils.SystemUiHider;
-import com.banzz.lifecounter.utils.Utils.Constants;
-import com.banzz.lifecounter.commons.LifeAdapter;
-import com.banzz.lifecounter.commons.Player;
-import com.google.gson.Gson;
-
 import android.annotation.TargetApi;
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.res.Configuration;
-import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
 import android.preference.PreferenceManager;
-import android.test.suitebuilder.annotation.LargeTest;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -45,8 +25,17 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
+import android.widget.SeekBar;
+import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.banzz.lifecounter.R;
+import com.banzz.lifecounter.commons.LifeAdapter;
+import com.banzz.lifecounter.commons.Player;
+import com.banzz.lifecounter.utils.SystemUiHider;
+import com.banzz.lifecounter.utils.Utils.Constants;
+import com.banzz.lifecounter.utils.VerticalSeekBar;
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
@@ -100,7 +89,15 @@ public class TwoPlayerActivity extends Activity implements OnClickListener, Load
 	
 	private WakeLock wl;
 	private boolean mBackGroundLock = false;
+	private boolean mShowPoison = true;
 	private int mOrientation = -1;
+	
+	private VerticalSeekBar poisonBar1;
+	private VerticalSeekBar poisonBar2;
+	private TextView poisonCount1;
+	private TextView poisonCount2;
+	private int poisonValue1 = 0;
+	private int poisonValue2 = 0;
 
 	@Override
 	protected void onPause() {
@@ -116,6 +113,7 @@ public class TwoPlayerActivity extends Activity implements OnClickListener, Load
 	protected void onResume() {
 		super.onResume();
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+		mShowPoison = preferences.getBoolean(getString(R.string.key_show_poison), true);
 		
 		try {
 			LIFE_START = Integer.valueOf(preferences.getString(getString(R.string.key_life_start), "20"));
@@ -249,8 +247,47 @@ public class TwoPlayerActivity extends Activity implements OnClickListener, Load
 			}
 		});
 		
+		poisonBar1 = (VerticalSeekBar) findViewById(R.id.poisonBar1);
+		poisonBar1.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
+			@Override
+			public void onStopTrackingTouch(SeekBar seekBar) {
+				poisonCount1.setText(""+seekBar.getProgress());
+				return;
+			}
+			@Override
+			public void onStartTrackingTouch(SeekBar seekBar) {
+				return;
+			}
+			@Override
+			public void onProgressChanged(SeekBar seekBar, int progress,
+					boolean fromUser) {
+				return;				
+			}
+		});
+		poisonCount1 = (TextView) findViewById(R.id.poisonCount1);
+		
+		poisonBar2 = (VerticalSeekBar) findViewById(R.id.poisonBar2);
+		poisonBar2.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
+			@Override
+			public void onStopTrackingTouch(SeekBar seekBar) {
+				poisonCount2.setText(""+seekBar.getProgress());
+				return;
+			}
+			@Override
+			public void onStartTrackingTouch(SeekBar seekBar) {
+				return;
+			}
+			@Override
+			public void onProgressChanged(SeekBar seekBar, int progress,
+					boolean fromUser) {
+				return;				
+			}
+		});
+		poisonCount2 = (TextView) findViewById(R.id.poisonCount2);
+		
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
 		mBackGroundLock = preferences.getBoolean(getString(R.string.key_background_lock), false);
+		mShowPoison		= preferences.getBoolean(getString(R.string.key_show_poison), true);
 		player1_back_number = preferences.getInt(getString(R.string.key_back1), 0);
 		player2_back_number = preferences.getInt(getString(R.string.key_back2), 1);
 		setLife(player_one_wheel, preferences.getInt(getString(R.string.key_life1), 20), true);
@@ -301,6 +338,20 @@ public class TwoPlayerActivity extends Activity implements OnClickListener, Load
 
 	//This function should just update what shows on screen, and not change any value. This is not starting a new game!
 	private void updateUI() {
+		if (mShowPoison) {
+			poisonBar1.setVisibility(View.VISIBLE);
+			poisonBar2.setVisibility(View.VISIBLE);
+			poisonCount1.setVisibility(View.VISIBLE);
+			poisonCount2.setVisibility(View.VISIBLE);
+			poisonCount1.setText(""+poisonValue1);
+			poisonCount2.setText(""+poisonValue2);
+		} else {
+			poisonBar1.setVisibility(View.GONE);
+			poisonBar2.setVisibility(View.GONE);
+			poisonCount1.setVisibility(View.GONE);
+			poisonCount2.setVisibility(View.GONE);
+		}
+		
 		for (int i=0; i<PLAYER_NUMBER; i++) {
 			updatePlayerUI(i);
 		}
