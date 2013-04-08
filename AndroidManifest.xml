@@ -48,5 +48,15 @@
             android:name="com.banzz.lifecounter.activities.PickImageActivity"
             android:theme="@android:style/Theme.Black">
         </activity>
+        
+        <activity
+            android:name="com.banzz.lifecounter.activities.TournamentActivity"
+            android:theme="@android:style/Theme.Black">
+        </activity>
+        
+        <activity
+            android:name="com.banzz.lifecounter.activities.RoundActivity"
+            android:theme="@android:style/Theme.Black">
+        </activity>
 	</application>
 </manifest>

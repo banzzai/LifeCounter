@@ -17,9 +17,12 @@ public class Utils {
 		public static final int REQUEST_PICK_IMAGES 	= 1;
 		public static final int REQUEST_PICK_IMAGE 		= 2;
 		public static final int REQUEST_PICK_CROP_IMAGE = 3;
-		public static final String KEY_PLAYER_TARGET 	= "player_target";
-		public static final String KEY_PLAYER_ONE 		= "player_one";
-		public static final String KEY_PLAYER_TWO	 	= "player_two";
+		public static final int REQUEST_NEXT_ROUND 		= 4;
+		
+		public static final String KEY_PLAYER_TARGET	 	= "player_target";
+		public static final String KEY_PLAYER_ONE 			= "player_one";
+		public static final String KEY_PLAYER_TWO			= "player_two";
+		public static final String KEY_TOURNAMENT_PLAYERS	= "tournament_players";
 		
 		//Config
 		public static final String PROFILES_FILE_NAME 	= "/players.JSON";

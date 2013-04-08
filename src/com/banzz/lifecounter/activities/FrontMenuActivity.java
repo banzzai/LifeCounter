@@ -51,5 +51,14 @@ public class FrontMenuActivity extends android.app.Activity {
 				startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.PAYPAL_DONATIONS)));
 			}
 		});
+        
+        Button mTournament = (Button) findViewById(R.id.tournament_button);
+        mTournament.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				startActivity(new Intent(getApplicationContext(), TournamentActivity.class));
+			}
+		});
 	}
 }

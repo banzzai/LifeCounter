@@ -45,6 +45,7 @@
     <string name="button_settings">Settings</string>
     <string name="button_pick_images">Pick images</string>
     <string name="donations">Donations</string>
+    <string name="tournament">Tournament</string>
     
     <!-- Context menu -->
     <string name="string_action_lock">Lock images</string>
@@ -85,4 +86,7 @@
     <string name="show_poison">Show Poison</string>
     <string name="color_pick">Color</string>
     <string name="pick_a_color">for labels</string> 
+    
+    <!-- Tournament view -->
+    <string name="next_round">Next round</string>
 </resources>
