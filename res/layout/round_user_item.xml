@@ -6,23 +6,74 @@
     android:focusable="false"
     android:gravity="center" >
   
-  <EditText 
-      android:id="@+id/player1_name"
-      android:gravity="center_horizontal"
-	  android:layout_width="fill_parent"
-	  android:layout_height="wrap_content"
-	  android:focusable="false"
-	  android:textSize="30sp"
-	  android:textColor="#000000"
-	  android:textStyle="bold"/>
+	<LinearLayout
+	    android:layout_width="match_parent"
+	    android:layout_height="match_parent"
+	    android:orientation="horizontal"
+	> 
+		<EditText 
+	    	android:id="@+id/player1_name"
+	    	android:gravity="center_horizontal"
+			android:layout_weight="9"
+			android:layout_width="0px"
+			android:layout_height="wrap_content"
+			android:focusable="false"
+			android:textSize="30sp"
+			android:textColor="#000000"
+			android:textStyle="bold"/>
   
-  <EditText 
-      android:id="@+id/player2_name"
-      android:gravity="center_horizontal"
-	  android:layout_width="fill_parent"
-	  android:layout_height="wrap_content"
-	  android:focusable="false"
-	  android:textSize="30sp"
-	  android:textColor="#FF0000"
-	  android:textStyle="bold"/>
+		<kankan.wheel.widget.WheelView
+			android:id="@+id/player1_wins"
+			android:layout_weight="2"
+			android:layout_width="0px"
+			android:layout_height="match_parent" />
+		
+		<kankan.wheel.widget.WheelView
+			android:id="@+id/player1_losses"
+			android:layout_weight="2"
+			android:layout_width="0px"
+			android:layout_height="match_parent" />
+		
+		<kankan.wheel.widget.WheelView
+			android:id="@+id/player1_draws"
+			android:layout_weight="2"
+			android:layout_width="0px"
+			android:layout_height="match_parent" />
+	</LinearLayout>
+	
+
+	<LinearLayout
+	    android:layout_width="match_parent"
+	    android:layout_height="match_parent"
+	    android:orientation="horizontal"
+	> 
+		<EditText 
+	    	android:id="@+id/player2_name"
+	    	android:gravity="center_horizontal"
+	    	android:layout_weight="9"
+			android:layout_width="0px"
+			android:layout_height="wrap_content"
+			android:focusable="false"
+			android:textSize="30sp"
+			android:textColor="#000000"
+			android:textStyle="bold" />
+  
+		<kankan.wheel.widget.WheelView
+			android:id="@+id/player2_wins"
+			android:layout_weight="2"
+			android:layout_width="0px"
+			android:layout_height="match_parent" />
+		
+		<kankan.wheel.widget.WheelView
+			android:id="@+id/player2_losses"
+			android:layout_weight="2"
+			android:layout_width="0px"
+			android:layout_height="match_parent" />
+		
+		<kankan.wheel.widget.WheelView
+			android:id="@+id/player2_draws"
+			android:layout_weight="2"
+			android:layout_width="0px"
+			android:layout_height="match_parent" />
+	</LinearLayout>
 </LinearLayout>
