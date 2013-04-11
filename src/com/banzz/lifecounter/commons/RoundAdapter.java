@@ -1,19 +1,22 @@
 package com.banzz.lifecounter.commons;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import kankan.wheel.widget.OnWheelChangedListener;
 import kankan.wheel.widget.WheelView;
-import kankan.wheel.widget.adapters.AbstractWheelAdapter;
 import kankan.wheel.widget.adapters.AbstractWheelTextAdapter;
 import android.app.Activity;
 import android.content.Context;
 import android.database.DataSetObserver;
+import android.location.Address;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Adapter;
+import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 
@@ -21,11 +24,16 @@ import com.banzz.lifecounter.R;
 
 public class RoundAdapter implements ListAdapter {
 	private ArrayList<Match> matches = new ArrayList<Match>();
+	// Should be refactor to merge matches and games
+	HashMap<Integer, Game> mGames;
+	HashMap<Integer, EditText> ScoreFields = new HashMap<Integer, EditText>();
 	private Context mContext;
 	
-	public RoundAdapter(Context context, ArrayList<Match> matches) {
+	public RoundAdapter(Context context, ArrayList<Match> matches, HashMap<Integer, Game> games) {
+		// This is obviously a missuse of the adapter, but heh
 		this.matches = matches;
 		this.mContext = context;
+		this.mGames = games;
 	}
 	
 	@Override
@@ -34,8 +42,8 @@ public class RoundAdapter implements ListAdapter {
 	}
 
 	@Override
-	public Object getItem(int index) {
-		return matches.get(index);
+	public Game getItem(int index) {
+		return mGames.get(0);
 	}
 
 	@Override
@@ -55,40 +63,73 @@ public class RoundAdapter implements ListAdapter {
 		if (convertView == null) {
 			view = inflater.inflate(R.layout.round_user_item, null);
 		}
-
-		TournamentPlayer player1 = matches.get(index).player1;
-		TournamentPlayer player2 = matches.get(index).player2;
 		
-		// FIRST PLAYER
-		EditText userName = (EditText) view.findViewById(R.id.player1_name);
-		userName.setText(player1.getName());
-
-		WheelView winWheel = (WheelView) view.findViewById(R.id.player1_wins);
-		winWheel.setViewAdapter(new RoundWheelAdapter(mContext, 0, 3, "W"));
-		
-		WheelView lossWheel = (WheelView) view.findViewById(R.id.player1_losses);
-		lossWheel.setViewAdapter(new RoundWheelAdapter(mContext, 0, 3, "L"));
-		
-		WheelView drawWheel = (WheelView) view.findViewById(R.id.player1_draws);
-		drawWheel.setViewAdapter(new RoundWheelAdapter(mContext, 0, 9, "D"));
+		final TournamentPlayer player1 = matches.get(index).player1;
+		final TournamentPlayer player2 = matches.get(index).player2;
 		
 		// SECOND PLAYER
 		EditText userName2 = (EditText) view.findViewById(R.id.player2_name);
 		userName2.setText("Vs. " + player2.getName());
+		// I don't like it, but it's not easy having values of a row in an adapter modified from another row
+		final EditText scoreCount2 = (EditText) view.findViewById(R.id.player2_score);
+		if (ScoreFields.get(player2.getId()) == null) {
+			ScoreFields.put(player2.getId(), scoreCount2);
+			scoreCount2.setText("0-0-0");
+		}
 		
-		WheelView winWheel2 = (WheelView) view.findViewById(R.id.player2_wins);
-		winWheel2.setViewAdapter(new RoundWheelAdapter(mContext, 0, 3, "W"));
+		// FIRST PLAYER
+		EditText userName = (EditText) view.findViewById(R.id.player1_name);
+		userName.setText(player1.getName());
+		final WheelView winWheel = (WheelView) view.findViewById(R.id.player1_wins);
+		winWheel.setViewAdapter(new RoundWheelAdapter(mContext, 0, 2, "W"));
+		final WheelView lossWheel = (WheelView) view.findViewById(R.id.player1_losses);
+		lossWheel.setViewAdapter(new RoundWheelAdapter(mContext, 0, 2, "L"));
+		final WheelView drawWheel = (WheelView) view.findViewById(R.id.player1_draws);
+		drawWheel.setViewAdapter(new RoundWheelAdapter(mContext, 0, 9, "D"));
 		
-		WheelView lossWheel2 = (WheelView) view.findViewById(R.id.player2_losses);
-		lossWheel2.setViewAdapter(new RoundWheelAdapter(mContext, 0, 3, "L"));
-		
-		WheelView drawWheel2 = (WheelView) view.findViewById(R.id.player2_draws);
-		drawWheel2.setViewAdapter(new RoundWheelAdapter(mContext, 0, 9, "D"));
+		winWheel.addChangingListener(new OnWheelChangedListener() {
+			@Override
+			public void onChanged(WheelView wheel, int oldValue, int newValue) {
+				mGames.get(player1.getId()).setWins(newValue);
+				mGames.get(player2.getId()).setLosses(newValue);
+				
+				ScoreFields.get(player2.getId()).setText(getScoreWithLosses(mGames.get(player2.getId()), newValue));
+			}
+		});
+		lossWheel.addChangingListener(new OnWheelChangedListener() {
+			@Override
+			public void onChanged(WheelView wheel, int oldValue, int newValue) {
+				mGames.get(player1.getId()).setLosses(newValue);
+				mGames.get(player2.getId()).setWins(newValue);
+				
+				ScoreFields.get(player2.getId()).setText(getScoreWithWins(mGames.get(player2.getId()), newValue));
+			}
+		});
+		drawWheel.addChangingListener(new OnWheelChangedListener() {
+			@Override
+			public void onChanged(WheelView wheel, int oldValue, int newValue) {
+				mGames.get(player1.getId()).setDraws(newValue);
+				mGames.get(player2.getId()).setDraws(newValue);
+				
+				ScoreFields.get(player2.getId()).setText(getScoreWithDraws(mGames.get(player2.getId()), newValue));
+			}
+		});
 		
 		return view;
-
 	}
-
+	
+	private CharSequence getScoreWithWins(Game game, int newValue) {
+		return newValue+"-"+game.getLosses()+"-"+game.getDraws();
+	}
+	
+	private CharSequence getScoreWithLosses(Game game, int newValue) {
+		return game.getWins()+"-"+newValue+"-"+game.getDraws();
+	}
+	
+	private CharSequence getScoreWithDraws(Game game, int newValue) {
+		return game.getWins()+"-"+game.getLosses()+"-"+newValue;
+	}
+	
 	@Override
 	public int getViewTypeCount() {
 		return 1;
@@ -113,16 +154,6 @@ public class RoundAdapter implements ListAdapter {
 	@Override
 	public void unregisterDataSetObserver(DataSetObserver arg0) {
 		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public boolean areAllItemsEnabled() {
-		return true;
-	}
-
-	@Override
-	public boolean isEnabled(int arg0) {
-		return true;
 	}
 
 	private class RoundWheelAdapter extends AbstractWheelTextAdapter {
@@ -156,5 +187,17 @@ public class RoundAdapter implements ListAdapter {
 	    protected CharSequence getItemText(int index) {
 	        return String.format("%d", mMinimum + index);
 	    }
+	}
+
+	@Override
+	public boolean areAllItemsEnabled() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean isEnabled(int arg0) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }

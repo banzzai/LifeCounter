@@ -29,6 +29,15 @@ public class Game implements Parcelable {
 	public int getDraws() {
 		return draws;
 	}
+	public void setWins(int wins) {
+		this.wins = wins;
+	}
+	public void setLosses(int losses) {
+		this.losses = losses;
+	}
+	public void setDraws(int draws) {
+		this.draws = draws;
+	}
 	public int getMatchCount() {
 		return wins+losses+draws;
 	}
