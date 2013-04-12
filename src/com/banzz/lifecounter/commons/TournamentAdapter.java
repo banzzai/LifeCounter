@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import android.app.Activity;
 import android.content.Context;
 import android.database.DataSetObserver;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,7 +54,13 @@ public class TournamentAdapter implements ListAdapter {
 		TournamentPlayer player = players.get(index);
 		
 		EditText userName = (EditText) view.findViewById(R.id.player_name);
-		userName.setText(player.getName() + " "+player.getWins()+"-"+player.getLosses()+(player.getDraws() != 0 ? "-"+player.getDraws():"")+" "+player.getScore()+"pts "+player.getPercentage()+"%");
+		String playerText = "#" + (index + 1) + ". " + player.getName() + " with " + player.getScore() + "pts." + "\n" 
+							+ "matches: " + player.getWins() + "-" + player.getLosses() + (player.getDraws() != 0 ? "-" + player.getDraws():"") + " " 
+							+ "games: " + player.getTotalWins() + "/" + player.getGameCount() + " (" + player.getPercentage() + "%)";
+		userName.setText(playerText);
+		
+		int red = (int)(255*(index+1)/players.size());
+		userName.setBackgroundColor(Color.argb(255, red, 255 - red, 0));
 		
 		return view;
 

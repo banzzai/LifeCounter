@@ -89,6 +89,6 @@
     
     <!-- Tournament view -->
     <string name="next_round">Next round</string>
-    <string name="Validate">Validate</string>
+    <string name="Submit">Submit</string>
     <string name="validate_round">Please confirm the following results:</string>
 </resources>

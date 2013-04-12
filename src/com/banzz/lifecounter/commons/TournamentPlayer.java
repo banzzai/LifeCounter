@@ -100,6 +100,15 @@ public class TournamentPlayer implements Parcelable {
 	public int getMatchCount() {
 		return results == null ? 0 : results.size();
 	}
+
+	public int getTotalWins() {
+		int gWins = 0;
+		
+		for (Game game: results) {
+			gWins += game.getWins();
+		}
+		return gWins;
+	}
 	
 	@Override
 	public int describeContents() {

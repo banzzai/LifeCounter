@@ -6,22 +6,20 @@ import java.util.HashMap;
 import kankan.wheel.widget.OnWheelChangedListener;
 import kankan.wheel.widget.WheelView;
 import kankan.wheel.widget.adapters.AbstractWheelTextAdapter;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.database.DataSetObserver;
-import android.location.Address;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Adapter;
-import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 
 import com.banzz.lifecounter.R;
 
+@SuppressLint("UseSparseArrays")
 public class RoundAdapter implements ListAdapter {
 	private ArrayList<Match> matches = new ArrayList<Match>();
 	// Should be refactor to merge matches and games
@@ -74,7 +72,7 @@ public class RoundAdapter implements ListAdapter {
 		final EditText scoreCount2 = (EditText) view.findViewById(R.id.player2_score);
 		if (ScoreFields.get(player2.getId()) == null) {
 			ScoreFields.put(player2.getId(), scoreCount2);
-			scoreCount2.setText("0-0-0");
+			scoreCount2.setText("0-0");
 		}
 		
 		// FIRST PLAYER
@@ -119,15 +117,19 @@ public class RoundAdapter implements ListAdapter {
 	}
 	
 	private CharSequence getScoreWithWins(Game game, int newValue) {
-		return newValue+"-"+game.getLosses()+"-"+game.getDraws();
+		return getScore(newValue, game.getLosses(), game.getDraws());
 	}
 	
 	private CharSequence getScoreWithLosses(Game game, int newValue) {
-		return game.getWins()+"-"+newValue+"-"+game.getDraws();
+		return getScore(game.getWins(), newValue, game.getDraws());
 	}
 	
 	private CharSequence getScoreWithDraws(Game game, int newValue) {
-		return game.getWins()+"-"+game.getLosses()+"-"+newValue;
+		return getScore(game.getWins(), game.getLosses(), newValue);
+	}
+	
+	private CharSequence getScore(int wins, int losses, int draws){
+		return wins+"-"+losses+(draws!=0?"-"+draws:"");
 	}
 	
 	@Override
@@ -185,7 +187,7 @@ public class RoundAdapter implements ListAdapter {
 	    
 	    @Override
 	    protected CharSequence getItemText(int index) {
-	        return String.format("%d", mMinimum + index);
+	        return "" + (mMinimum + index);
 	    }
 	}
 

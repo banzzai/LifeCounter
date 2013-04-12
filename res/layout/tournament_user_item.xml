@@ -11,8 +11,9 @@
       android:gravity="center_horizontal"
 	  android:layout_width="fill_parent"
 	  android:layout_height="wrap_content"
+	  android:inputType="textMultiLine|textNoSuggestions"
 	  android:focusable="false"
-	  android:textSize="30sp"
+	  android:textSize="20sp"
 	  android:textColor="#F000"
 	  android:textStyle="bold"/>
 </LinearLayout>

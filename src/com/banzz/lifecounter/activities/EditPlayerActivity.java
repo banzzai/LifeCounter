@@ -494,6 +494,7 @@ public class EditPlayerActivity extends Activity implements OnClickListener, Loa
 		updateUI();
 	}
 	
+	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
 		switch (requestCode) {
            case Constants.REQUEST_PICK_IMAGES:

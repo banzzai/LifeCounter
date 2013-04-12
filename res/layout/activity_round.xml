@@ -29,6 +29,6 @@
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:layout_weight="9"
-            android:text="@string/next_round" 
+            android:text="@string/Submit" 
         />
 </LinearLayout>
