@@ -11,6 +11,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -100,7 +101,7 @@ public class RoundActivity extends Activity {
 		if (tempList.get(0).getPastOpponents().isEmpty()) {
 			Collections.shuffle(tempList);
 		} else {
-			Collections.sort(tempList, new PlayerComparator());
+			Collections.sort(tempList, new PlayerComparator(false));
 		}
 		
 		// Not sure what to do when we looped; for now we'll stop
@@ -108,12 +109,14 @@ public class RoundActivity extends Activity {
 		
 		if (tempList.size() % 2 == 1) {
 			// Giving a bye to the last player
+			Log.e("PAIRING", "Giving a bye to " + tempList.get(tempList.size() -1).getName());
 			tempList.remove(tempList.size() -1);
 		}
 		
 		int pairingNeeded = tempList.size() / 2;
 		
 		while (matches.size() < pairingNeeded && attempt <= tempList.size()) {
+			Log.e("PAIRING", "Attempt #" + attempt);
 			matchUp(tempList);
 			
 			attempt++;
@@ -121,18 +124,72 @@ public class RoundActivity extends Activity {
 	}
 	
 	private void matchUp(ArrayList<TournamentPlayer> tempList) {
-		TournamentPlayer currentPlayer = tempList.get(0);
-		int opponentIndex = 1; 
-
-		while (opponentIndex < tempList.size()) {
-			if (!currentPlayer.getPastOpponents().contains(tempList.get(opponentIndex).getId())) 
-			{
-				matches.add(new Match(tempList.get(0), tempList.get(opponentIndex)));
-				tempList.remove(opponentIndex);
-				tempList.remove(0);
-				return;
+		if (tempList.size() == 2) {
+			Log.e("PAIRING", "No choice left, picking " + tempList.get(0).getName() + " and " + tempList.get(1).getName());
+			if (tempList.get(0).getPastOpponents().contains(tempList.get(1).getId())) {
+				Log.e("PAIRING", "Though they already played");
 			}
-			opponentIndex++;
+			matches.add(new Match(tempList.get(0), tempList.get(1)));
+			tempList.remove(1);
+			tempList.remove(0);
+			return;
 		}
+		
+		TournamentPlayer currentPlayer = tempList.get(0);
+		int opponentIndex = 1;
+		int targetScore = currentPlayer.getScore();
+		boolean picked = false;
+		
+		Log.e("PAIRING", "Picking for " + currentPlayer.getName() + ",  score " + currentPlayer.getScore());
+		
+		while (!picked) {
+			Log.e("PAIRING", "Checking out score " + targetScore);	
+			ArrayList<TournamentPlayer> candidates = new ArrayList<TournamentPlayer>();
+			for (TournamentPlayer otherPlayer: tempList) {
+				if (otherPlayer.getScore() == targetScore) {
+					if (!currentPlayer.getPastOpponents().contains(otherPlayer.getId()) && !otherPlayer.equals(currentPlayer)) {
+						Log.e("PAIRING", otherPlayer.getName() + " good candidate.");
+						candidates.add(otherPlayer);
+					}
+					else {
+						Log.e("PAIRING", otherPlayer.getName() + " already played against.");
+					}
+				}
+				else
+				{
+					if (otherPlayer.getScore() > targetScore) {
+						// We have already moved on to lower scores
+						continue;
+					}
+					else if (candidates.isEmpty()) {
+						Log.e("PAIRING", "New target score " + otherPlayer.getScore());
+						targetScore = otherPlayer.getScore();
+					}
+					break;
+				}
+			}
+			
+			if (!candidates.isEmpty()) {
+				// Should be able to take a pick now
+				Collections.shuffle(candidates);
+				TournamentPlayer pickedPlayer = candidates.get(0);
+				Log.e("PAIRING", "Picking at random out of " + candidates.size() + ": choosing " + pickedPlayer.getName());
+				matches.add(new Match(currentPlayer, pickedPlayer));
+				tempList.remove(pickedPlayer);
+				tempList.remove(currentPlayer);
+				picked = true;
+			}
+		}
+		
+//		while (opponentIndex < tempList.size()) {
+//			if (!currentPlayer.getPastOpponents().contains(tempList.get(opponentIndex).getId())) 
+//			{
+//				matches.add(new Match(tempList.get(0), tempList.get(opponentIndex)));
+//				tempList.remove(opponentIndex);
+//				tempList.remove(0);
+//				return;
+//			}
+//			opponentIndex++;
+//		}
 	}
 }

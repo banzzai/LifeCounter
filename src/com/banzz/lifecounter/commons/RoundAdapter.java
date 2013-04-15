@@ -13,7 +13,6 @@ import android.database.DataSetObserver;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 
@@ -24,7 +23,7 @@ public class RoundAdapter implements ListAdapter {
 	private ArrayList<Match> matches = new ArrayList<Match>();
 	// Should be refactor to merge matches and games
 	HashMap<Integer, Game> mGames;
-	HashMap<Integer, EditText> ScoreFields = new HashMap<Integer, EditText>();
+	HashMap<Integer, TextView> ScoreFields = new HashMap<Integer, TextView>();
 	private Context mContext;
 	
 	public RoundAdapter(Context context, ArrayList<Match> matches, HashMap<Integer, Game> games) {
@@ -66,17 +65,17 @@ public class RoundAdapter implements ListAdapter {
 		final TournamentPlayer player2 = matches.get(index).player2;
 		
 		// SECOND PLAYER
-		EditText userName2 = (EditText) view.findViewById(R.id.player2_name);
+		TextView userName2 = (TextView) view.findViewById(R.id.player2_name);
 		userName2.setText("Vs. " + player2.getName());
 		// I don't like it, but it's not easy having values of a row in an adapter modified from another row
-		final EditText scoreCount2 = (EditText) view.findViewById(R.id.player2_score);
+		final TextView scoreCount2 = (TextView) view.findViewById(R.id.player2_score);
 		if (ScoreFields.get(player2.getId()) == null) {
 			ScoreFields.put(player2.getId(), scoreCount2);
 			scoreCount2.setText("0-0");
 		}
 		
 		// FIRST PLAYER
-		EditText userName = (EditText) view.findViewById(R.id.player1_name);
+		TextView userName = (TextView) view.findViewById(R.id.player1_name);
 		userName.setText(player1.getName());
 		final WheelView winWheel = (WheelView) view.findViewById(R.id.player1_wins);
 		winWheel.setViewAdapter(new RoundWheelAdapter(mContext, 0, 2, "W"));
@@ -185,7 +184,8 @@ public class RoundAdapter implements ListAdapter {
 	        return mMaximum - mMinimum + 1;
 	    }
 	    
-	    @Override
+	    @SuppressLint("DefaultLocale")
+		@Override
 	    protected CharSequence getItemText(int index) {
 	        return "" + (mMinimum + index);
 	    }

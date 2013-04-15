@@ -88,6 +88,7 @@
     <string name="pick_a_color">for labels</string> 
     
     <!-- Tournament view -->
+    <string name="Round">Round</string>
     <string name="next_round">Next round</string>
     <string name="Submit">Submit</string>
     <string name="validate_round">Please confirm the following results:</string>

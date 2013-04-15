@@ -16,19 +16,29 @@
          android:fitsSystemWindows.
     -->
 
+		<TextView 
+		    android:id="@+id/tournament_round"
+		    android:layout_height="0px"
+		    android:layout_width="match_parent"
+		    android:layout_weight="1"
+		    android:gravity="center"
+		    android:textSize="25sp"
+		    android:textStyle="bold"
+	    />
+
         <ListView
             android:id="@+id/player_list"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_height="0px"
+            android:layout_weight="8"
 		/>
         
         <Button
             android:id="@+id/next_round"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="0px"
             android:layout_gravity="center"
-            android:layout_weight="9"
+            android:layout_weight="1"
             android:text="@string/next_round" 
         />
 </LinearLayout>

@@ -10,10 +10,10 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.banzz.lifecounter.R;
 import com.banzz.lifecounter.commons.Game;
-import com.banzz.lifecounter.commons.Player;
 import com.banzz.lifecounter.commons.TournamentAdapter;
 import com.banzz.lifecounter.commons.TournamentPlayer;
 import com.banzz.lifecounter.utils.Utils.Constants;
@@ -22,6 +22,7 @@ public class TournamentActivity extends Activity {
 
 	private ArrayList<TournamentPlayer> playerList = new ArrayList<TournamentPlayer>();
 	private ListView mPlayers;
+	private int mRound = 0;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -29,36 +30,26 @@ public class TournamentActivity extends Activity {
 
 		setContentView(R.layout.activity_tournament);
 		
-		TournamentPlayer Alex = new TournamentPlayer(0, "Alex", new ArrayList<Game>(){{add(new Game(5, 0, 0, 1));}});  
+		TournamentPlayer Alex = new TournamentPlayer(0, "Alex", new ArrayList<Game>());  
 		playerList.add(Alex);
-		TournamentPlayer Basile = new TournamentPlayer(1, "Basile", new ArrayList<Game>(){{add(new Game(4, 2, 0, 0));}});  
+		TournamentPlayer Basile = new TournamentPlayer(1, "Basile", new ArrayList<Game>());  
 		playerList.add(Basile);
-		TournamentPlayer David = new TournamentPlayer(2, "David", new ArrayList<Game>(){{add(new Game(3, 2, 1, 0));}});  
+		TournamentPlayer David = new TournamentPlayer(2, "David", new ArrayList<Game>());  
 		playerList.add(David);
-		TournamentPlayer Greg = new TournamentPlayer(3, "Greg", new ArrayList<Game>(){{add(new Game(2, 1, 2, 0));}});  
+		TournamentPlayer Greg = new TournamentPlayer(3, "Greg", new ArrayList<Game>());  
 		playerList.add(Greg);
-		TournamentPlayer Olivier = new TournamentPlayer(4, "Olivier", new ArrayList<Game>(){{add(new Game(1, 0, 2, 0));}});  
+		TournamentPlayer Olivier = new TournamentPlayer(4, "Olivier", new ArrayList<Game>());  
 		playerList.add(Olivier);
-		TournamentPlayer Tanisha = new TournamentPlayer(5, "Tanisha", new ArrayList<Game>(){{add(new Game(0, 0, 0, 1));}});  
+		TournamentPlayer Tanisha = new TournamentPlayer(5, "Tanisha", new ArrayList<Game>());  
 		playerList.add(Tanisha);
 		
-//		TournamentPlayer Alex = new TournamentPlayer(0, "Alex", new ArrayList<Game>());  
-//		playerList.add(Alex);
-//		TournamentPlayer Basile = new TournamentPlayer(1, "Basile", new ArrayList<Game>());  
-//		playerList.add(Basile);
-//		TournamentPlayer David = new TournamentPlayer(2, "David", new ArrayList<Game>());  
-//		playerList.add(David);
-//		TournamentPlayer Greg = new TournamentPlayer(3, "Greg", new ArrayList<Game>());  
-//		playerList.add(Greg);
-//		TournamentPlayer Olivier = new TournamentPlayer(4, "Olivier", new ArrayList<Game>());  
-//		playerList.add(Olivier);
-//		TournamentPlayer Tanisha = new TournamentPlayer(5, "Tanisha", new ArrayList<Game>());  
-//		playerList.add(Tanisha);
-		
 		mPlayers = (ListView) findViewById(R.id.player_list);
-		Collections.sort(playerList, new PlayerComparator());
+		Collections.sort(playerList, new PlayerComparator(true));
 		mPlayers.setAdapter(new TournamentAdapter(this, playerList));
 		
+		TextView roundText = (TextView) findViewById(R.id.tournament_round);
+		roundText.setText(getText(R.string.Round).toString() + " " + mRound);
+ 		
 		Button nextRound = (Button) findViewById(R.id.next_round);
 		nextRound.setOnClickListener(new OnClickListener() {
 			@Override
@@ -68,6 +59,10 @@ public class TournamentActivity extends Activity {
 				startActivityForResult(intent, Constants.REQUEST_NEXT_ROUND);
 			}
 		});
+		
+		if (mRound >= playerList.size() - 1) {
+			nextRound.setVisibility(View.GONE);
+		}
 	}
 	
 	@Override
@@ -76,7 +71,14 @@ public class TournamentActivity extends Activity {
 	        case Constants.REQUEST_NEXT_ROUND:
 	        	if (resultCode == Activity.RESULT_OK) {
 	        		playerList = intent.getParcelableArrayListExtra(Constants.KEY_TOURNAMENT_PLAYERS);
+	        		
+	        		Collections.sort(playerList, new PlayerComparator(true));
 	        		mPlayers.setAdapter(new TournamentAdapter(this, playerList));
+	        		
+	        		mRound++;
+	        		
+	        		TextView roundText = (TextView) findViewById(R.id.tournament_round);
+	        		roundText.setText(getText(R.string.Round).toString() + " " + mRound);
 	        	}
 	        	break;
 		}
