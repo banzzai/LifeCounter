@@ -36,6 +36,9 @@
     <!-- Game Layout -->
     <string name="plus">+</string>
     <string name="minus">-</string>
+
+    <!-- First Use Wizard -->
+    <string name="never_show">Never show</string>
     
     <!-- Toasts -->
     <string name="donation_thanks">Thank you! :D</string>
@@ -72,6 +75,7 @@
     <string name="key_show_wheels">showWheels</string>
     <string name="key_show_poison">showPoison</string>
     <string name="key_color">fontColor</string>
+    <string name="key_hide_wizard">hideWizard</string>
     
 	<!-- Settings:text -->
  	<string name="click_to_edit">Click to edit</string>

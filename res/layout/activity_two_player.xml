@@ -193,6 +193,14 @@
 	        android:background="#990055BB"
         >
 			<Button
+			    android:id="@+id/never_show"
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content"
+			    android:layout_alignParentTop="true"
+			    android:layout_alignParentLeft="true"
+			    android:text="@string/never_show"
+			    />
+			<Button
 			    android:id="@+id/close_wizard"
 			    android:layout_width="wrap_content"
 			    android:layout_height="wrap_content"

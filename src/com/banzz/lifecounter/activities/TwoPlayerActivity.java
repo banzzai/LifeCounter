@@ -59,8 +59,6 @@ public class TwoPlayerActivity extends Activity implements OnClickListener, Load
             new int[] {R.drawable.azorius, R.drawable.boros, R.drawable.dimir, R.drawable.golgari, R.drawable.rakdos,
 						R.drawable.gruul, R.drawable.izzet, R.drawable.orzhov, R.drawable.selesnya, R.drawable.simic};
     
-	private Player[] knownPlayers = new Player[6];
-	
 	private TextView mEditName1;
 	private TextView mEditName2;
 	private TextView[] editNames = {null, null};
@@ -154,35 +152,6 @@ public class TwoPlayerActivity extends Activity implements OnClickListener, Load
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_two_player);
-        
-        //TODO add save player profile
-//        knownPlayers[0] = new Player("id1", "Alex", getResources().getColor(R.color.lifeText), true, false, 7);
-//        knownPlayers[1] = new Player("id2", "Charles-Basile", getResources().getColor(R.color.lifeText), true, false, 4);
-//        knownPlayers[2] = new Player("id3", "David", getResources().getColor(R.color.lifeText), true, false, 0);
-//   		knownPlayers[3] = new Player("id4", "Greg", getResources().getColor(R.color.lifeText), true, false, 6);
-//		knownPlayers[4] = new Player("id5", "Olivier", getResources().getColor(R.color.lifeText), true, false, 1);
-//		knownPlayers[5] = new Player("id6", "Tanisha", getResources().getColor(R.color.lifeText), true, false, 8);
-//		
-//		Gson gson = new Gson();
-//		String json = gson.toJson(knownPlayers);
-//		String fileName = Constants.PROFILES_FILE_NAME;
-//		File externalDir = getExternalFilesDir(null);
-//		
-//		FileOutputStream fos;
-//		try {
-//			File image = new File(externalDir, fileName);
-//			if (!image.exists()) {
-//				image.createNewFile();
-//			}	
-//			
-//			fos = new FileOutputStream(image);
-//			//fos = openFileOutput(externalDir + fileName, Context.MODE_PRIVATE);
-//			fos.write(json.getBytes());
-//			fos.close();
-//		} catch (Exception e) {
-//			Toast.makeText(this, "JSON WRITE FAILED", Toast.LENGTH_LONG).show();
-//			e.printStackTrace();
-//		}
 		
         mEditName1	= (TextView) findViewById(R.id.edit_player1);
         
@@ -285,7 +254,7 @@ public class TwoPlayerActivity extends Activity implements OnClickListener, Load
 		});
 		poisonCount2 = (TextView) findViewById(R.id.poisonCount2);
 		
-		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+		final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
 		mBackGroundLock = preferences.getBoolean(getString(R.string.key_background_lock), false);
 		mShowPoison		= preferences.getBoolean(getString(R.string.key_show_poison), true);
 		player1_back_number = preferences.getInt(getString(R.string.key_back1), 0);
@@ -297,11 +266,27 @@ public class TwoPlayerActivity extends Activity implements OnClickListener, Load
 		initArrays();
 		updateUI();
 		
+		if (preferences.getBoolean(getString(R.string.key_hide_wizard), false)) {
+			findViewById(R.id.wizard_layout).setVisibility(View.GONE);
+		}
+		
 		Button close_wizard = (Button) findViewById(R.id.close_wizard);
 		close_wizard.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
 				findViewById(R.id.wizard_layout).setVisibility(View.GONE);
+			}
+		});
+		
+		Button never_show_wizard = (Button) findViewById(R.id.never_show);
+		never_show_wizard.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				findViewById(R.id.wizard_layout).setVisibility(View.GONE);
+				Editor preferenceEditor = preferences.edit();
+		    	
+		    	preferenceEditor.putBoolean(getString(R.string.key_hide_wizard), true);
+		    	preferenceEditor.commit();
 			}
 		});
 	}
@@ -331,9 +316,6 @@ public class TwoPlayerActivity extends Activity implements OnClickListener, Load
 		
 		backgrounds[Constants.PLAYER_ONE] = player1_background;
 		backgrounds[Constants.PLAYER_TWO] = player2_background;
-		
-		//players[Constants.PLAYER_ONE] = new Player("", mEditName1.getText().toString(), -1, true, true, player1_back_number);
-		//players[Constants.PLAYER_TWO] = new Player("", mEditName2.getText().toString(), -1, true, true, player2_back_number);
 	}
 
 	//This function should just update what shows on screen, and not change any value. This is not starting a new game!
