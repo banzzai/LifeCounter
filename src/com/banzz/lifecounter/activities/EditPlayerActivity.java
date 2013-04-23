@@ -236,6 +236,14 @@ public class EditPlayerActivity extends Activity implements OnClickListener, Loa
 			}
 		});
 		
+		Button deleteButton = (Button) findViewById(R.id.delete_button);
+		deleteButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				startActivityForResult(new Intent(getApplicationContext(), DeletePlayerActivity.class), Constants.REQUEST_DELETE_PLAYERS);
+			}
+		});
+		
 		Button applyButton = (Button) findViewById(R.id.apply_button);
 		applyButton.setOnClickListener(new OnClickListener() {
 			@Override

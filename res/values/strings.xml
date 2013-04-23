@@ -7,6 +7,7 @@
     <string name="go_back">Go back</string>
     <string name="Save">Save</string>
     <string name="Load">Load</string>
+	<string name="Delete">Delete</string>
     <string name="sd_not_found">Cannot access SD storage!</string>
     
     <!-- Load Player -->
@@ -19,6 +20,9 @@
 	<string name="keyboard_go">Go</string>
 	<string name="apply">Apply</string>
 	<string name="apply_confirmation">This will apply changes but not save anything.</string>
+	
+	<!-- Delete Players -->
+	<string name="delete_profiles">Are you sure you want to delete the following profile(s)?</string>
 	
     <!-- Pick Images -->
 	<string name="pick_large">Pick large</string>

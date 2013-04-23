@@ -2,7 +2,6 @@ package com.banzz.lifecounter.activities;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 
 import android.annotation.SuppressLint;
@@ -136,7 +135,7 @@ public class RoundActivity extends Activity {
 		}
 		
 		TournamentPlayer currentPlayer = tempList.get(0);
-		int opponentIndex = 1;
+		//int opponentIndex = 1;
 		int targetScore = currentPlayer.getScore();
 		boolean picked = false;
 		
