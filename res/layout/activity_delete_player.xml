@@ -20,7 +20,7 @@
             android:id="@+id/profile_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_weight="9"
 		/>
         
         <Button
@@ -29,6 +29,6 @@
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:layout_weight="9"
-            android:text="@string/Submit" 
+            android:text="@string/Delete" 
         />
 </LinearLayout>

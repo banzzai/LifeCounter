@@ -5,19 +5,26 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.DataSetObserver;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ListAdapter;
+import android.widget.CheckBox;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.banzz.lifecounter.R;
@@ -62,8 +69,10 @@ public class DeletePlayerActivity extends Activity implements OnClickListener {
 			}
 		});
         
-        mPlayersView = (ListView) findViewById(R.id.round_list);
-        mPlayersView.setAdapter(new PlayerProfileAdapter(this, mUsers));
+        mPlayersView = (ListView) findViewById(R.id.profile_list);
+        ArrayList<Player> list = new ArrayList<Player>();
+        Collections.addAll(list, mUsers);
+        mPlayersView.setAdapter(new PlayerProfileAdapter(this, list));
 	}
 
 	private void validateDelete() {
@@ -148,83 +157,36 @@ public class DeletePlayerActivity extends Activity implements OnClickListener {
 //		}
 	}
 	
-	private class PlayerProfileAdapter implements ListAdapter {
+	private class PlayerProfileAdapter extends ArrayAdapter<Player> {
 
-		public PlayerProfileAdapter(DeletePlayerActivity deletePlayerActivity,
-				Player[] mUsers) {
-			// TODO Auto-generated constructor stub
+		private Context mContext;
+		private List<Player> mPlayers;
+
+		public PlayerProfileAdapter(Context context, List<Player> players) {
+			super(context, 0, players);
+			mContext = context;
+			mPlayers = players;
 		}
-
+		
 		@Override
-		public int getCount() {
-			// TODO Auto-generated method stub
-			return 0;
-		}
+		public View getView(final int position, View convertView, ViewGroup parent) {
+			LayoutInflater inflater = LayoutInflater.from(DeletePlayerActivity.this);
+			View view = inflater.inflate(R.layout.delete_player_item, parent, false);
 
-		@Override
-		public Object getItem(int arg0) {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public long getItemId(int arg0) {
-			// TODO Auto-generated method stub
-			return 0;
-		}
-
-		@Override
-		public int getItemViewType(int arg0) {
-			// TODO Auto-generated method stub
-			return 0;
-		}
-
-		@Override
-		public View getView(int arg0, View arg1, ViewGroup arg2) {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public int getViewTypeCount() {
-			// TODO Auto-generated method stub
-			return 0;
-		}
-
-		@Override
-		public boolean hasStableIds() {
-			// TODO Auto-generated method stub
-			return false;
-		}
-
-		@Override
-		public boolean isEmpty() {
-			// TODO Auto-generated method stub
-			return false;
-		}
-
-		@Override
-		public void registerDataSetObserver(DataSetObserver arg0) {
-			// TODO Auto-generated method stub
+			Player player = getItem(position);
+			TextView name = (TextView) view.findViewById(R.id.user_name);
+			name.setText(player.getName());
 			
-		}
-
-		@Override
-		public void unregisterDataSetObserver(DataSetObserver arg0) {
-			// TODO Auto-generated method stub
+			CheckBox checkDelete = (CheckBox) view.findViewById(R.id.check_delete);
+			checkDelete.setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View arg0) {
+					Log.e("DELETE", "Marking "+position+" for deletion");
+				}
+			});
 			
-		}
-
-		@Override
-		public boolean areAllItemsEnabled() {
-			// TODO Auto-generated method stub
-			return false;
-		}
-
-		@Override
-		public boolean isEnabled(int arg0) {
-			// TODO Auto-generated method stub
-			return false;
+			return view;
 		}
 	}
 }
