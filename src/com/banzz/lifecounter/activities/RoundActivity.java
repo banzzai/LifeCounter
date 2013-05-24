@@ -114,7 +114,7 @@ public class RoundActivity extends Activity {
 		
 		int pairingNeeded = tempList.size() / 2;
 		
-		while (matches.size() < pairingNeeded && attempt <= tempList.size()) {
+		while (matches.size() < pairingNeeded && attempt <= playerList.size()) {
 			Log.e("PAIRING", "Attempt #" + attempt);
 			matchUp(tempList);
 			

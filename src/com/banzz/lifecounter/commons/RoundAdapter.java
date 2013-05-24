@@ -89,8 +89,8 @@ public class RoundAdapter implements ListAdapter {
 			public void onChanged(WheelView wheel, int oldValue, int newValue) {
 				mGames.get(player1.getId()).setWins(newValue);
 				mGames.get(player2.getId()).setLosses(newValue);
-				
-				ScoreFields.get(player2.getId()).setText(getScoreWithLosses(mGames.get(player2.getId()), newValue));
+
+				writeScoreWithLosses(mGames.get(player2.getId()), newValue, ScoreFields.get(player2.getId()));
 			}
 		});
 		lossWheel.addChangingListener(new OnWheelChangedListener() {
@@ -99,7 +99,7 @@ public class RoundAdapter implements ListAdapter {
 				mGames.get(player1.getId()).setLosses(newValue);
 				mGames.get(player2.getId()).setWins(newValue);
 				
-				ScoreFields.get(player2.getId()).setText(getScoreWithWins(mGames.get(player2.getId()), newValue));
+				writeScoreWithWins(mGames.get(player2.getId()), newValue, ScoreFields.get(player2.getId()));
 			}
 		});
 		drawWheel.addChangingListener(new OnWheelChangedListener() {
@@ -108,27 +108,32 @@ public class RoundAdapter implements ListAdapter {
 				mGames.get(player1.getId()).setDraws(newValue);
 				mGames.get(player2.getId()).setDraws(newValue);
 				
-				ScoreFields.get(player2.getId()).setText(getScoreWithDraws(mGames.get(player2.getId()), newValue));
+				writeScoreWithDraws(mGames.get(player2.getId()), newValue, ScoreFields.get(player2.getId()));
 			}
 		});
 		
 		return view;
 	}
 	
-	private CharSequence getScoreWithWins(Game game, int newValue) {
-		return getScore(newValue, game.getLosses(), game.getDraws());
+	private int getColor(int wins, int losses) {
+		return wins > losses ? mContext.getResources().getColor(R.color.poison) : losses > wins ? mContext.getResources().getColor(R.color.reddism) : mContext.getResources().getColor(R.color.lifeText);
 	}
 	
-	private CharSequence getScoreWithLosses(Game game, int newValue) {
-		return getScore(game.getWins(), newValue, game.getDraws());
+	private void writeScore(int wins, int losses, int draws, TextView scoreHolder) {
+		scoreHolder.setText(wins+"-"+losses+(draws!=0?"-"+draws:""));
+		scoreHolder.setTextColor(getColor(wins, losses));
 	}
 	
-	private CharSequence getScoreWithDraws(Game game, int newValue) {
-		return getScore(game.getWins(), game.getLosses(), newValue);
+	private void writeScoreWithWins(Game game, int newValue, TextView scoreHolder) {
+		writeScore(newValue, game.getLosses(), game.getDraws(), scoreHolder);
 	}
 	
-	private CharSequence getScore(int wins, int losses, int draws){
-		return wins+"-"+losses+(draws!=0?"-"+draws:"");
+	private void writeScoreWithLosses(Game game, int newValue, TextView scoreHolder) {
+		writeScore(game.getWins(), newValue, game.getDraws(), scoreHolder);
+	}
+	
+	private void writeScoreWithDraws(Game game, int newValue, TextView scoreHolder) {
+		writeScore(game.getWins(), game.getLosses(), newValue, scoreHolder);
 	}
 	
 	@Override

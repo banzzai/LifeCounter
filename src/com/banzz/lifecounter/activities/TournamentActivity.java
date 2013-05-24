@@ -32,15 +32,19 @@ public class TournamentActivity extends Activity {
 		
 		TournamentPlayer Alex = new TournamentPlayer(0, "Alex", new ArrayList<Game>());  
 		playerList.add(Alex);
-		TournamentPlayer Basile = new TournamentPlayer(1, "Basile", new ArrayList<Game>());  
+		TournamentPlayer Andrew = new TournamentPlayer(1, "Andrew", new ArrayList<Game>());  
+		playerList.add(Andrew);
+		TournamentPlayer Basile = new TournamentPlayer(2, "Basile", new ArrayList<Game>());  
 		playerList.add(Basile);
-		TournamentPlayer David = new TournamentPlayer(2, "David", new ArrayList<Game>());  
+		TournamentPlayer David = new TournamentPlayer(3, "David", new ArrayList<Game>());  
 		playerList.add(David);
-		TournamentPlayer Greg = new TournamentPlayer(3, "Greg", new ArrayList<Game>());  
+		TournamentPlayer Flo = new TournamentPlayer(4, "Flo", new ArrayList<Game>());  
+		playerList.add(Flo);
+		TournamentPlayer Greg = new TournamentPlayer(5, "Greg", new ArrayList<Game>());  
 		playerList.add(Greg);
-		TournamentPlayer Olivier = new TournamentPlayer(4, "Olivier", new ArrayList<Game>());  
+		TournamentPlayer Olivier = new TournamentPlayer(6, "Olivier", new ArrayList<Game>());  
 		playerList.add(Olivier);
-		TournamentPlayer Tanisha = new TournamentPlayer(5, "Tanisha", new ArrayList<Game>());  
+		TournamentPlayer Tanisha = new TournamentPlayer(7, "Tanisha", new ArrayList<Game>());  
 		playerList.add(Tanisha);
 		
 		mPlayers = (ListView) findViewById(R.id.player_list);

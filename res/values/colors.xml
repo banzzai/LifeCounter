@@ -2,6 +2,7 @@
     <color name="black_overlay">#660000</color>
 	<color name="lifeText">#AAFFFFFF</color>
 	<color name="poison">#AA0CA620</color>
+	<color name="reddism">#AAA60C20</color>
 	<color name="error">#AAFF0000</color>
 	<color name="GRADIENT_START">#00FFFFFF</color>
 	<color name="SHADE">#55FFFFFF</color>
