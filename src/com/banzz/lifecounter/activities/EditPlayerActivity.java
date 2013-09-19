@@ -214,7 +214,7 @@ public class EditPlayerActivity extends Activity implements OnClickListener,
 		colorButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-                PickColorDialog colorDialog = new PickColorDialog();
+                PickColorDialog colorDialog = new PickColorDialog(EditPlayerActivity.this, mSelectedPlayer);
                 colorDialog.setListener(EditPlayerActivity.this);
                 colorDialog.show(getFragmentManager(), getString(R.string.pick_color));
 //                Intent editColor = new Intent(getApplicationContext(), SettingsActivity.class);

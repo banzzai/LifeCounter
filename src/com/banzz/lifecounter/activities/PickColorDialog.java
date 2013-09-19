@@ -3,7 +3,9 @@ package com.banzz.lifecounter.activities;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,8 +14,10 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.banzz.lifecounter.R;
+import com.banzz.lifecounter.utils.Utils;
 
 public class PickColorDialog extends DialogFragment {
+    private final int mSelectedPlayer;
     PickColorDialogListener mListener;
 
     //TODO fix so that id 6 exists, annoying because it's all hard coded in pick_color.xml
@@ -26,6 +30,12 @@ public class PickColorDialog extends DialogFragment {
     private int mColors_count = 10;
     private int mCurrentPickedColor = -1;
     private TextView mPreviewText;
+    private Context mContext;
+
+    public PickColorDialog(Context context, int selectedPlayer) {
+        mContext = context;
+        mSelectedPlayer = selectedPlayer;
+    }
 
     public void setListener(PickColorDialogListener mListener) {
 		this.mListener = mListener;
@@ -61,6 +71,17 @@ public class PickColorDialog extends DialogFragment {
                 }
             });
         }
+
+	    Button moreColorButton = (Button) view.findViewById(R.id.more_colors);
+        moreColorButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent editColor = new Intent(mContext, SettingsActivity.class);
+				editColor.putExtra(Utils.Constants.KEY_PLAYER_TARGET, mSelectedPlayer);
+				startActivity(editColor);
+                dismiss();
+            }
+        });
 	    //mSelectUser = (ListView) view.findViewById(R.id.player_select);
 	    
 	    /*final Player[] mUsers;

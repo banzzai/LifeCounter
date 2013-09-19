@@ -130,4 +130,15 @@
             android:layout_below="@id/colors"
             android:text="@string/pick_color_preview"
     />
+
+    <Button
+            android:id="@+id/more_colors"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/more_colors"
+            style="@style/ButtonSmall"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="5dp"
+            android:layout_below="@id/pick_color_preview"
+    />
 </RelativeLayout>

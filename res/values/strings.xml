@@ -17,6 +17,7 @@
     <!-- Pick Color -->
     <string name="pick_color_text">Select the color you want your life total and buttons to use.</string>
     <string name="pick_color_preview">Your life total will show like this: - 20 +</string>
+    <string name="more_colors">More colors</string>
 
     <!-- Edit Player -->
     <string name="edit_player">Edit Player</string>
