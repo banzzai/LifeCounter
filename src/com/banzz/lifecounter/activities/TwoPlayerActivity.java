@@ -111,7 +111,7 @@ public class TwoPlayerActivity extends Activity implements OnClickListener, Load
 	protected void onResume() {
 		super.onResume();
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-		mShowPoison = preferences.getBoolean(getString(R.string.key_show_poison), true);
+		mShowPoison = preferences.getBoolean(getString(R.string.key_show_poison), false);
 		
 		try {
 			LIFE_START = Integer.valueOf(preferences.getString(getString(R.string.key_life_start), "20"));
@@ -256,7 +256,7 @@ public class TwoPlayerActivity extends Activity implements OnClickListener, Load
 		
 		final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
 		mBackGroundLock = preferences.getBoolean(getString(R.string.key_background_lock), false);
-		mShowPoison		= preferences.getBoolean(getString(R.string.key_show_poison), true);
+		mShowPoison		= preferences.getBoolean(getString(R.string.key_show_poison), false);
 		player1_back_number = preferences.getInt(getString(R.string.key_back1), 0);
 		player2_back_number = preferences.getInt(getString(R.string.key_back2), 1);
 		setLife(player_one_wheel, preferences.getInt(getString(R.string.key_life1), 20), true);
@@ -349,9 +349,10 @@ public class TwoPlayerActivity extends Activity implements OnClickListener, Load
 			//Loading default into Player x
 			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
 			players[player_number] = new Player();
-			players[player_number].setColor(preferences.getInt(getString(R.string.key_color), R.color.lifeText));
-			players[player_number].setShowButtons(preferences.getBoolean(getString(R.string.key_show_buttons), false));
-			players[player_number].setShowWheel(preferences.getBoolean(getString(R.string.key_show_wheels), true));
+            int defaultColor = getResources().getColor(R.color.lifeText);
+			players[player_number].setColor(preferences.getInt(getString(R.string.key_color), defaultColor));
+			players[player_number].setShowButtons(preferences.getBoolean(getString(R.string.key_show_buttons), true));
+			players[player_number].setShowWheel(preferences.getBoolean(getString(R.string.key_show_wheels), false));
 			players[player_number].setBackGroundId(player_number);
 			players[player_number].setName("Player " + (player_number + 1));
 		}
@@ -420,7 +421,7 @@ public class TwoPlayerActivity extends Activity implements OnClickListener, Load
 	private void rollBackground(int player) {
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
     	
-		if (!preferences.getBoolean(getString(R.string.key_background_lock), false)) {
+		if (!preferences.getBoolean(getString(R.string.key_background_lock), true)) {
 			Editor preferenceEditor = preferences.edit();
 	    	
 	    	playerBacks[player] = (playerBacks[player] + 1) % backgrounds_ids.length;

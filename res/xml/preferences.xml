@@ -8,17 +8,17 @@
                 android:key="@string/key_show_buttons"
                 android:title="@string/show_buttons"
                 android:summary="@string/summary_show_buttons"
-                android:defaultValue="false" />
+                android:defaultValue="true" />
         
         <CheckBoxPreference
                 android:key="@string/key_show_wheels"
                 android:title="@string/show_wheels"
-                android:defaultValue="true"/>
+                android:defaultValue="false"/>
 
         <CheckBoxPreference
                 android:key="@string/key_show_poison"
                 android:title="@string/show_poison"
-                android:defaultValue="true"/>
+                android:defaultValue="false"/>
         
         <net.margaritov.preference.colorpicker.ColorPickerPreference
 		    android:key="@string/key_color"

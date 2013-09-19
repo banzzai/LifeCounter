@@ -13,7 +13,11 @@
     <!-- Load Player -->
     <string name="load_player">Load Player (select which player slot to load in, then click on the player you want to load)</string>
     <string name="no_saved_players">No player currently saved. You can save player profiles through the edit option in the menu.</string>
-    
+
+    <!-- Pick Color -->
+    <string name="pick_color_text">Select the color you want your life total and buttons to use.</string>
+    <string name="pick_color_preview">Your life total will show like this: - 20 +</string>
+
     <!-- Edit Player -->
     <string name="edit_player">Edit Player</string>
 	<string name="pick_color">Pick color</string>

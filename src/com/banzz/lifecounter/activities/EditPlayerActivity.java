@@ -17,6 +17,7 @@ import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -46,7 +47,8 @@ import com.google.gson.Gson;
  *
  * @see SystemUiHider
  */
-public class EditPlayerActivity extends Activity implements OnClickListener, LoadPlayerDialog.LoadPlayerDialogListener {
+public class EditPlayerActivity extends Activity implements OnClickListener,
+        LoadPlayerDialog.LoadPlayerDialogListener, PickColorDialog.PickColorDialogListener {
 	public static int LIFE_START = 20;
 	
 	private int player0_back_number = 0;
@@ -212,9 +214,12 @@ public class EditPlayerActivity extends Activity implements OnClickListener, Loa
 		colorButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				Intent editColor = new Intent(getApplicationContext(), SettingsActivity.class);
-				editColor.putExtra(Constants.KEY_PLAYER_TARGET, mSelectedPlayer);
-				startActivity(editColor);
+                PickColorDialog colorDialog = new PickColorDialog();
+                colorDialog.setListener(EditPlayerActivity.this);
+                colorDialog.show(getFragmentManager(), getString(R.string.pick_color));
+//                Intent editColor = new Intent(getApplicationContext(), SettingsActivity.class);
+//				editColor.putExtra(Constants.KEY_PLAYER_TARGET, mSelectedPlayer);
+//				startActivity(editColor);
 			}
 		});
 		
@@ -397,8 +402,9 @@ public class EditPlayerActivity extends Activity implements OnClickListener, Loa
 		Player player = players[mSelectedPlayer];
 		//int color = player.getColor() != -1 ? player.getColor() : getResources().getColor(R.color.lifeText);
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-		int color = preferences.getInt(getString(mSelectedPlayer == Constants.PLAYER_ONE ? R.string.key_color_p1 : R.string.key_color_p2), R.color.lifeText);
-		//There is no callback when coming from settings, so we're going to set the player object color property from settings whenever we refresh display.
+        int defaultColor = getResources().getColor(R.color.lifeText);
+        int color = preferences.getInt(getString(mSelectedPlayer == Constants.PLAYER_ONE ? R.string.key_color_p1 : R.string.key_color_p2), defaultColor);
+        //There is no callback when coming from settings, so we're going to set the player object color property from settings whenever we refresh display.
 		//At least the reducancy is used for both UI and save data now. Other values are saved in the object when they are actually being set.
 		player.setColor(color);
 		
@@ -543,4 +549,15 @@ public class EditPlayerActivity extends Activity implements OnClickListener, Loa
 		  updateUI();
 	  }
 	}
+
+    @Override
+    public void onValidateColor(int color) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor edit = preferences.edit();
+
+        String key = getString(mSelectedPlayer == Constants.PLAYER_TWO ? R.string.key_color_p2 : R.string.key_color_p1);
+        edit.putInt(key, getResources().getColor(color));
+        edit.commit();
+        updateUI();
+    }
 }

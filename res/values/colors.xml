@@ -1,10 +1,21 @@
 <resources>
     <color name="black_overlay">#660000</color>
-	<color name="lifeText">#AAFFFFFF</color>
+	<color name="lifeText">#FFFFFFFF</color>
 	<color name="poison">#AA0CA620</color>
 	<color name="reddism">#AAA60C20</color>
 	<color name="error">#AAFF0000</color>
 	<color name="GRADIENT_START">#00FFFFFF</color>
 	<color name="SHADE">#55FFFFFF</color>
 	<color name="GRADIENT_END">#FFFFFFFF</color>
+
+    <color name="color_1">#000000</color>
+    <color name="color_2">#FFFFFF</color>
+    <color name="color_3">#AA00CC</color>
+    <color name="color_4">#0044FF</color>
+    <color name="color_5">#117733</color>
+    <color name="color_6">#A60C20</color>
+    <color name="color_7">#FFDD20</color>
+    <color name="color_8">#AAAAAA</color>
+    <color name="color_9">#FFAAAA</color>
+    <color name="color_10">#AAFFAA</color>
 </resources>
