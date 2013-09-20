@@ -58,12 +58,14 @@
         
         <activity
             android:name="com.banzz.lifecounter.activities.TournamentActivity"
-            android:theme="@android:style/Theme.Black">
+            android:theme="@android:style/Theme.Black"
+            android:screenOrientation="portrait">
         </activity>
         
         <activity
             android:name="com.banzz.lifecounter.activities.RoundActivity"
-            android:theme="@android:style/Theme.Black">
+            android:theme="@android:style/Theme.Black"
+            android:screenOrientation="portrait">
         </activity>
 	</application>
 </manifest>

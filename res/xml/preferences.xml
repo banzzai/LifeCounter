@@ -36,7 +36,7 @@
         <EditTextPreference
                 android:key="@string/key_life_start"
                 android:title="@string/life_total_start"
-                android:summary="@string/click_to_edit"
+                android:summary="@string/life_total_description"
                 android:dialogTitle="@string/life_total_start"
                 android:defaultValue="20" />
         
