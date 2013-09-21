@@ -21,10 +21,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
@@ -43,7 +45,8 @@ import com.banzz.lifecounter.utils.VerticalSeekBar;
  *
  * @see SystemUiHider
  */
-public class TwoPlayerActivity extends Activity implements OnClickListener, LoadPlayerDialog.LoadPlayerDialogListener {
+public class TwoPlayerActivity extends Activity implements OnClickListener, LoadPlayerDialog.LoadPlayerDialogListener,
+                                                            ToolboxMenuDialog.ToolBoxDialogListener {
 	public static int LIFE_START = 20;
 	public static int PLAYER_NUMBER = 2;
 	
@@ -83,7 +86,7 @@ public class TwoPlayerActivity extends Activity implements OnClickListener, Load
 	private ImageView player2_background;
 	private ImageView[] backgrounds = {null, null};
 	
-	private LinearLayout player2_screen;
+	private RelativeLayout player2_screen;
 	
 	private WakeLock wl;
 	private boolean mBackGroundLock = false;
@@ -151,6 +154,8 @@ public class TwoPlayerActivity extends Activity implements OnClickListener, Load
 	@Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
+        getActionBar().hide();
         setContentView(R.layout.activity_two_player);
 		
         mEditName1	= (TextView) findViewById(R.id.edit_player1);
@@ -172,13 +177,13 @@ public class TwoPlayerActivity extends Activity implements OnClickListener, Load
         
         player_one_wheel = (WheelView) findViewById(R.id.player_one);
 		player_one_wheel.setViewAdapter(new LifeAdapter(this, Constants.LIFE_MIN, Constants.LIFE_MAX));
-		
+
 		player1_background = (ImageView) findViewById(R.id.background_player1);
 		player1_background.setOnClickListener(this);
 		player2_background = (ImageView) findViewById(R.id.background_player2);
 		player2_background.setOnClickListener(this);
 		
-		player2_screen = (LinearLayout) findViewById(R.id.player_two_screen);
+		player2_screen = (RelativeLayout) findViewById(R.id.player_two_screen);
 		
 		mBigLife1.setText(""+LIFE_START);
 		player_one_wheel.addScrollingListener(new OnWheelScrollListener() {
@@ -289,6 +294,15 @@ public class TwoPlayerActivity extends Activity implements OnClickListener, Load
 		    	preferenceEditor.commit();
 			}
 		});
+
+        Button menuButton = (Button) findViewById(R.id.central_button);
+        menuButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ToolboxMenuDialog colorDialog = new ToolboxMenuDialog(TwoPlayerActivity.this, TwoPlayerActivity.this);
+                colorDialog.show(getFragmentManager(), getString(R.string.pick_color));
+            }
+        });
 	}
 
 
@@ -461,14 +475,41 @@ public class TwoPlayerActivity extends Activity implements OnClickListener, Load
     	preferenceEditor.commit();
 	}
 
-	@Override
+	/*@Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
+    }*/
+
+    @Override
+    public void onPickAction(int action) {
+        if (R.id.action_restart == action) {
+            restart_game();
+        } else if (R.id.action_flip == action) {
+            player2_rotate(player2_screen.getRotation() == 180 ? false : true);
+        } else if (R.id.action_load == action) {
+            LoadPlayerDialog loadDialog = new LoadPlayerDialog();
+            loadDialog.setListener(this);
+            loadDialog.show(getFragmentManager(), getString(R.string.load_player));
+        } else if (R.id.action_edit == action) {
+            //Save current player colors in the settings used for setColor options (trick comes from the fact the color picker widget is a preference menu)
+            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+            Editor preferenceEditor = preferences.edit();
+            preferenceEditor.putInt(getString(R.string.key_color_p1), players[Constants.PLAYER_ONE].getColor());
+            preferenceEditor.putInt(getString(R.string.key_color_p2), players[Constants.PLAYER_TWO].getColor());
+            preferenceEditor.commit();
+
+            //Launch edit player activity with both players
+            Intent editIntent = new Intent(getApplicationContext(), EditPlayerActivity.class);
+            editIntent.putExtra(Constants.KEY_PLAYER_ONE, players[Constants.PLAYER_ONE]);
+            editIntent.putExtra(Constants.KEY_PLAYER_TWO, players[Constants.PLAYER_TWO]);
+
+            startActivityForResult(editIntent, Constants.REQUEST_EDIT_PLAYERS);
+        }
     }
-    
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+
+    /*@TargetApi(Build.VERSION_CODES.JELLY_BEAN)
 	@Override
     public boolean onMenuItemSelected(int featureId, MenuItem item) {
     	if (R.id.action_restart == item.getItemId()) {
@@ -509,7 +550,7 @@ public class TwoPlayerActivity extends Activity implements OnClickListener, Load
     	}
     	
     	return super.onMenuItemSelected(featureId, item);
-    }
+    }*/
     
     private void switchBackgroundLock() {
     	SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);

@@ -2,40 +2,24 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".TwoPlayerActivity" >
-    <!--
-         The primary full-screen view. This can be replaced with whatever view
-         is needed to present your content, e.g. VideoView, SurfaceView,
-         TextureView, etc.
-    -->
-
-    <!--
-         This FrameLayout insets its children based on system windows using
-         android:fitsSystemWindows.
-    -->
+    tools:context=".TwoPlayerActivity"
+    >
 
         <LinearLayout
             android:id="@+id/fullscreen_content_controls"
-            style="?buttonBarStyle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/black_overlay"
             android:orientation="horizontal"
-            tools:ignore="UselessParent" >
+            tools:ignore="UselessParent">
 
-            <LinearLayout
+            <RelativeLayout
 			    android:id="@+id/player_one_screen"
-			    android:layout_width="wrap_content"
+			    android:layout_width="0dp"
 			    android:layout_height="match_parent"
 			    android:layout_weight="1"
                 android:orientation="vertical"
 			    >
-
-          	<RelativeLayout
-            	android:layout_width="match_parent"
-            	android:layout_height="match_parent"
-			    android:layout_weight="1"
-                >
 
           		<ImageView
 			        android:id="@+id/background_player1"
@@ -91,7 +75,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true" />
-	        	
+
 	        	<TextView
 				    android:id="@+id/poisonCount1"
 				    android:layout_width="wrap_content"
@@ -102,20 +86,14 @@
 				/>
 			        
             </RelativeLayout>
-        </LinearLayout>
 		
-		<LinearLayout 
+		<RelativeLayout
 			android:id="@+id/player_two_screen"
-		    android:layout_width="wrap_content"
+		    android:layout_width="0dp"
 		    android:layout_height="match_parent"
 		    android:layout_weight="1"
             android:orientation="vertical"
 		    >
-            <RelativeLayout
-            	android:layout_width="match_parent"
-			    android:layout_weight="1"
-            	android:layout_height="match_parent"
-                >
 
                 <ImageView 
 			        android:id="@+id/background_player2"
@@ -172,7 +150,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true" />
-            
+
                 <TextView
 				    android:id="@+id/poisonCount2"
 				    android:layout_width="wrap_content"
@@ -182,9 +160,17 @@
 			        android:textAppearance="@style/poison"
 				/>
             </RelativeLayout>
-            </LinearLayout>
-            
+
 		</LinearLayout>
+
+        <Button
+            android:id="@+id/central_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:text="$"
+            />
 
         <RelativeLayout
             android:id="@+id/wizard_layout"

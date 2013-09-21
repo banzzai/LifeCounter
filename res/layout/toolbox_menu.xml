@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:padding="3dp"
+    >
+
+    <Button
+        android:id="@+id/option_restart"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="#558855"
+    />
+
+    <Button
+        android:id="@+id/option_dice"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="#888888"
+        android:layout_toRightOf="@id/option_restart"
+        android:layout_marginLeft="5dp"
+        />
+
+    <Button
+        android:id="@+id/option_coin"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="#998800"
+        android:layout_toRightOf="@id/option_dice"
+        android:layout_marginLeft="5dp"
+        />
+
+    <Button
+            android:id="@+id/option_load"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="#EE7777"
+            android:layout_toRightOf="@id/option_coin"
+            android:layout_marginLeft="5dp"
+            />
+
+    <Button
+            android:id="@+id/option_edit"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="#994444"
+            android:layout_toRightOf="@id/option_load"
+            android:layout_marginLeft="5dp"
+            />
+
+    <Button
+            android:id="@+id/option_rotate"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="#774477"
+            android:layout_toRightOf="@id/option_edit"
+            android:layout_marginLeft="5dp"
+            />
+</RelativeLayout>
