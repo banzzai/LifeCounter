@@ -17,6 +17,8 @@ import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -179,18 +181,38 @@ public class EditPlayerActivity extends Activity implements OnClickListener,
 		mTextBox.setImeOptions(EditorInfo.IME_ACTION_DONE);
 		mTextBox.setImeActionLabel(getString(R.string.keyboard_go), EditorInfo.IME_ACTION_DONE);
 		mTextBox.setOnEditorActionListener(new OnEditorActionListener() {
-			
-			@Override
-			public boolean onEditorAction(TextView text, int actionId, KeyEvent event) {
-				if (actionId == EditorInfo.IME_ACTION_DONE) {
-					//Change name in UI -> save name in object
-					players[mSelectedPlayer].setName(text.getText().toString());
-					updateUI();
-		            return false;
-		        }
-				return false;
-			}
-		});
+
+            @Override
+            public boolean onEditorAction(TextView text, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    //Change name in UI -> save name in object
+                    players[mSelectedPlayer].setName(text.getText().toString());
+                    updateUI();
+                    return false;
+                }
+                return false;
+            }
+        });
+        mTextBox.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if (!editable.toString().equals(players[mSelectedPlayer].getName()))
+                {
+                    players[mSelectedPlayer].setName(editable.toString());
+                    updateUI(editable.toString());
+                }
+            }
+        });
 
 		check_buttons = (CheckBox) findViewById(R.id.check_buttons);
 		check_buttons.setOnCheckedChangeListener(new OnCheckedChangeListener() {
@@ -284,7 +306,7 @@ public class EditPlayerActivity extends Activity implements OnClickListener,
 
 	private void validateSave(int selectedPlayer) {
 		AlertDialog dialog;
-		
+
 		if (players[selectedPlayer].getName() == null || players[selectedPlayer].getName().isEmpty()) {
 			dialog = new AlertDialog.Builder(EditPlayerActivity.this).create();
 		    dialog.setTitle(EditPlayerActivity.this.getString(R.string.Save));
@@ -396,9 +418,13 @@ public class EditPlayerActivity extends Activity implements OnClickListener,
 		}
 	}
 
+    private void updateUI()
+    {
+        updateUI(null);
+    }
 
 	//This function should just update what shows on screen, and not change any value. This is not starting a new game!
-	private void updateUI() {
+	private void updateUI(String newPlayerName) {
 		Player player = players[mSelectedPlayer];
 		//int color = player.getColor() != -1 ? player.getColor() : getResources().getColor(R.color.lifeText);
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -417,7 +443,7 @@ public class EditPlayerActivity extends Activity implements OnClickListener,
 		mPlus0.setTextColor(color);
 		mEditName0.setTextColor(color);
 		mEditName0.setText(player.getName());
-		
+
 		if (showButtons) {
 			mPlus0.setVisibility(View.VISIBLE);
 			mMinus0.setVisibility(View.VISIBLE);
@@ -445,8 +471,11 @@ public class EditPlayerActivity extends Activity implements OnClickListener,
 		}
 		
 		//Adjusting editor values
-		mTextBox.setText(player.getName());
-		
+		if (newPlayerName == null)
+        {
+            mTextBox.setText(player.getName());
+        }
+        
 		check_buttons.setChecked(player.showButons());
 		check_wheels.setChecked(player.showWheel());
 	}
