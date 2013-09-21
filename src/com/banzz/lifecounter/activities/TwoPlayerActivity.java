@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.res.Configuration;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -303,6 +304,7 @@ public class TwoPlayerActivity extends Activity implements OnClickListener, Load
             @Override
             public void onClick(View view) {
                 ToolboxMenuDialog colorDialog = new ToolboxMenuDialog(TwoPlayerActivity.this, TwoPlayerActivity.this);
+                //colorDialog.getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(0));
                 colorDialog.show(getFragmentManager(), getString(R.string.pick_color));
             }
         });

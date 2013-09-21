@@ -10,14 +10,14 @@
         android:id="@+id/option_restart"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:background="#558855"
+        android:background="@drawable/restart"
     />
 
     <Button
         android:id="@+id/option_dice"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:background="#888888"
+        android:background="@drawable/dice"
         android:layout_toRightOf="@id/option_restart"
         android:layout_marginLeft="5dp"
         />
@@ -26,7 +26,7 @@
         android:id="@+id/option_coin"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:background="#998800"
+        android:background="@drawable/coin"
         android:layout_toRightOf="@id/option_dice"
         android:layout_marginLeft="5dp"
         />
@@ -35,7 +35,7 @@
             android:id="@+id/option_load"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:background="#EE7777"
+            android:background="@drawable/load"
             android:layout_toRightOf="@id/option_coin"
             android:layout_marginLeft="5dp"
             />
@@ -44,7 +44,7 @@
             android:id="@+id/option_edit"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:background="#994444"
+            android:background="@drawable/edit"
             android:layout_toRightOf="@id/option_load"
             android:layout_marginLeft="5dp"
             />
@@ -53,7 +53,7 @@
             android:id="@+id/option_rotate"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:background="#774477"
+            android:background="@drawable/flip"
             android:layout_toRightOf="@id/option_edit"
             android:layout_marginLeft="5dp"
             />

@@ -6,9 +6,11 @@ import android.app.DialogFragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,6 +25,7 @@ public class ToolboxMenuDialog extends DialogFragment {
     private ToolBoxDialogListener mListener;
 
     public ToolboxMenuDialog(Context context, ToolBoxDialogListener listener) {
+        //super(context, android.R.style.Theme_Translucent_NoTitleBar_Fullscreen);
         mContext = context;
         mListener = listener;
     }
@@ -31,7 +34,7 @@ public class ToolboxMenuDialog extends DialogFragment {
         public void onPickAction(int action);
     }
 
-	@Override
+    @Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 	    LayoutInflater inflater = getActivity().getLayoutInflater();
