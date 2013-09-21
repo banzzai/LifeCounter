@@ -4,16 +4,16 @@
     <PreferenceCategory
             android:title="@string/layout_settings">
 
-        <CheckBoxPreference
-                android:key="@string/key_show_buttons"
-                android:title="@string/show_buttons"
-                android:summary="@string/summary_show_buttons"
-                android:defaultValue="true" />
-        
-        <CheckBoxPreference
-                android:key="@string/key_show_wheels"
-                android:title="@string/show_wheels"
-                android:defaultValue="false"/>
+        <!--<CheckBoxPreference-->
+                <!--android:key="@string/key_show_buttons"-->
+                <!--android:title="@string/show_buttons"-->
+                <!--android:summary="@string/summary_show_buttons"-->
+                <!--android:defaultValue="true" />-->
+        <!---->
+        <!--<CheckBoxPreference-->
+                <!--android:key="@string/key_show_wheels"-->
+                <!--android:title="@string/show_wheels"-->
+                <!--android:defaultValue="false"/>-->
 
         <CheckBoxPreference
                 android:key="@string/key_show_poison"

@@ -97,6 +97,7 @@
 		    <TextView
 		        android:layout_width="match_parent"
 		        android:layout_height="64dp"
+                android:textSize="25sp"
 		        android:scaleType="center"
 		        android:text="@string/edit_player" />
 		    
@@ -126,12 +127,14 @@
 		        android:id="@+id/edit_name"
 		        android:layout_width="100dp"
 		        android:layout_height="wrap_content"
+                android:layout_marginLeft="50dp"
 		        android:inputType="text"
 		    />
 		    
 		    <LinearLayout 
 		        android:layout_width="match_parent"
 		        android:layout_height="wrap_content"
+                android:visibility="gone"
 		    >
 				<CheckBox 
 			        android:id="@+id/check_buttons"
@@ -151,6 +154,7 @@
 		    <LinearLayout 
 		        android:layout_width="match_parent"
 		        android:layout_height="wrap_content"
+                android:visibility="gone"
 		    >
 			    <CheckBox 
 			        android:id="@+id/check_wheels"
@@ -174,6 +178,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/button_pick_images"
+                android:layout_marginTop="20dp"
                 android:layout_gravity="center"
 			/>
 		    
@@ -183,6 +188,7 @@
                 android:background="@drawable/btn_green_matte"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
                 android:text="@string/pick_color"
                 android:layout_gravity="center"
 			/>
@@ -194,6 +200,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/Load"
+                android:layout_marginTop="20dp"
                 android:layout_gravity="center"
 			/>
 		    
@@ -204,6 +211,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/Save"
+                android:layout_marginTop="20dp"
                 android:layout_gravity="center"
 			/>
 		    
@@ -214,6 +222,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/Delete"
+                android:layout_marginTop="20dp"
                 android:layout_gravity="center"
 			/>
 		    
@@ -224,6 +233,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/apply"
+                android:layout_marginTop="20dp"
                 android:layout_gravity="center"
 			/>
         </LinearLayout>
