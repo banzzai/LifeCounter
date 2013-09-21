@@ -475,7 +475,7 @@ public class EditPlayerActivity extends Activity implements OnClickListener,
         {
             mTextBox.setText(player.getName());
         }
-        
+
 		check_buttons.setChecked(player.showButons());
 		check_wheels.setChecked(player.showWheel());
 	}

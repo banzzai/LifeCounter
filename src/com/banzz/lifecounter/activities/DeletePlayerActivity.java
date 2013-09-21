@@ -42,6 +42,7 @@ import com.google.gson.Gson;
 public class DeletePlayerActivity extends Activity implements OnClickListener {
 	private Player[] mUsers;
 	private ListView mPlayersView;
+    private boolean[] mMarkedForDeletion;
 	
 	@Override
 	protected void onPause() {
@@ -99,7 +100,29 @@ public class DeletePlayerActivity extends Activity implements OnClickListener {
 	}
 	
 	private void doDelete() {
-		//TODO Delete profiles
+        int deletionCount = 0;
+        for (int i=0; i<mUsers.length; i++)
+        {
+            if (mMarkedForDeletion[i])
+            {
+                deletionCount++;
+            }
+        }
+        if (deletionCount != 0)
+        {
+            Player[] newUsers = new Player[mUsers.length-deletionCount];
+            int newUserPosition = 0;
+            for (int i=0; i<mUsers.length; i++)
+            {
+                if (!mMarkedForDeletion[i])
+                {
+                    newUsers[newUserPosition] = mUsers[i];
+                    newUserPosition++;
+                }
+            }
+            mUsers = newUsers;
+            savePlayers();
+        }
 	}
 	
 	private void loadSavedProfiles() {
@@ -122,6 +145,11 @@ public class DeletePlayerActivity extends Activity implements OnClickListener {
 		} else {
 			Reader reader = new InputStreamReader(fis);
 			mUsers = gson.fromJson(reader, Player[].class);
+            mMarkedForDeletion = new boolean[mUsers.length];
+            for (int i=0; i<mUsers.length; i++)
+            {
+                mMarkedForDeletion[i] = false;
+            }
 		}
 	}
 
@@ -181,8 +209,9 @@ public class DeletePlayerActivity extends Activity implements OnClickListener {
 			checkDelete.setOnClickListener(new OnClickListener() {
 				
 				@Override
-				public void onClick(View arg0) {
-					Log.e("DELETE", "Marking "+position+" for deletion");
+				public void onClick(View view) {
+                    mMarkedForDeletion[position] = ((CheckBox)view).isChecked();
+                    Log.e("DELETE", "Marking "+position+" for deletion");
 				}
 			});
 			
