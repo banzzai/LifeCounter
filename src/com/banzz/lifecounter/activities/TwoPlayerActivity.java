@@ -159,7 +159,8 @@ public class TwoPlayerActivity extends Activity implements OnClickListener, Load
         setContentView(R.layout.activity_two_player);
 		
         mEditName1	= (TextView) findViewById(R.id.edit_player1);
-        
+        mEditName1.setOnClickListener(this);
+
         mBigLife1 	= (TextView) findViewById(R.id.big_life_1);
         mBigLife1.setOnClickListener(this);
         mPlus1 		= (TextView) findViewById(R.id.plus_1);
@@ -168,6 +169,8 @@ public class TwoPlayerActivity extends Activity implements OnClickListener, Load
         mMinus1.setOnClickListener(this);
         
         mEditName2	= (TextView) findViewById(R.id.edit_player2);
+        mEditName2.setOnClickListener(this);
+
         mBigLife2 	= (TextView) findViewById(R.id.big_life_2);
         mBigLife2.setOnClickListener(this);
         mPlus2 		= (TextView) findViewById(R.id.plus_2);
@@ -413,10 +416,10 @@ public class TwoPlayerActivity extends Activity implements OnClickListener, Load
 			//Clicking on player 1 life total
 		} else if (clickedView.equals(mBigLife2)) {
 			//Clicking on player 2 life total
-		}  else if (clickedView.equals(mPlus1)) {
+		}  else if (clickedView.equals(mPlus1) || clickedView.equals(mEditName1)) {
 			//Clicking on player 1 + button
 			setLife(player_one_wheel, getLife(player_one_wheel) + 1, true);
-		}  else if (clickedView.equals(mPlus2)) {
+		}  else if (clickedView.equals(mPlus2) || clickedView.equals(mEditName2)) {
 			//Clicking on player 2 + button
 			setLife(player_two_wheel, getLife(player_two_wheel) + 1, true);
 		}  else if (clickedView.equals(mMinus1)) {
