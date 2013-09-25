@@ -275,9 +275,9 @@ public class TwoPlayerActivity extends Activity implements OnClickListener, Load
 		initArrays();
 		updateUI();
 		
-		if (preferences.getBoolean(getString(R.string.key_hide_wizard), false)) {
-			findViewById(R.id.wizard_layout).setVisibility(View.GONE);
-		}
+//		if (preferences.getBoolean(getString(R.string.key_hide_wizard), false)) {
+//			findViewById(R.id.wizard_layout).setVisibility(View.GONE);
+//		}
 		
 		Button close_wizard = (Button) findViewById(R.id.close_wizard);
 		close_wizard.setOnClickListener(new OnClickListener() {

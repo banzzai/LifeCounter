@@ -110,7 +110,7 @@ public class EditPlayerActivity extends Activity implements OnClickListener,
 				startActivityForResult(pickIntent, Constants.REQUEST_PICK_IMAGES);
 			}
 		});
-        
+
 //		Gson gson = new Gson();
 //		String json = gson.toJson(knownPlayers);
 //		String fileName = Constants.PROFILES_FILE_NAME;
@@ -302,7 +302,18 @@ public class EditPlayerActivity extends Activity implements OnClickListener,
 		
 		loadSavedProfiles();
 		updateUI();
+
+        checkWizard();
 	}
+
+    private void checkWizard()
+    {
+        final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        if (preferences.getBoolean(getString(R.string.key_hide_edit_wizard), true)) {
+            Intent editIntent = new Intent(getApplicationContext(), EditWizardActivity.class);
+            startActivityForResult(editIntent, Constants.REQUEST_EDIT_WIZARD);
+        }
+    }
 
 	private void validateSave(int selectedPlayer) {
 		AlertDialog dialog;

@@ -43,7 +43,7 @@
 				    android:text="@string/player_1"
 				    android:textAppearance="@style/ButtonText"
 				    android:textColor="#FFF" />
-				
+
                 <TextView
                     android:id="@+id/big_life_1"
                     android:layout_width="wrap_content"
@@ -60,7 +60,7 @@
                     android:gravity="center"
                     android:text="@string/plus"
                     android:textAppearance="@style/bigLife" />
-                
+
                 <TextView
                     android:id="@+id/minus_1"
                     android:layout_width="match_parent"
@@ -168,7 +168,7 @@
             android:id="@+id/central_button"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:alpha="0.75"
+            android:alpha="0.85"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:background="@drawable/tools"
@@ -178,7 +178,7 @@
             android:id="@+id/wizard_layout"
 	        android:layout_width="match_parent"
 	        android:layout_height="match_parent"
-	        android:background="#990055BB"
+	        android:background="#99000000"
         >
 			<Button
 			    android:id="@+id/never_show"
