@@ -1,21 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/edit_wizard_layout"
+    android:visibility="gone"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#99ff0000"
+    android:background="#DD000000"
 >
     <TextView
+            android:id="@+id/edit_wiz_1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/edit_never_show"
+            android:layout_alignParentTop="true"
             android:text="@string/edit_wizard_text"
+            style="@style/EditWizard"
         />
+    <TextView
+            android:id="@+id/edit_wiz_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/edit_wiz_1"
+            android:text="@string/edit_wizard_text_2"
+            style="@style/EditWizard"
+            />
+    <TextView
+            android:id="@+id/edit_wiz_3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/edit_wiz_2"
+            android:text="@string/edit_wizard_text_3"
+            style="@style/EditWizard"
+            />
     <Button
         android:id="@+id/edit_never_show"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:text="@string/never_show"
         />
@@ -23,8 +43,8 @@
         android:id="@+id/edit_close_wizard"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:text="X"
+        android:text="@string/close"
         />
 </RelativeLayout>

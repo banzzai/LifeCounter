@@ -20,10 +20,11 @@
     <string name="more_colors">More colors</string>
 
     <!-- Edit Player -->
-    <string name="edit_player">Edit Player</string>
+    <string name="edit_player">Edit Profiles</string>
 	<string name="pick_color">Pick color</string>
 	<string name="keyboard_go">Go</string>
 	<string name="apply">Apply</string>
+    <string name="name">Name</string>
 	<string name="apply_confirmation">This will apply changes but not save anything.</string>
 	
 	<!-- Delete Players -->
@@ -47,10 +48,33 @@
     <string name="minus">-</string>
 
     <!-- First Use Wizard -->
+    <string name="close">Close</string>
     <string name="never_show">Never show</string>
+    <string name="wizard_text">Welcome to %s! You can access the toolbox by clicking the gear icon
+        in the middle.</string>
+    <string name="wizard_text_middle">Tools are corresponding to the icons: new game, roll dice,
+        flip a coin, load profiles, edit profiles, flip player 2.</string>
+    <string name="wizard_text_part2">This app is still in Beta so your feedback is welcome! Check
+        out edit player and the draft organizer too! Thanks for your support :) Bullzzai</string>
+    <string name="app_name">MTG20 LifeCounter</string>
 
     <!-- Edit Wizard -->
-    <string name="edit_wizard_text">Here some text to explain the functionality</string>
+    <string name="edit_wizard_text">Welcome to edit player screen! Here you can set a name for your
+        player profile, pick a color for the life counter, and select images for the background.
+    </string>
+    <string name="edit_wizard_text_2">If you decide to customize your back ground (you should it\'s
+        awesome!), in the next screen you will be asked to pick a tall and a large picture. The tall
+        one will be used in portrait mode, and the large in landscape. You can chose between loading
+        an image directly, or crop it to fit the aspect ratio. There\'s a known bug on the cropped
+        images thumnails, if you check them in your phone gallery you might see that they don\'t
+        correspond (clear data on the gallery app fixes that).
+    </string>
+    <string name="edit_wizard_text_3">From there, you can simply apply changes (it won\'t save
+        anything), or save your edited profile. Note that profiles are stored by name so if you
+        change the name it will create a new profile. You can also load and edit profiles here. Have
+        fun!
+    </string>
+
 
     <!-- Toasts -->
     <string name="donation_thanks">Thank you! :D</string>

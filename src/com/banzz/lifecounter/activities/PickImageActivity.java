@@ -56,7 +56,7 @@ public class PickImageActivity extends Activity {
 
            Intent bundle = getIntent();
            mPlayer = (Player) bundle.getParcelableExtra(Constants.KEY_PLAYER_TARGET);
-           
+
            setContentView(R.layout.pick_images_activity);
 
            mImageViewLarge = (ImageView) findViewById(R.id.image_large);
@@ -283,7 +283,16 @@ public class PickImageActivity extends Activity {
                   break;
 		}
     }
-	
+
+    @Override
+    public void onBackPressed()
+    {
+        Intent resultIntent = new Intent();
+        resultIntent.putExtra(Constants.KEY_PLAYER_TARGET, "");
+        setResult(Activity.RESULT_CANCELED, resultIntent);
+        finish();
+    }
+
 	//Make sure both images have been selected
 	private void checkDone() {
 		if (imageStatus[INDEX_TALL]!=STATUS_EMPTY && imageStatus[INDEX_LARGE]!=STATUS_EMPTY) {

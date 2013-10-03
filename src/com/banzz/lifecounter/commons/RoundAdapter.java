@@ -2,10 +2,6 @@ package com.banzz.lifecounter.commons;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-
-import kankan.wheel.widget.OnWheelChangedListener;
-import kankan.wheel.widget.WheelView;
-import kankan.wheel.widget.adapters.AbstractWheelTextAdapter;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
@@ -17,6 +13,10 @@ import android.widget.ListAdapter;
 import android.widget.TextView;
 
 import com.banzz.lifecounter.R;
+
+import kankan.wheel.widget.OnWheelChangedListener;
+import kankan.wheel.widget.WheelView;
+import kankan.wheel.widget.adapters.AbstractWheelTextAdapter;
 
 @SuppressLint("UseSparseArrays")
 public class RoundAdapter implements ListAdapter {

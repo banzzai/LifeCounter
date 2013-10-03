@@ -17,7 +17,6 @@
 
         <LinearLayout
             android:id="@+id/fullscreen_content_edit"
-            style="?buttonBarStyle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@android:color/black"
@@ -77,16 +76,17 @@
                     android:text="@string/minus"
                     android:textAppearance="@style/bigLife" />
 
-                <kankan.wheel.widget.WheelView
-                    android:id="@+id/player_zero"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true" />
+                <!--<kankan.wheel.widget.WheelView-->
+                    <!--android:id="@+id/player_zero"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_alignParentBottom="true" />-->
 	            
             </RelativeLayout>
         </LinearLayout>
-		
-		<LinearLayout 
+
+        <!-- EDIT ZONE -->
+        <RelativeLayout
 			android:id="@+id/edit_controls"
 		    android:layout_width="match_parent"
 		    android:layout_height="match_parent"
@@ -95,18 +95,48 @@
 		    >
           	
 		    <TextView
+                android:id="@+id/edit_player_id"
 		        android:layout_width="match_parent"
 		        android:layout_height="64dp"
                 android:textSize="25sp"
 		        android:scaleType="center"
-		        android:text="@string/edit_player" />
-		    
+		        android:text="@string/edit_player"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="5dp"
+                android:layout_centerHorizontal="true"
+                android:textColor="#FFFFFF"
+            />
+
+            <TextView
+                android:id="@+id/edit_name_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:scaleType="center"
+                android:text="@string/name"
+                android:layout_marginTop="5dp"
+                android:layout_below="@id/edit_player_id"
+                android:layout_centerHorizontal="true"
+                android:textColor="#FFFFFF"
+                />
+
+            <EditText
+                android:id="@+id/edit_name"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:layout_centerInParent="true"
+                android:layout_below="@id/edit_name_title"
+                android:textColor="#FFFFFF"
+            />
+
 		    <RadioGroup
 		        android:id="@+id/edit_radio"
 		        android:layout_width="fill_parent"
 		        android:layout_height="wrap_content"
 		        android:layout_gravity="center_horizontal"
 		        android:gravity="center_horizontal"
+                android:layout_below="@id/edit_name"
 		        android:orientation="horizontal" >
 			    
 			    <RadioButton 
@@ -114,70 +144,66 @@
 			        android:layout_width="wrap_content"
 			        android:layout_height="wrap_content"
 			        android:checked="true"
+                    android:textColor="#FFFFFF"
 			        android:text="@string/player_1"
 				/>
+
 			    <RadioButton android:id="@+id/radio_edit_2"
 			        android:layout_width="wrap_content"
 			        android:layout_height="wrap_content"
+                    android:textColor="#FFFFFF"
 			        android:text="@string/player_2"
 			    />
 			</RadioGroup>
-			
-		    <EditText
-		        android:id="@+id/edit_name"
-		        android:layout_width="100dp"
-		        android:layout_height="wrap_content"
-                android:layout_marginLeft="50dp"
-		        android:inputType="text"
-		    />
-		    
-		    <LinearLayout 
-		        android:layout_width="match_parent"
-		        android:layout_height="wrap_content"
-                android:visibility="gone"
-		    >
-				<CheckBox 
-			        android:id="@+id/check_buttons"
-			        android:layout_width="wrap_content"
-			        android:layout_height="wrap_content"
-			    />
-			    
-			    <TextView
-			        android:id="@+id/label_for_buttons"
-			        android:layout_width="wrap_content"
-			        android:layout_height="wrap_content"
-			        android:labelFor="@id/check_buttons"
-			        android:text="@string/show_buttons"
-			    />        
-		    </LinearLayout>
-		    
-		    <LinearLayout 
-		        android:layout_width="match_parent"
-		        android:layout_height="wrap_content"
-                android:visibility="gone"
-		    >
-			    <CheckBox 
-			        android:id="@+id/check_wheels"
-			        android:layout_width="wrap_content"
-			        android:layout_height="wrap_content"
-			    />
-			    
-			    <TextView
-			        android:id="@+id/label_for_wheels"
-			        android:layout_width="wrap_content"
-			        android:layout_height="wrap_content"
-			        android:labelFor="@id/check_wheels"
-			        android:text="@string/show_wheels"
-			    />
-		    </LinearLayout>"
+
+		    <!--<LinearLayout -->
+		        <!--android:layout_width="match_parent"-->
+		        <!--android:layout_height="wrap_content"-->
+                <!--android:visibility="gone"-->
+		    <!-->-->
+				<!--<CheckBox -->
+			        <!--android:id="@+id/check_buttons"-->
+			        <!--android:layout_width="wrap_content"-->
+			        <!--android:layout_height="wrap_content"-->
+			    <!--/>-->
+			    <!---->
+			    <!--<TextView-->
+			        <!--android:id="@+id/label_for_buttons"-->
+			        <!--android:layout_width="wrap_content"-->
+			        <!--android:layout_height="wrap_content"-->
+			        <!--android:labelFor="@id/check_buttons"-->
+			        <!--android:text="@string/show_buttons"-->
+			    <!--/>        -->
+		    <!--</LinearLayout>-->
+		    <!---->
+		    <!--<LinearLayout -->
+		        <!--android:layout_width="match_parent"-->
+		        <!--android:layout_height="wrap_content"-->
+                <!--android:visibility="gone"-->
+		    <!-->-->
+			    <!--<CheckBox -->
+			        <!--android:id="@+id/check_wheels"-->
+			        <!--android:layout_width="wrap_content"-->
+			        <!--android:layout_height="wrap_content"-->
+			    <!--/>-->
+			    <!---->
+			    <!--<TextView-->
+			        <!--android:id="@+id/label_for_wheels"-->
+			        <!--android:layout_width="wrap_content"-->
+			        <!--android:layout_height="wrap_content"-->
+			        <!--android:labelFor="@id/check_wheels"-->
+			        <!--android:text="@string/show_wheels"-->
+			    <!--/>-->
+		    <!--</LinearLayout>"-->
 		    
 		    <Button
                 android:id="@+id/images_button"
                 style="@style/ButtonSmall"
                 android:background="@drawable/btn_green_matte"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/button_pick_images"
+                android:layout_below="@id/edit_radio"
                 android:layout_marginTop="20dp"
                 android:layout_gravity="center"
 			/>
@@ -186,10 +212,11 @@
                 android:id="@+id/color_button"
                 style="@style/ButtonText"
                 android:background="@drawable/btn_green_matte"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:text="@string/pick_color"
+                android:layout_below="@id/images_button"
                 android:layout_gravity="center"
 			/>
 		    
@@ -197,10 +224,11 @@
                 android:id="@+id/load_button"
                 style="@style/ButtonText"
                 android:background="@drawable/btn_green_matte"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/Load"
                 android:layout_marginTop="20dp"
+                android:layout_below="@id/color_button"
                 android:layout_gravity="center"
 			/>
 		    
@@ -208,10 +236,11 @@
                 android:id="@+id/save_button"
                 style="@style/ButtonText"
                 android:background="@drawable/btn_green_matte"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/Save"
                 android:layout_marginTop="20dp"
+                android:layout_below="@id/load_button"
                 android:layout_gravity="center"
 			/>
 		    
@@ -219,10 +248,11 @@
                 android:id="@+id/delete_button"
                 style="@style/ButtonText"
                 android:background="@drawable/btn_green_matte"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/Delete"
                 android:layout_marginTop="20dp"
+                android:layout_below="@id/save_button"
                 android:layout_gravity="center"
 			/>
 		    
@@ -230,14 +260,20 @@
                 android:id="@+id/apply_button"
                 style="@style/ButtonText"
                 android:background="@drawable/btn_green_matte"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/apply"
                 android:layout_marginTop="20dp"
+                android:layout_below="@id/delete_button"
                 android:layout_gravity="center"
 			/>
-        </LinearLayout>
+        </RelativeLayout>
             
 	</LinearLayout>
+
+    <include layout="@layout/activity_edit_player_wizard"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+    />
 
 </RelativeLayout>

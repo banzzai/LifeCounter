@@ -6,8 +6,8 @@ import java.io.FileOutputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 
-import kankan.wheel.widget.OnWheelScrollListener;
-import kankan.wheel.widget.WheelView;
+//import kankan.wheel.widget.OnWheelScrollListener;
+//import kankan.wheel.widget.WheelView;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -23,6 +23,7 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.Window;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -32,12 +33,12 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 import android.widget.Toast;
 
 import com.banzz.lifecounter.R;
-import com.banzz.lifecounter.commons.LifeAdapter;
 import com.banzz.lifecounter.commons.Player;
 import com.banzz.lifecounter.utils.SystemUiHider;
 import com.banzz.lifecounter.utils.Utils.Constants;
@@ -71,17 +72,18 @@ public class EditPlayerActivity extends Activity implements OnClickListener,
 	private TextView mBigLife0;
 	private TextView mMinus0;
 	
-	private WheelView player_zero_wheel;
+	//private WheelView player_zero_wheel;
 	
 	private ImageView player0_background;
 
 	private EditText mTextBox;
-	private CheckBox check_wheels;
-	private CheckBox check_buttons;
+//	private CheckBox check_wheels;
+//	private CheckBox check_buttons;
 
 	private Player[] mUsers;
-	
-	@Override
+    private RelativeLayout wizardLayout;
+
+    @Override
 	protected void onPause() {
 		super.onPause();
 	};
@@ -97,6 +99,8 @@ public class EditPlayerActivity extends Activity implements OnClickListener,
 	@Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
+        getActionBar().hide();
         setContentView(R.layout.activity_edit_player);
 		
         Button mImagePicker = (Button) findViewById(R.id.images_button);
@@ -144,28 +148,28 @@ public class EditPlayerActivity extends Activity implements OnClickListener,
         mMinus0		= (TextView) findViewById(R.id.minus_0);
         mMinus0.setOnClickListener(this);
         
-        player_zero_wheel = (WheelView) findViewById(R.id.player_zero);
-		player_zero_wheel.setViewAdapter(new LifeAdapter(this, Constants.LIFE_MIN, Constants.LIFE_MAX));
+//        player_zero_wheel = (WheelView) findViewById(R.id.player_zero);
+//		player_zero_wheel.setViewAdapter(new LifeAdapter(this, Constants.LIFE_MIN, Constants.LIFE_MAX));
 		
 		player0_background = (ImageView) findViewById(R.id.background_player0);
 		player0_background.setOnClickListener(this);
 		
 		mBigLife0.setText(""+LIFE_START);
-		player_zero_wheel.addScrollingListener(new OnWheelScrollListener() {
-			private int mStartScrolling0;
-			@Override
-			public void onScrollingStarted(WheelView wheel) {
-				mStartScrolling0 = wheel.getCurrentItem();
-			}
-			@Override
-			public void onScrollingFinished(WheelView wheel) {
-				setLife(player_zero_wheel, Constants.LIFE_MAX - wheel.getCurrentItem(), false);
-				String sDelta = mStartScrolling0 - wheel.getCurrentItem() == 0 ? "" : (mStartScrolling0 - wheel.getCurrentItem() > 0 ? "+" : "") + (mStartScrolling0- wheel.getCurrentItem());
-				if (!sDelta.isEmpty()) {
-					Toast.makeText(EditPlayerActivity.this, sDelta, Toast.LENGTH_SHORT).show();
-				}
-			}
-		});
+//		player_zero_wheel.addScrollingListener(new OnWheelScrollListener() {
+//			private int mStartScrolling0;
+//			@Override
+//			public void onScrollingStarted(WheelView wheel) {
+//				mStartScrolling0 = wheel.getCurrentItem();
+//			}
+//			@Override
+//			public void onScrollingFinished(WheelView wheel) {
+//				setLife(player_zero_wheel, Constants.LIFE_MAX - wheel.getCurrentItem(), false);
+//				String sDelta = mStartScrolling0 - wheel.getCurrentItem() == 0 ? "" : (mStartScrolling0 - wheel.getCurrentItem() > 0 ? "+" : "") + (mStartScrolling0- wheel.getCurrentItem());
+//				if (!sDelta.isEmpty()) {
+//					Toast.makeText(EditPlayerActivity.this, sDelta, Toast.LENGTH_SHORT).show();
+//				}
+//			}
+//		});
 		
 		//EDIT PART
 		RadioGroup mGroup = (RadioGroup) findViewById(R.id.edit_radio);
@@ -214,23 +218,23 @@ public class EditPlayerActivity extends Activity implements OnClickListener,
             }
         });
 
-		check_buttons = (CheckBox) findViewById(R.id.check_buttons);
-		check_buttons.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				players[mSelectedPlayer].setShowButtons(isChecked);
-				updateUI();
-			}
-		});
-		
-		check_wheels = (CheckBox) findViewById(R.id.check_wheels);
-		check_wheels.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				players[mSelectedPlayer].setShowWheel(isChecked);
-				updateUI();
-			}
-		});
+//		check_buttons = (CheckBox) findViewById(R.id.check_buttons);
+//		check_buttons.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+//			@Override
+//			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//				players[mSelectedPlayer].setShowButtons(isChecked);
+//				updateUI();
+//			}
+//		});
+//
+//		check_wheels = (CheckBox) findViewById(R.id.check_wheels);
+//		check_wheels.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+//			@Override
+//			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//				players[mSelectedPlayer].setShowWheel(isChecked);
+//				updateUI();
+//			}
+//		});
 		
 		Button colorButton = (Button) findViewById(R.id.color_button);
 		colorButton.setOnClickListener(new OnClickListener() {
@@ -239,9 +243,6 @@ public class EditPlayerActivity extends Activity implements OnClickListener,
                 PickColorDialog colorDialog = new PickColorDialog(EditPlayerActivity.this, mSelectedPlayer);
                 colorDialog.setListener(EditPlayerActivity.this);
                 colorDialog.show(getFragmentManager(), getString(R.string.pick_color));
-//                Intent editColor = new Intent(getApplicationContext(), SettingsActivity.class);
-//				editColor.putExtra(Constants.KEY_PLAYER_TARGET, mSelectedPlayer);
-//				startActivity(editColor);
 			}
 		});
 		
@@ -303,15 +304,36 @@ public class EditPlayerActivity extends Activity implements OnClickListener,
 		loadSavedProfiles();
 		updateUI();
 
+        wizardLayout = (RelativeLayout) findViewById(R.id.edit_wizard_layout);
+
+        Button close_wizard = (Button) findViewById(R.id.edit_close_wizard);
+        close_wizard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View arg0) {
+                wizardLayout.setVisibility(View.GONE);
+            }
+        });
+
+        Button never_show_wizard = (Button) findViewById(R.id.edit_never_show);
+        never_show_wizard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View arg0) {
+                final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(EditPlayerActivity.this);
+                SharedPreferences.Editor preferenceEditor = preferences.edit();
+                preferenceEditor.putBoolean(getString(R.string.key_hide_edit_wizard), true);
+                preferenceEditor.commit();
+                wizardLayout.setVisibility(View.GONE);
+            }
+        });
+
         checkWizard();
 	}
 
     private void checkWizard()
     {
         final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        if (preferences.getBoolean(getString(R.string.key_hide_edit_wizard), true)) {
-            Intent editIntent = new Intent(getApplicationContext(), EditWizardActivity.class);
-            startActivityForResult(editIntent, Constants.REQUEST_EDIT_WIZARD);
+        if (!preferences.getBoolean(getString(R.string.key_hide_edit_wizard), false)) {
+            wizardLayout.setVisibility(View.VISIBLE);
         }
     }
 
@@ -463,11 +485,11 @@ public class EditPlayerActivity extends Activity implements OnClickListener,
         	mMinus0.setVisibility(View.GONE);
         }
 		
-		if (showWheel) {
-        	player_zero_wheel.setVisibility(View.VISIBLE);
-        } else {
-        	player_zero_wheel.setVisibility(View.GONE);
-        }
+//		if (showWheel) {
+//        	player_zero_wheel.setVisibility(View.VISIBLE);
+//        } else {
+//        	player_zero_wheel.setVisibility(View.GONE);
+//        }
 		
 		String tallUrl = player.getTallBgUrl();
 		String largeUrl = player.getLargeBgUrl();
@@ -487,8 +509,8 @@ public class EditPlayerActivity extends Activity implements OnClickListener,
             mTextBox.setText(player.getName());
         }
 
-		check_buttons.setChecked(player.showButons());
-		check_wheels.setChecked(player.showWheel());
+//		check_buttons.setChecked(player.showButons());
+//		check_wheels.setChecked(player.showWheel());
 	}
 
 	private boolean checkOrientation(int orientation) {
@@ -505,10 +527,10 @@ public class EditPlayerActivity extends Activity implements OnClickListener,
 			//Clicking on player 0 life total
 		} else if (clickedView.equals(mPlus0)) {
 			//Clicking on player 1 + button
-			setLife(player_zero_wheel, getLife(player_zero_wheel) + 1, true);
+			//setLife(player_zero_wheel, getLife(player_zero_wheel) + 1, true);
 		}  else if (clickedView.equals(mMinus0)) {
 			//Clicking on player 1 - button
-			setLife(player_zero_wheel, getLife(player_zero_wheel) - 1, true);
+			//setLife(player_zero_wheel, getLife(player_zero_wheel) - 1, true);
 		}  else if (clickedView.equals(player0_background)) {
 			rollBackground(Constants.PLAYER_ZERO);
 		}
@@ -522,24 +544,24 @@ public class EditPlayerActivity extends Activity implements OnClickListener,
 	}
 
 	//SINCE WE ARE HACKING A WHEEL THAT WORKS BACKWARDS OF INDEX ALWAYS USE THIS GETTER
-	private int getLife(WheelView player) {
-		return Constants.LIFE_MAX - player.getCurrentItem();
-	}
+//	private int getLife(WheelView player) {
+//		return Constants.LIFE_MAX - player.getCurrentItem();
+//	}
 	
 	//SINCE WE ARE HACKING A WHEEL THAT WORKS BACKWARDS OF INDEX ALWAYS USE THIS SETTER
-	private void setLife(WheelView player, int life, boolean adjustWheel) {
-    	if (life < 0 || life > Constants.LIFE_MAX) {
-    		return;
-    	}
-    	
-    	if (adjustWheel) {
-    		player.setCurrentItem(Constants.LIFE_MAX - life);
-    	}
-    		
-    	if (player.equals(player_zero_wheel)) {
-    		mBigLife0.setText(""+life);
-    	}
-	}
+//	private void setLife(WheelView player, int life, boolean adjustWheel) {
+//    	if (life < 0 || life > Constants.LIFE_MAX) {
+//    		return;
+//    	}
+//
+////    	if (adjustWheel) {
+////    		player.setCurrentItem(Constants.LIFE_MAX - life);
+////    	}
+//
+////    	if (player.equals(player_zero_wheel)) {
+////    		mBigLife0.setText(""+life);
+////    	}
+//	}
 
 	@Override
 	public void onValidateLoad(Player player, int player_slot) {
@@ -550,7 +572,11 @@ public class EditPlayerActivity extends Activity implements OnClickListener,
 	
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
-		switch (requestCode) {
+		if (resultCode == Activity.RESULT_CANCELED)
+        {
+            return;
+        }
+        switch (requestCode) {
            case Constants.REQUEST_PICK_IMAGES:
         	   players[mSelectedPlayer] = (Player) intent.getParcelableExtra(Constants.KEY_PLAYER_TARGET);
         	   break;

@@ -2,31 +2,23 @@ package com.banzz.lifecounter.activities;
 
 import java.util.Random;
 
-import kankan.wheel.widget.OnWheelScrollListener;
-import kankan.wheel.widget.WheelView;
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.res.Configuration;
-import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
 import android.preference.PreferenceManager;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
@@ -34,7 +26,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.banzz.lifecounter.R;
-import com.banzz.lifecounter.commons.LifeAdapter;
 import com.banzz.lifecounter.commons.Player;
 import com.banzz.lifecounter.utils.SystemUiHider;
 import com.banzz.lifecounter.utils.Utils.Constants;
@@ -79,9 +70,9 @@ public class TwoPlayerActivity extends Activity implements OnClickListener, Load
 	private TextView mMinus2;
 	private TextView[] minuses = {null, null};
 	
-	private WheelView player_one_wheel;
-	private WheelView player_two_wheel;
-	private WheelView[] wheels = {null, null};
+//	private WheelView player_one_wheel;
+//	private WheelView player_two_wheel;
+//	private WheelView[] wheels = {null, null};
 	
 	private ImageView player1_background;
 	private ImageView player2_background;
@@ -100,8 +91,9 @@ public class TwoPlayerActivity extends Activity implements OnClickListener, Load
 	private TextView poisonCount2;
 	private int poisonValue1 = 0;
 	private int poisonValue2 = 0;
+    private ToolboxMenuDialog mToolBoxDialog;
 
-	@Override
+    @Override
 	protected void onPause() {
 		super.onPause();
 		if (wl != null && wl.isHeld()) {
@@ -179,8 +171,8 @@ public class TwoPlayerActivity extends Activity implements OnClickListener, Load
         mMinus2		= (TextView) findViewById(R.id.minus_2);
         mMinus2.setOnClickListener(this);
         
-        player_one_wheel = (WheelView) findViewById(R.id.player_one);
-		player_one_wheel.setViewAdapter(new LifeAdapter(this, Constants.LIFE_MIN, Constants.LIFE_MAX));
+//        player_one_wheel = (WheelView) findViewById(R.id.player_one);
+//		player_one_wheel.setViewAdapter(new LifeAdapter(this, Constants.LIFE_MIN, Constants.LIFE_MAX));
 
 		player1_background = (ImageView) findViewById(R.id.background_player1);
 		player1_background.setOnClickListener(this);
@@ -190,40 +182,40 @@ public class TwoPlayerActivity extends Activity implements OnClickListener, Load
 		player2_screen = (RelativeLayout) findViewById(R.id.player_two_screen);
 		
 		mBigLife1.setText(""+LIFE_START);
-		player_one_wheel.addScrollingListener(new OnWheelScrollListener() {
-			private int mStartScrolling1;
-			@Override
-			public void onScrollingStarted(WheelView wheel) {
-				mStartScrolling1 = wheel.getCurrentItem();
-			}
-			@Override
-			public void onScrollingFinished(WheelView wheel) {
-				setLife(player_one_wheel, Constants.LIFE_MAX - wheel.getCurrentItem(), false);
-				String sDelta = mStartScrolling1 - wheel.getCurrentItem() == 0 ? "" : (mStartScrolling1 - wheel.getCurrentItem() > 0 ? "+" : "") + (mStartScrolling1 - wheel.getCurrentItem());
-				if (!sDelta.isEmpty()) {
-					Toast.makeText(TwoPlayerActivity.this, sDelta, Toast.LENGTH_SHORT).show();
-				}
-			}
-		});
+//		player_one_wheel.addScrollingListener(new OnWheelScrollListener() {
+//			private int mStartScrolling1;
+//			@Override
+//			public void onScrollingStarted(WheelView wheel) {
+//				mStartScrolling1 = wheel.getCurrentItem();
+//			}
+//			@Override
+//			public void onScrollingFinished(WheelView wheel) {
+//				setLife(player_one_wheel, Constants.LIFE_MAX - wheel.getCurrentItem(), false);
+//				String sDelta = mStartScrolling1 - wheel.getCurrentItem() == 0 ? "" : (mStartScrolling1 - wheel.getCurrentItem() > 0 ? "+" : "") + (mStartScrolling1 - wheel.getCurrentItem());
+//				if (!sDelta.isEmpty()) {
+//					Toast.makeText(TwoPlayerActivity.this, sDelta, Toast.LENGTH_SHORT).show();
+//				}
+//			}
+//		});
 		
-		player_two_wheel = (WheelView) findViewById(R.id.player_two);
-		player_two_wheel.setViewAdapter(new LifeAdapter(this, Constants.LIFE_MIN, Constants.LIFE_MAX));
+//		player_two_wheel = (WheelView) findViewById(R.id.player_two);
+//		player_two_wheel.setViewAdapter(new LifeAdapter(this, Constants.LIFE_MIN, Constants.LIFE_MAX));
 		
 		mBigLife2.setText(""+LIFE_START);
-		player_two_wheel.addScrollingListener(new OnWheelScrollListener() {
-			private int mStartScrolling2;
-			@Override
-			public void onScrollingStarted(WheelView wheel) {
-			}
-			@Override
-			public void onScrollingFinished(WheelView wheel) {
-				setLife(player_two_wheel, Constants.LIFE_MAX - wheel.getCurrentItem(), false);
-				String sDelta = mStartScrolling2 - wheel.getCurrentItem() == 0 ? "" : (mStartScrolling2 - wheel.getCurrentItem() > 0 ? "+" : "") + (mStartScrolling2 - wheel.getCurrentItem());
-				if (!sDelta.isEmpty()) {
-					Toast.makeText(TwoPlayerActivity.this, sDelta, Toast.LENGTH_SHORT).show();
-				}
-			}
-		});
+//		player_two_wheel.addScrollingListener(new OnWheelScrollListener() {
+//			private int mStartScrolling2;
+//			@Override
+//			public void onScrollingStarted(WheelView wheel) {
+//			}
+//			@Override
+//			public void onScrollingFinished(WheelView wheel) {
+//				setLife(player_two_wheel, Constants.LIFE_MAX - wheel.getCurrentItem(), false);
+//				String sDelta = mStartScrolling2 - wheel.getCurrentItem() == 0 ? "" : (mStartScrolling2 - wheel.getCurrentItem() > 0 ? "+" : "") + (mStartScrolling2 - wheel.getCurrentItem());
+//				if (!sDelta.isEmpty()) {
+//					Toast.makeText(TwoPlayerActivity.this, sDelta, Toast.LENGTH_SHORT).show();
+//				}
+//			}
+//		});
 		
 		poisonBar1 = (VerticalSeekBar) findViewById(R.id.poisonBar1);
 		poisonBar1.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
@@ -268,17 +260,13 @@ public class TwoPlayerActivity extends Activity implements OnClickListener, Load
 		mShowPoison		= preferences.getBoolean(getString(R.string.key_show_poison), false);
 		player1_back_number = preferences.getInt(getString(R.string.key_back1), 0);
 		player2_back_number = preferences.getInt(getString(R.string.key_back2), 1);
-		setLife(player_one_wheel, preferences.getInt(getString(R.string.key_life1), 20), true);
-		setLife(player_two_wheel, preferences.getInt(getString(R.string.key_life2), 20), true);
+//		setLife(player_one_wheel, preferences.getInt(getString(R.string.key_life1), 20), true);
+//		setLife(player_two_wheel, preferences.getInt(getString(R.string.key_life2), 20), true);
 		player2_rotate(preferences.getBoolean(getString(R.string.key_rotate_player2), false));
 		
 		initArrays();
 		updateUI();
-		
-//		if (preferences.getBoolean(getString(R.string.key_hide_wizard), false)) {
-//			findViewById(R.id.wizard_layout).setVisibility(View.GONE);
-//		}
-		
+
 		Button close_wizard = (Button) findViewById(R.id.close_wizard);
 		close_wizard.setOnClickListener(new OnClickListener() {
 			@Override
@@ -299,16 +287,21 @@ public class TwoPlayerActivity extends Activity implements OnClickListener, Load
 			}
 		});
 
+        mToolBoxDialog = new ToolboxMenuDialog(TwoPlayerActivity.this, TwoPlayerActivity.this);
         Button menuButton = (Button) findViewById(R.id.central_button);
         menuButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                ToolboxMenuDialog colorDialog = new ToolboxMenuDialog(TwoPlayerActivity.this, TwoPlayerActivity.this);
-                //colorDialog.getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(0));
-                colorDialog.show(getFragmentManager(), getString(R.string.pick_color));
+                mToolBoxDialog.show(getFragmentManager(), getString(R.string.pick_color));
             }
         });
-	}
+
+		if (preferences.getBoolean(getString(R.string.key_hide_wizard), false)) {
+			findViewById(R.id.wizard_layout).setVisibility(View.GONE);
+		}
+        TextView wizard_text = (TextView) findViewById(R.id.wizard_text_container);
+        wizard_text.setText(String.format(getText(R.string.wizard_text).toString(), getText(R.string.app_name)));
+    }
 
 
 	private void initArrays() {
@@ -330,8 +323,8 @@ public class TwoPlayerActivity extends Activity implements OnClickListener, Load
 		minuses[Constants.PLAYER_ONE] = mMinus1;
 		minuses[Constants.PLAYER_TWO] = mMinus2;
 		
-		wheels[Constants.PLAYER_ONE] = player_one_wheel;
-		wheels[Constants.PLAYER_TWO] = player_two_wheel;
+//		wheels[Constants.PLAYER_ONE] = player_one_wheel;
+//		wheels[Constants.PLAYER_TWO] = player_two_wheel;
 		
 		backgrounds[Constants.PLAYER_ONE] = player1_background;
 		backgrounds[Constants.PLAYER_TWO] = player2_background;
@@ -393,11 +386,11 @@ public class TwoPlayerActivity extends Activity implements OnClickListener, Load
 			minuses[player_number].setVisibility(View.GONE);
         }
 		
-		if (players[player_number].showWheel()) {
-        	wheels[player_number].setVisibility(View.VISIBLE);
-        } else {
-        	wheels[player_number].setVisibility(View.GONE);
-        }
+//		if (players[player_number].showWheel()) {
+//        	wheels[player_number].setVisibility(View.VISIBLE);
+//        } else {
+//        	wheels[player_number].setVisibility(View.GONE);
+//        }
 		
 		String tallUrl = players[player_number].getTallBgUrl();
 		String largeUrl = players[player_number].getLargeBgUrl();
@@ -420,16 +413,20 @@ public class TwoPlayerActivity extends Activity implements OnClickListener, Load
 			//Clicking on player 2 life total
 		}  else if (clickedView.equals(mPlus1) || clickedView.equals(mEditName1)) {
 			//Clicking on player 1 + button
-			setLife(player_one_wheel, getLife(player_one_wheel) + 1, true);
+			setLife(Constants.PLAYER_ONE, getLife(Constants.PLAYER_ONE) + 1);
+			//setLife(player_one_wheel, getLife(player_one_wheel) + 1, true);
 		}  else if (clickedView.equals(mPlus2) || clickedView.equals(mEditName2)) {
 			//Clicking on player 2 + button
-			setLife(player_two_wheel, getLife(player_two_wheel) + 1, true);
+            setLife(Constants.PLAYER_TWO, getLife(Constants.PLAYER_TWO) + 1);
+            //setLife(player_two_wheel, getLife(player_two_wheel) + 1, true);
 		}  else if (clickedView.equals(mMinus1)) {
 			//Clicking on player 1 - button
-			setLife(player_one_wheel, getLife(player_one_wheel) - 1, true);
+            setLife(Constants.PLAYER_ONE, getLife(Constants.PLAYER_ONE) - 1);
+            //setLife(player_one_wheel, getLife(player_one_wheel) - 1, true);
 		}  else if (clickedView.equals(mMinus2)) {
 			//Clicking on player 2 - button
-			setLife(player_two_wheel, getLife(player_two_wheel) - 1, true);
+            setLife(Constants.PLAYER_TWO, getLife(Constants.PLAYER_TWO) - 1);
+            //setLife(player_two_wheel, getLife(player_two_wheel) - 1, true);
 		}  else if (clickedView.equals(player1_background)) {
 			rollBackground(Constants.PLAYER_ONE);
 		}  else if (clickedView.equals(player2_background)) {
@@ -452,33 +449,53 @@ public class TwoPlayerActivity extends Activity implements OnClickListener, Load
 	}
 
 	//SINCE WE ARE HACKING A WHEEL THAT WORKS BACKWARDS OF INDEX ALWAYS USE THIS GETTER
-	private int getLife(WheelView player) {
-		return Constants.LIFE_MAX - player.getCurrentItem();
-	}
+//	private int getLife(WheelView player) {
+//		return Constants.LIFE_MAX - player.getCurrentItem();
+//	}
+
+    private int getLife(int player) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        return preferences.getInt(getString(player == Constants.PLAYER_ONE ? R.string.key_life1 : R.string.key_life2), 20);
+    }
 	
 	//SINCE WE ARE HACKING A WHEEL THAT WORKS BACKWARDS OF INDEX ALWAYS USE THIS SETTER
-	private void setLife(WheelView player, int life, boolean adjustWheel) {
-    	if (life < 0 || life > Constants.LIFE_MAX) {
-    		return;
-    	}
-    	
-		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+//	private void setLife(WheelView player, int life, boolean adjustWheel) {
+//    	if (life < 0 || life > Constants.LIFE_MAX) {
+//    		return;
+//    	}
+//
+//		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+//    	Editor preferenceEditor = preferences.edit();
+//
+//    	if (adjustWheel) {
+//    		player.setCurrentItem(Constants.LIFE_MAX - life);
+//    	}
+//
+//    	if (player.equals(player_one_wheel)) {
+//    		mBigLife1.setText(""+life);
+//    		preferenceEditor.putInt(getString(R.string.key_life1), life);
+//    	} else if (player.equals(player_two_wheel)) {
+//    		mBigLife2.setText(""+life);
+//    		preferenceEditor.putInt(getString(R.string.key_life2), life);
+//    	}
+//
+//    	preferenceEditor.commit();
+//	}
+
+    private void setLife(int player, int life) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
     	Editor preferenceEditor = preferences.edit();
-    	
-    	if (adjustWheel) {
-    		player.setCurrentItem(Constants.LIFE_MAX - life);
-    	}
-    		
-    	if (player.equals(player_one_wheel)) {
+
+        if (player == Constants.PLAYER_ONE) {
     		mBigLife1.setText(""+life);
     		preferenceEditor.putInt(getString(R.string.key_life1), life);
-    	} else if (player.equals(player_two_wheel)) {
+    	} else if (player == Constants.PLAYER_TWO) {
     		mBigLife2.setText(""+life);
     		preferenceEditor.putInt(getString(R.string.key_life2), life);
     	}
-    	
+
     	preferenceEditor.commit();
-	}
+    }
 
 	/*@Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -595,8 +612,10 @@ public class TwoPlayerActivity extends Activity implements OnClickListener, Load
 
 
 	public void restart_game() {
-		setLife(player_one_wheel, LIFE_START, true);
-		setLife(player_two_wheel, LIFE_START, true);
+//		setLife(player_one_wheel, LIFE_START, true);
+//		setLife(player_two_wheel, LIFE_START, true);
+        setLife(Constants.PLAYER_ONE, LIFE_START);
+        setLife(Constants.PLAYER_ONE, LIFE_START);
     }
 
 
