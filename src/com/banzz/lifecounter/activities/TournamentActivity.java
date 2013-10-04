@@ -32,8 +32,8 @@ public class TournamentActivity extends Activity {
 		
 		TournamentPlayer Alex = new TournamentPlayer(0, "Alex", new ArrayList<Game>());  
 		playerList.add(Alex);
-		TournamentPlayer Andrew = new TournamentPlayer(1, "Andrew", new ArrayList<Game>());  
-		playerList.add(Andrew);
+		TournamentPlayer Olivier = new TournamentPlayer(1, "Olivier", new ArrayList<Game>());
+		playerList.add(Olivier);
 		TournamentPlayer Basile = new TournamentPlayer(2, "Basile", new ArrayList<Game>());  
 		playerList.add(Basile);
 		TournamentPlayer David = new TournamentPlayer(3, "David", new ArrayList<Game>());  
@@ -42,10 +42,10 @@ public class TournamentActivity extends Activity {
 		playerList.add(Flo);
 		TournamentPlayer Greg = new TournamentPlayer(5, "Greg", new ArrayList<Game>());  
 		playerList.add(Greg);
-		TournamentPlayer Olivier = new TournamentPlayer(6, "Olivier", new ArrayList<Game>());  
-		playerList.add(Olivier);
-		TournamentPlayer Tanisha = new TournamentPlayer(7, "Tanisha", new ArrayList<Game>());  
-		playerList.add(Tanisha);
+//		TournamentPlayer Olivier = new TournamentPlayer(6, "Olivier", new ArrayList<Game>());
+//		playerList.add(Olivier);
+//		TournamentPlayer Tanisha = new TournamentPlayer(7, "Tanisha", new ArrayList<Game>());
+//		playerList.add(Tanisha);
 		
 		mPlayers = (ListView) findViewById(R.id.player_list);
 		Collections.sort(playerList, new PlayerComparator(true));

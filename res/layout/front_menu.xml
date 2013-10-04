@@ -4,6 +4,15 @@
     android:layout_height="match_parent"
     android:background="#333333"
     >
+        <ImageView
+            android:id="@+id/front_title"
+            android:layout_height="100dp"
+            android:layout_width="match_parent"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="20dp"
+            android:background="#00ffff"
+        />
+
         <Button
             android:id="@+id/two_player_button"
             style="@style/ButtonText"
@@ -15,7 +24,8 @@
             android:layout_alignParentLeft="true"
             android:background="@drawable/btn_green_matte"
             android:gravity="center_vertical"
-            android:text="@string/button_two_players" />
+            android:text="@string/button_two_players"
+        />
 
         <Button
             android:id="@+id/settings_button"
@@ -28,7 +38,7 @@
             android:layout_alignParentRight="true"
             android:text="@string/button_settings"
             android:layout_gravity="center"
-            />
+        />
 
         <Button
             android:id="@+id/donations_button"
@@ -41,7 +51,7 @@
             android:layout_marginTop="20dp"
             android:text="@string/donations"
             android:layout_gravity="center"
-            />
+        />
 
         <Button
             android:id="@+id/tournament_button"
@@ -54,5 +64,15 @@
             android:layout_height="wrap_content"
             android:text="@string/tournament"
             android:layout_gravity="center"
-            />
+        />
+
+        <ImageView
+            android:id="@+id/bullzzai_logo"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:background="#ffff00"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="20dp"
+        />
 </RelativeLayout>
