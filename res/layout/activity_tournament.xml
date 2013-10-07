@@ -32,13 +32,38 @@
             android:layout_height="0px"
             android:layout_weight="8"
 		/>
-        
-        <Button
-            android:id="@+id/next_round"
-            android:layout_width="wrap_content"
+
+        <RelativeLayout
+            android:id="@+id/buttons"
+            android:layout_width="match_parent"
             android:layout_height="0px"
-            android:layout_gravity="center"
             android:layout_weight="1"
-            android:text="@string/next_round" 
-        />
+        >
+            <Button
+                android:id="@+id/next_round"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_gravity="center"
+                android:text="@string/next_round"
+            />
+
+            <Button
+                android:id="@+id/save_round"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_toLeftOf="@+id/load_round"
+                android:text="@string/Save"
+            />
+
+            <Button
+                android:id="@+id/load_round"
+                android:layout_width="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/Load"
+            />
+        </RelativeLayout>
 </LinearLayout>

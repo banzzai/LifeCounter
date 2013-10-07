@@ -113,6 +113,7 @@
     <string name="key_color">fontColor</string>
     <string name="key_hide_wizard">hideWizard</string>
     <string name="key_hide_edit_wizard">hideEditWizard</string>
+    <string name="key_current_tournament">currentTournament</string>
     
 	<!-- Settings:text -->
  	<string name="life_total_description">Life you start with</string>

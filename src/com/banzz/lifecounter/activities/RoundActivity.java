@@ -1,5 +1,7 @@
 package com.banzz.lifecounter.activities;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -9,12 +11,16 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.banzz.lifecounter.R;
 import com.banzz.lifecounter.commons.Game;
@@ -22,6 +28,7 @@ import com.banzz.lifecounter.commons.Match;
 import com.banzz.lifecounter.commons.RoundAdapter;
 import com.banzz.lifecounter.commons.TournamentPlayer;
 import com.banzz.lifecounter.utils.Utils.Constants;
+import com.google.gson.Gson;
 
 @SuppressLint("UseSparseArrays")
 public class RoundActivity extends Activity {
@@ -37,7 +44,7 @@ public class RoundActivity extends Activity {
 		View view = getLayoutInflater().inflate(R.layout.activity_round, null);
 		
 		playerList = getIntent().getParcelableArrayListExtra(Constants.KEY_TOURNAMENT_PLAYERS);
-		
+
 		makePairings();
 		for (Match match: matches) {
 			games.put(match.player1.getId(), new Game(match.player2.getId(), 0, 0, 0));
@@ -54,11 +61,11 @@ public class RoundActivity extends Activity {
 				validateRound();
 			}
 		});
-		
+
 		setContentView(view);
 	}
-	
-	private void validateRound() {
+
+    private void validateRound() {
 		AlertDialog dialog = new AlertDialog.Builder(this).create();
 	    dialog.setTitle(this.getString(R.string.Submit));
 	    String message = this.getString(R.string.validate_round);

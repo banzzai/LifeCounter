@@ -1,22 +1,30 @@
 package com.banzz.lifecounter.activities;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.banzz.lifecounter.R;
 import com.banzz.lifecounter.commons.Game;
+import com.banzz.lifecounter.commons.Player;
 import com.banzz.lifecounter.commons.TournamentAdapter;
 import com.banzz.lifecounter.commons.TournamentPlayer;
 import com.banzz.lifecounter.utils.Utils.Constants;
+import com.google.gson.Gson;
 
 public class TournamentActivity extends Activity {
 
@@ -63,14 +71,55 @@ public class TournamentActivity extends Activity {
 				startActivityForResult(intent, Constants.REQUEST_NEXT_ROUND);
 			}
 		});
+
+        Button saveRound = (Button) findViewById(R.id.save_round);
+        saveRound.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                saveRound();
+            }
+        });
+
+        Button loadRound = (Button) findViewById(R.id.load_round);
+        loadRound.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loadRound();
+            }
+        });
 		
 		if (mRound >= playerList.size() - 1) {
 			nextRound.setVisibility(View.GONE);
 		}
 	}
-	
-	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
+
+    private void saveRound()
+    {
+        Gson gson = new Gson();
+        String json = gson.toJson(playerList);
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor edit = preferences.edit();
+        edit.putString(getString(R.string.key_current_tournament), json);
+        edit.commit();
+    }
+
+    private void loadRound()
+    {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        String load = preferences.getString(getString(R.string.key_current_tournament),
+                null);
+
+        if (load != null)
+        {
+            Gson gson = new Gson();
+            TournamentPlayer[] bob = gson.fromJson(load, (Class<TournamentPlayer[]>) TournamentPlayer[].class);
+            playerList = new ArrayList<TournamentPlayer>(Arrays.asList(bob));
+            mPlayers.setAdapter(new TournamentAdapter(this, playerList));
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
 		switch (requestCode) {
 	        case Constants.REQUEST_NEXT_ROUND:
 	        	if (resultCode == Activity.RESULT_OK) {
