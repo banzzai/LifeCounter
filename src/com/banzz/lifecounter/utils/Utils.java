@@ -20,6 +20,7 @@ public class Utils {
 		public static final int REQUEST_NEXT_ROUND 		= 4;
 		public static final int REQUEST_DELETE_PLAYERS	= 5;
         public static final int REQUEST_EDIT_WIZARD 	= 6;
+        public static final int REQUEST_NEW_TOURNAMENT 	= 7;
 		
 		public static final String KEY_PLAYER_TARGET	 	= "player_target";
 		public static final String KEY_PLAYER_ONE 			= "player_one";

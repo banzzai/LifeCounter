@@ -3,13 +3,11 @@ package com.banzz.lifecounter.activities;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.Toast;
-
 import com.banzz.lifecounter.R;
 import com.banzz.lifecounter.utils.Utils.Constants;
 
@@ -60,7 +58,7 @@ public class FrontMenuActivity extends android.app.Activity {
 			
 			@Override
 			public void onClick(View arg0) {
-				startActivity(new Intent(getApplicationContext(), TournamentActivity.class));
+				startActivity(new Intent(getApplicationContext(), StartTournamentActivity.class));
 			}
 		});
 	}

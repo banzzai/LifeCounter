@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="22dp"
+    android:orientation="horizontal"
+    android:focusable="false"
+    android:gravity="center" >
+  
+  <EditText 
+      android:id="@+id/start_player_name"
+      android:gravity="center_horizontal"
+	  android:layout_width="0px"
+      android:layout_weight="8"
+	  android:layout_height="wrap_content"
+	  android:inputType="textMultiLine|textNoSuggestions"
+	  android:textSize="20sp"
+	  android:textColor="#F000"
+	  android:textStyle="bold"/>
+
+    <Button
+        android:id="@+id/delete_button"
+        android:layout_height="wrap_content"
+        android:layout_width="0px"
+        android:layout_weight="2"
+        android:text="X"
+    />
+</LinearLayout>

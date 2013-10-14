@@ -1,9 +1,9 @@
 package com.banzz.lifecounter.commons;
 
-import java.util.ArrayList;
-
 import android.os.Parcel;
 import android.os.Parcelable;
+
+import java.util.ArrayList;
 
 public class TournamentPlayer implements Parcelable {
 	private int id;
@@ -41,6 +41,9 @@ public class TournamentPlayer implements Parcelable {
 	public String getName() {
 		return name;
 	}
+    public void setName(String name) {
+        this.name = name;
+    }
 	public int getGameCount() {
 		return gameCount;
 	}

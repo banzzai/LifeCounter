@@ -1,11 +1,5 @@
 package com.banzz.lifecounter.activities;
 
-import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -16,15 +10,15 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.banzz.lifecounter.R;
-import com.banzz.lifecounter.commons.Game;
-import com.banzz.lifecounter.commons.Player;
 import com.banzz.lifecounter.commons.TournamentAdapter;
 import com.banzz.lifecounter.commons.TournamentPlayer;
 import com.banzz.lifecounter.utils.Utils.Constants;
 import com.google.gson.Gson;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 
 public class TournamentActivity extends Activity {
 
@@ -37,19 +31,21 @@ public class TournamentActivity extends Activity {
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.activity_tournament);
-		
-		TournamentPlayer Alex = new TournamentPlayer(0, "Alex", new ArrayList<Game>());  
-		playerList.add(Alex);
-		TournamentPlayer Olivier = new TournamentPlayer(1, "Olivier", new ArrayList<Game>());
-		playerList.add(Olivier);
-		TournamentPlayer Basile = new TournamentPlayer(2, "Basile", new ArrayList<Game>());  
-		playerList.add(Basile);
-		TournamentPlayer David = new TournamentPlayer(3, "David", new ArrayList<Game>());  
-		playerList.add(David);
-		TournamentPlayer Flo = new TournamentPlayer(4, "Flo", new ArrayList<Game>());  
-		playerList.add(Flo);
-		TournamentPlayer Greg = new TournamentPlayer(5, "Greg", new ArrayList<Game>());  
-		playerList.add(Greg);
+        playerList = getIntent().getParcelableArrayListExtra(Constants.KEY_TOURNAMENT_PLAYERS);
+        saveAsLastPlayerList();
+
+//        TournamentPlayer Alex = new TournamentPlayer(0, "Alex", new ArrayList<Game>());
+//		playerList.add(Alex);
+//		TournamentPlayer Olivier = new TournamentPlayer(1, "Olivier", new ArrayList<Game>());
+//		playerList.add(Olivier);
+//		TournamentPlayer Basile = new TournamentPlayer(2, "Basile", new ArrayList<Game>());
+//		playerList.add(Basile);
+//		TournamentPlayer David = new TournamentPlayer(3, "David", new ArrayList<Game>());
+//		playerList.add(David);
+//		TournamentPlayer Flo = new TournamentPlayer(4, "Flo", new ArrayList<Game>());
+//		playerList.add(Flo);
+//		TournamentPlayer Greg = new TournamentPlayer(5, "Greg", new ArrayList<Game>());
+//		playerList.add(Greg);
 //		TournamentPlayer Olivier = new TournamentPlayer(6, "Olivier", new ArrayList<Game>());
 //		playerList.add(Olivier);
 //		TournamentPlayer Tanisha = new TournamentPlayer(7, "Tanisha", new ArrayList<Game>());
@@ -93,14 +89,24 @@ public class TournamentActivity extends Activity {
 		}
 	}
 
-    private void saveRound()
+    private void saveARound(int key)
     {
         Gson gson = new Gson();
         String json = gson.toJson(playerList);
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         SharedPreferences.Editor edit = preferences.edit();
-        edit.putString(getString(R.string.key_current_tournament), json);
+        edit.putString(getString(key), json);
         edit.commit();
+    }
+
+    private void saveRound()
+    {
+        saveARound(R.string.key_current_tournament);
+    }
+
+    private void saveAsLastPlayerList()
+    {
+        saveARound(R.string.key_last_tournament);
     }
 
     private void loadRound()
