@@ -1,7 +1,5 @@
 package com.banzz.lifecounter.activities;
 
-import java.util.Random;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -24,12 +22,13 @@ import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.banzz.lifecounter.R;
 import com.banzz.lifecounter.commons.Player;
 import com.banzz.lifecounter.utils.SystemUiHider;
 import com.banzz.lifecounter.utils.Utils.Constants;
 import com.banzz.lifecounter.utils.VerticalSeekBar;
+
+import java.util.Random;
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
@@ -615,7 +614,7 @@ public class TwoPlayerActivity extends Activity implements OnClickListener, Load
 //		setLife(player_one_wheel, LIFE_START, true);
 //		setLife(player_two_wheel, LIFE_START, true);
         setLife(Constants.PLAYER_ONE, LIFE_START);
-        setLife(Constants.PLAYER_ONE, LIFE_START);
+        setLife(Constants.PLAYER_TWO, LIFE_START);
     }
 
 
