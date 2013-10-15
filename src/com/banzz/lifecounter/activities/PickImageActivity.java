@@ -219,7 +219,7 @@ public class PickImageActivity extends Activity {
 										tempFile.delete();
 									}
 									
-									if (isLargeImage) {
+									if (index == INDEX_LARGE) {
 					                  	mPlayer.setLargeBgUrl(newImagePath);
 					                  } else {
 					                  	mPlayer.setTallBgUrl(newImagePath);

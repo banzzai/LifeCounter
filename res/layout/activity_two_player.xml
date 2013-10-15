@@ -9,7 +9,6 @@
             android:id="@+id/fullscreen_content_controls"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/black_overlay"
             android:orientation="horizontal"
             tools:ignore="UselessParent">
 
@@ -18,6 +17,7 @@
 			    android:layout_width="0dp"
 			    android:layout_height="match_parent"
 			    android:layout_weight="1"
+                android:background="@color/color_5"
                 android:orientation="vertical"
 			    >
 
@@ -92,6 +92,7 @@
 		    android:layout_width="0dp"
 		    android:layout_height="match_parent"
 		    android:layout_weight="1"
+            android:background="@color/color_6"
             android:orientation="vertical"
 		    >
 
