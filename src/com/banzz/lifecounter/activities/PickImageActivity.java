@@ -79,7 +79,7 @@ public class PickImageActivity extends Activity {
 				
 				//Crop options, if set
 				if (cropImage) {
-					String fileName = isLarge ? Constants.TEMP_LARGE_FILE_NAME : Constants.TEMP_FILE_NAME;
+					String fileName = mPlayer.getName() + "_" + (isLarge ? Constants.TEMP_LARGE_FILE_NAME : Constants.TEMP_FILE_NAME);
 					File tempFile = new File(Environment.getExternalStorageDirectory() + "/" + fileName);
 					Uri tempUri = Uri.fromFile(tempFile);
 
@@ -202,7 +202,7 @@ public class PickImageActivity extends Activity {
 									
 									outStream = new FileOutputStream(image);
 
-									String fileName = (index==INDEX_LARGE) ? Constants.TEMP_LARGE_FILE_NAME : Constants.TEMP_FILE_NAME;
+									String fileName = mPlayer.getName() + "_" + ((index==INDEX_LARGE) ? Constants.TEMP_LARGE_FILE_NAME : Constants.TEMP_FILE_NAME);
 									
 									Bitmap selectedImage = BitmapFactory.decodeFile(Environment
 											.getExternalStorageDirectory() + "/" + fileName);
@@ -303,8 +303,9 @@ public class PickImageActivity extends Activity {
                }
                break;
            case Constants.REQUEST_PICK_CROP_IMAGE:
+                  String filename = mPlayer.getName() + "_" + (isLargeImage?Constants.TEMP_LARGE_FILE_NAME:Constants.TEMP_FILE_NAME);
 	        	  Bitmap croppedImage = BitmapFactory.decodeFile(Environment
-                               .getExternalStorageDirectory() + "/"+ (isLargeImage?Constants.TEMP_LARGE_FILE_NAME:Constants.TEMP_FILE_NAME));
+                               .getExternalStorageDirectory() + "/"+ filename);
                   (isLargeImage?mImageViewLarge:mImageViewTall).setImageBitmap(croppedImage);
                   
                   imageStatus[isLargeImage?INDEX_LARGE:INDEX_TALL] = STATUS_CROPPED;
