@@ -1,14 +1,10 @@
 package com.banzz.lifecounter.activities;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.Date;
-
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -20,14 +16,20 @@ import android.provider.MediaStore;
 import android.provider.MediaStore.Images;
 import android.view.Display;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
-
 import com.banzz.lifecounter.R;
 import com.banzz.lifecounter.commons.Player;
 import com.banzz.lifecounter.utils.SingleMediaScanner;
 import com.banzz.lifecounter.utils.Utils.Constants;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.Date;
 
 public class PickImageActivity extends Activity {
     private static final int INDEX_LARGE = 0;
@@ -37,10 +39,6 @@ public class PickImageActivity extends Activity {
     private static final int STATUS_PICKED = 0;
     private static final int STATUS_CROPPED = 1;
     
-    private Button mCropLargeButton;
-    private Button mCropTallButton;
-    private Button mPickTallButton;
-    private Button mPickLargeButton;
     private Button mSaveImageButton;
     private ImageView mImageViewLarge;
     private ImageView mImageViewTall;
@@ -52,29 +50,21 @@ public class PickImageActivity extends Activity {
 	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-           super.onCreate(savedInstanceState);
+        super.onCreate(savedInstanceState);
+        getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
+        getActionBar().hide();
+        setContentView(R.layout.pick_images_activity);
 
-           Intent bundle = getIntent();
-           mPlayer = (Player) bundle.getParcelableExtra(Constants.KEY_PLAYER_TARGET);
+        Intent bundle = getIntent();
+        mPlayer = (Player) bundle.getParcelableExtra(Constants.KEY_PLAYER_TARGET);
 
-           setContentView(R.layout.pick_images_activity);
+        mImageViewLarge = (ImageView) findViewById(R.id.image_large);
+        mImageViewLarge.setOnClickListener(mButtonListener);
+        mImageViewTall = (ImageView) findViewById(R.id.image_tall);
+        mImageViewTall.setOnClickListener(mButtonListener);
 
-           mImageViewLarge = (ImageView) findViewById(R.id.image_large);
-           mImageViewTall = (ImageView) findViewById(R.id.image_tall);
-           
-           mCropLargeButton = (Button) findViewById(R.id.crop_large_button);
-           mCropTallButton = (Button) findViewById(R.id.crop_tall_button);
-           
-           mPickTallButton = (Button) findViewById(R.id.pick_tall_button);
-           mPickLargeButton = (Button) findViewById(R.id.pick_large_button);
-           
-           mSaveImageButton = (Button) findViewById(R.id.image_ok);
-           
-           mPickTallButton.setOnClickListener(mButtonListener);
-           mPickLargeButton.setOnClickListener(mButtonListener);
-           mCropLargeButton.setOnClickListener(mButtonListener);
-           mCropTallButton.setOnClickListener(mButtonListener);
-           mSaveImageButton.setOnClickListener(mButtonListener);
+        mSaveImageButton = (Button) findViewById(R.id.image_ok);
+        mSaveImageButton.setOnClickListener(mButtonListener);
     }
 
     private View.OnClickListener mButtonListener = new View.OnClickListener() {
@@ -127,10 +117,11 @@ public class PickImageActivity extends Activity {
 		
 		@Override
 		public void onClick(View v) {
-			String status = Environment.getExternalStorageState();
+			final String status = Environment.getExternalStorageState();
 
 			switch (v.getId()) {
-				case R.id.pick_large_button:
+                /*
+                case R.id.pick_large_button:
 					pickImage(true, false, status);
 					break;
 				case R.id.pick_tall_button:
@@ -142,7 +133,45 @@ public class PickImageActivity extends Activity {
 				case R.id.crop_tall_button:
 					pickImage(false, true, status);
 					break;
-					
+                */
+                case R.id.image_large:
+                    AlertDialog.Builder builder = new AlertDialog.Builder(PickImageActivity.this);
+                    builder.setMessage(R.string.pick_dialog_message).setTitle(R.string.pick_large_title);
+                    builder.setPositiveButton(R.string.pick, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            pickImage(true, false, status);
+                            dialog.dismiss();
+                        }
+                    });
+                    builder.setNeutralButton(R.string.crop, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            pickImage(true, true, status);
+                            dialog.dismiss();
+                        }
+                    });
+
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+                    break;
+                case R.id.image_tall:
+                    AlertDialog.Builder builder2 = new AlertDialog.Builder(PickImageActivity.this);
+                    builder2.setMessage(R.string.pick_dialog_message).setTitle(R.string.pick_tall_title);
+                    builder2.setPositiveButton(R.string.pick, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            pickImage(false, false, status);
+                            dialog.dismiss();
+                        }
+                    });
+                    builder2.setNeutralButton(R.string.crop, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            pickImage(false, true, status);
+                            dialog.dismiss();
+                        }
+                    });
+
+                    AlertDialog dialog2 = builder2.create();
+                    dialog2.show();
+                    break;
 				case R.id.image_ok:
 					if (imageStatus[INDEX_LARGE] == STATUS_CROPPED || imageStatus[INDEX_TALL] == STATUS_CROPPED) {
 						File sdCardDirectory = Environment

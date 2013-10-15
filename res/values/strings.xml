@@ -31,10 +31,15 @@
 	<string name="delete_profiles">Are you sure you want to delete the following profile(s)?</string>
 	
     <!-- Pick Images -->
-	<string name="pick_large">Pick large</string>
-	<string name="crop_large">Create large</string>
-	<string name="pick_tall">Pick tall</string>
-	<string name="crop_tall">Create tall</string>
+	<string name="pick">Pick</string>
+	<string name="crop">Crop</string>
+    <string name="pick_dialog_message">Do you want to pick an existing picture or crop a new one?</string>
+    <string name="pick_large_title">Pick large image</string>
+    <string name="pick_tall_title">Pick tall image</string>
+	<string name="pick_image_top_text">Click on the two boxes bellow to select images for you custom background. Large for landscape mode (holding the device sideways).
+    Tall for portrait mode (holding it straight).</string>
+    <string name="pick_image_bottom_text">Select "pick" if you have an image of the correct size or want yours stretched, "crop"
+    if you want to cut into an image for better fit.</string>
 	
     <!-- Save Player -->
     <string name="save_player">Save Player</string>
@@ -128,8 +133,8 @@
     <string name="show_wheels">Show Wheels</string>
     <string name="show_poison">Show Poison</string>
     <string name="color_pick">Color</string>
-    <string name="pick_a_color">for labels</string> 
-    
+    <string name="pick_a_color">for labels</string>
+
     <!-- Tournament view -->
     <string name="number_of_players">%d Players:</string>
     <string name="add_player">Add a player</string>
