@@ -24,7 +24,7 @@
 	<string name="pick_color">Pick color</string>
 	<string name="keyboard_go">Go</string>
 	<string name="apply">Apply</string>
-    <string name="name">Name</string>
+    <string name="name">Name:</string>
 	<string name="apply_confirmation">This will apply changes but not save anything.</string>
 	
 	<!-- Delete Players -->

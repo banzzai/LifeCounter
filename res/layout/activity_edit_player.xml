@@ -19,7 +19,7 @@
             android:id="@+id/fullscreen_content_edit"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@android:color/black"
+            android:background="#333333"
             android:orientation="horizontal"
             tools:ignore="UselessParent" >
 
@@ -97,64 +97,70 @@
 		    <TextView
                 android:id="@+id/edit_player_id"
 		        android:layout_width="match_parent"
-		        android:layout_height="64dp"
+		        android:layout_height="wrap_content"
                 android:textSize="25sp"
 		        android:scaleType="center"
 		        android:text="@string/edit_player"
                 android:layout_alignParentTop="true"
                 android:layout_marginTop="5dp"
+                android:layout_marginLeft="5dp"
                 android:layout_centerHorizontal="true"
                 android:textColor="#FFFFFF"
             />
 
+            <RadioGroup
+                android:id="@+id/edit_radio"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center_horizontal"
+                android:layout_below="@id/edit_player_id"
+                android:orientation="horizontal" >
+
+                <RadioButton
+                    android:id="@+id/radio_edit_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:textColor="#FFFFFF"
+                    android:text="@string/player_1"
+                    />
+
+                <RadioButton android:id="@+id/radio_edit_2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#FFFFFF"
+                    android:text="@string/player_2"
+                    />
+            </RadioGroup>
+
             <TextView
                 android:id="@+id/edit_name_title"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="18sp"
                 android:scaleType="center"
                 android:text="@string/name"
                 android:layout_marginTop="5dp"
-                android:layout_below="@id/edit_player_id"
-                android:layout_centerHorizontal="true"
+                android:layout_marginLeft="5dp"
+                android:layout_below="@+id/edit_radio"
+                android:layout_alignParentLeft="true"
                 android:textColor="#FFFFFF"
                 />
 
             <EditText
                 android:id="@+id/edit_name"
-                android:layout_width="100dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:inputType="text"
-                android:layout_centerInParent="true"
-                android:layout_below="@id/edit_name_title"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginBottom="15dp"
+                android:layout_below="@+id/edit_radio"
+                android:layout_alignParentRight="true"
+                android:layout_toRightOf="@id/edit_name_title"
                 android:textColor="#FFFFFF"
             />
-
-		    <RadioGroup
-		        android:id="@+id/edit_radio"
-		        android:layout_width="fill_parent"
-		        android:layout_height="wrap_content"
-		        android:layout_gravity="center_horizontal"
-		        android:gravity="center_horizontal"
-                android:layout_below="@id/edit_name"
-		        android:orientation="horizontal" >
-			    
-			    <RadioButton 
-			        android:id="@+id/radio_edit_1"
-			        android:layout_width="wrap_content"
-			        android:layout_height="wrap_content"
-			        android:checked="true"
-                    android:textColor="#FFFFFF"
-			        android:text="@string/player_1"
-				/>
-
-			    <RadioButton android:id="@+id/radio_edit_2"
-			        android:layout_width="wrap_content"
-			        android:layout_height="wrap_content"
-                    android:textColor="#FFFFFF"
-			        android:text="@string/player_2"
-			    />
-			</RadioGroup>
 
 		    <!--<LinearLayout -->
 		        <!--android:layout_width="match_parent"-->
@@ -203,8 +209,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/button_pick_images"
-                android:layout_below="@id/edit_radio"
-                android:layout_marginTop="20dp"
+                android:layout_below="@id/edit_name"
                 android:layout_gravity="center"
 			/>
 		    
