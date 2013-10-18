@@ -70,9 +70,7 @@
     <string name="edit_wizard_text_2">If you decide to customize your back ground (you should it\'s
         awesome!), in the next screen you will be asked to pick a tall and a large picture. The tall
         one will be used in portrait mode, and the large in landscape. You can chose between loading
-        an image directly, or crop it to fit the aspect ratio. There\'s a known bug on the cropped
-        images thumnails, if you check them in your phone gallery you might see that they don\'t
-        correspond (clear data on the gallery app fixes that).
+        an image directly, or crop it to fit the aspect ratio.
     </string>
     <string name="edit_wizard_text_3">From there, you can simply apply changes (it won\'t save
         anything), or save your edited profile. Note that profiles are stored by name so if you

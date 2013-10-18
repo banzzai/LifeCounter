@@ -26,15 +26,6 @@
 			        android:layout_width="match_parent"
 			        android:layout_height="match_parent" />
 			    
-				<com.banzz.lifecounter.utils.VerticalSeekBar
-			        android:id="@+id/poisonBar1"
-			        android:layout_width="wrap_content"
-			        android:layout_height="fill_parent"
-					android:layout_alignParentLeft="true"
-			        android:layout_gravity="bottom"
-			        android:max="10"
-			        android:progress="0" />
-			    
 				<TextView
 				    android:id="@+id/edit_player1"
 				    android:layout_width="match_parent"
@@ -84,7 +75,16 @@
 			        android:layout_alignParentBottom="true"
 			        android:textAppearance="@style/poison"
 				/>
-			        
+
+                <com.banzz.lifecounter.utils.VerticalSeekBar
+                    android:id="@+id/poisonBar1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:layout_alignParentLeft="true"
+                    android:layout_gravity="bottom"
+                    android:max="10"
+                    android:progress="0"
+                />
             </RelativeLayout>
 		
 		<RelativeLayout
@@ -101,15 +101,6 @@
 			        android:layout_width="match_parent"
 			        android:layout_height="match_parent"
 			        android:scaleType="centerCrop" />
-                
-                <com.banzz.lifecounter.utils.VerticalSeekBar
-			        android:id="@+id/poisonBar2"
-			        android:layout_width="wrap_content"
-			        android:layout_height="fill_parent"
-					android:layout_alignParentLeft="true"
-			        android:layout_gravity="bottom"
-			        android:max="10"
-			        android:progress="0" />
                 
                 <TextView
 				    android:id="@+id/edit_player2"
@@ -161,6 +152,16 @@
 			        android:layout_alignParentBottom="true"
 			        android:textAppearance="@style/poison"
 				/>
+
+                <com.banzz.lifecounter.utils.VerticalSeekBar
+                    android:id="@+id/poisonBar2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:layout_alignParentLeft="true"
+                    android:layout_gravity="bottom"
+                    android:max="10"
+                    android:progress="0"
+                />
             </RelativeLayout>
 
 		</LinearLayout>
