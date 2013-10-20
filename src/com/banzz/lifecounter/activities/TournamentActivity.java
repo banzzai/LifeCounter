@@ -89,24 +89,28 @@ public class TournamentActivity extends Activity {
 		}
 	}
 
-    private void saveARound(int key)
+    private void saveARound(int key, boolean saveRoundNumber)
     {
         Gson gson = new Gson();
         String json = gson.toJson(playerList);
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         SharedPreferences.Editor edit = preferences.edit();
         edit.putString(getString(key), json);
+        if (saveRoundNumber)
+        {
+            edit.putInt(getString(R.string.key_saved_round), mRound);
+        }
         edit.commit();
     }
 
     private void saveRound()
     {
-        saveARound(R.string.key_current_tournament);
+        saveARound(R.string.key_current_tournament, true);
     }
 
     private void saveAsLastPlayerList()
     {
-        saveARound(R.string.key_last_tournament);
+        saveARound(R.string.key_last_tournament, false);
     }
 
     private void loadRound()
@@ -121,6 +125,7 @@ public class TournamentActivity extends Activity {
             TournamentPlayer[] bob = gson.fromJson(load, (Class<TournamentPlayer[]>) TournamentPlayer[].class);
             playerList = new ArrayList<TournamentPlayer>(Arrays.asList(bob));
             mPlayers.setAdapter(new TournamentAdapter(this, playerList));
+            mRound = preferences.getInt(getString(R.string.key_saved_round), 0);
         }
     }
 

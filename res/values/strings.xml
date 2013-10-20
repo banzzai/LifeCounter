@@ -118,7 +118,8 @@
     <string name="key_hide_edit_wizard">hideEditWizard</string>
     <string name="key_current_tournament">currentTournament</string>
     <string name="key_last_tournament">lastTournament</string>
-    
+    <string name="key_saved_round">savedRound</string>
+
 	<!-- Settings:text -->
  	<string name="life_total_description">Life you start with</string>
     <string name="game_settings">Game Settings</string>
@@ -137,7 +138,7 @@
     <string name="number_of_players">%d Players:</string>
     <string name="add_player">Add a player</string>
     <string name="validate_players">Start</string>
-    <string name="Round">Round</string>
+    <string name="Round">Results, round</string>
     <string name="next_round">Next round</string>
     <string name="Submit">Submit</string>
     <string name="validate_round">Please confirm the following results:</string>
