@@ -26,40 +26,51 @@
 			        android:layout_width="match_parent"
 			        android:layout_height="match_parent" />
 			    
-				<TextView
-				    android:id="@+id/edit_player1"
-				    android:layout_width="match_parent"
-				    android:layout_height="wrap_content"
-				    android:gravity="center_horizontal"
-				    android:text="@string/player_1"
-				    android:textAppearance="@style/ButtonText"
-				    android:textColor="#FFF" />
-
-                <TextView
-                    android:id="@+id/big_life_1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:textAppearance="@style/bigLife" />
-
-				<TextView
-                    android:id="@+id/plus_1"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/edit_player1"
-                    android:layout_above="@+id/big_life_1"
-                    android:gravity="center"
-                    android:text="@string/plus"
-                    android:textAppearance="@style/bigLife" />
-
-                <TextView
-                    android:id="@+id/minus_1"
+				<LinearLayout
+                    android:id="@+id/texts"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:layout_below="@+id/big_life_1"
-                    android:text="@string/minus"
-                    android:textAppearance="@style/bigLife" />
+                    android:orientation="vertical"
+                >
+                    <TextView
+                        android:id="@+id/plus_1"
+                        android:layout_width="match_parent"
+                        android:layout_height="0px"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="@string/plus"
+                        android:textAppearance="@style/bigLife"
+                    />
+
+                    <TextView
+                        android:id="@+id/big_life_1"
+                        android:layout_width="match_parent"
+                        android:layout_height="0px"
+                        android:gravity="center"
+                        android:layout_weight="1"
+                        android:textAppearance="@style/bigLife"
+                    />
+
+                    <TextView
+                        android:id="@+id/minus_1"
+                        android:layout_width="match_parent"
+                        android:layout_height="0px"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="@string/minus"
+                        android:textAppearance="@style/bigLife"
+                    />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/edit_player1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:text="@string/player_1"
+                    android:textAppearance="@style/ButtonText"
+                    android:textColor="#FFF"
+                />
 
                 <kankan.wheel.widget.WheelView
                     android:id="@+id/player_one"
@@ -101,42 +112,52 @@
 			        android:layout_width="match_parent"
 			        android:layout_height="match_parent"
 			        android:scaleType="centerCrop" />
-                
-                <TextView
-				    android:id="@+id/edit_player2"
-				    android:layout_width="match_parent"
-				    android:layout_height="wrap_content"
-				    android:background="#00ffffff"
-				    android:gravity="center_horizontal"
-				    android:text="@string/player_2"
-				    android:textAppearance="@style/ButtonText"
-				    android:textColor="#FFF" />
-				
-                <TextView
-                    android:id="@+id/big_life_2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:textAppearance="@style/bigLife" />
 
-                <TextView
-                    android:id="@+id/plus_2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/edit_player2"
-                    android:layout_above="@+id/big_life_2"
-                    android:gravity="center"
-                    android:text="@string/plus"
-                    android:textAppearance="@style/bigLife" />
-                
-                <TextView
-                    android:id="@+id/minus_2"
+                <LinearLayout
+                    android:id="@+id/texts_2"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_below="@+id/big_life_2"
-                    android:gravity="center"
-                    android:text="@string/minus"
-                    android:textAppearance="@style/bigLife" />
+                    android:orientation="vertical"
+                    >
+                    <TextView
+                        android:id="@+id/plus_2"
+                        android:layout_width="match_parent"
+                        android:layout_height="0px"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="@string/plus"
+                        android:textAppearance="@style/bigLife"
+                        />
+
+                    <TextView
+                        android:id="@+id/big_life_2"
+                        android:layout_width="match_parent"
+                        android:layout_height="0px"
+                        android:gravity="center"
+                        android:layout_weight="1"
+                        android:textAppearance="@style/bigLife"
+                        />
+
+                    <TextView
+                        android:id="@+id/minus_2"
+                        android:layout_width="match_parent"
+                        android:layout_height="0px"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="@string/minus"
+                        android:textAppearance="@style/bigLife"
+                        />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/edit_player2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:text="@string/player_2"
+                    android:textAppearance="@style/ButtonText"
+                    android:textColor="#FFF"
+                    />
 
                 <kankan.wheel.widget.WheelView
                     android:id="@+id/player_two"
