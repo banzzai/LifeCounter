@@ -25,8 +25,9 @@ public class TournamentActivity extends Activity {
 	private ArrayList<TournamentPlayer> playerList = new ArrayList<TournamentPlayer>();
 	private ListView mPlayers;
 	private int mRound = 0;
-	
-	@Override
+    private TextView mRoundText;
+
+    @Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
@@ -55,8 +56,8 @@ public class TournamentActivity extends Activity {
 		Collections.sort(playerList, new PlayerComparator(true));
 		mPlayers.setAdapter(new TournamentAdapter(this, playerList));
 		
-		TextView roundText = (TextView) findViewById(R.id.tournament_round);
-		roundText.setText(getText(R.string.Round).toString() + " " + mRound);
+		mRoundText = (TextView) findViewById(R.id.tournament_round);
+		mRoundText.setText(getText(R.string.Round).toString() + " " + mRound);
  		
 		Button nextRound = (Button) findViewById(R.id.next_round);
 		nextRound.setOnClickListener(new OnClickListener() {
@@ -126,6 +127,7 @@ public class TournamentActivity extends Activity {
             playerList = new ArrayList<TournamentPlayer>(Arrays.asList(bob));
             mPlayers.setAdapter(new TournamentAdapter(this, playerList));
             mRound = preferences.getInt(getString(R.string.key_saved_round), 0);
+            mRoundText.setText(getText(R.string.Round).toString() + " " + mRound);
         }
     }
 

@@ -1,34 +1,26 @@
 package com.banzz.lifecounter.activities;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
-
 import com.banzz.lifecounter.R;
 import com.banzz.lifecounter.commons.Game;
 import com.banzz.lifecounter.commons.Match;
 import com.banzz.lifecounter.commons.RoundAdapter;
 import com.banzz.lifecounter.commons.TournamentPlayer;
 import com.banzz.lifecounter.utils.Utils.Constants;
-import com.google.gson.Gson;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 
 @SuppressLint("UseSparseArrays")
 public class RoundActivity extends Activity {
@@ -36,8 +28,10 @@ public class RoundActivity extends Activity {
 	private ArrayList<TournamentPlayer> playerList = new ArrayList<TournamentPlayer>();
 	private ArrayList<Match> matches = new ArrayList<Match>();
 	private HashMap<Integer, Game> games = new HashMap<Integer, Game>();
-	
-	@Override
+    private int mCurrentBye = -1;
+    private String mCurrentByeName;
+
+    @Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
@@ -76,6 +70,11 @@ public class RoundActivity extends Activity {
 	    	message += "\n" + match.player1.getName() + "("+game1.getWins()+"-"+game1.getLosses()+(game1.getDraws()!=0?"-"+game1.getDraws():"")+")"
 	    			+" / " + match.player2.getName() + "("+game2.getWins()+"-"+game2.getLosses()+(game2.getDraws()!=0?"-"+game2.getDraws():"")+")";
 	    }
+
+        if (mCurrentBye != -1)
+        {
+            message += "\n" + "Bye for " + mCurrentByeName + " (2-0)";
+        }
 	    
 	    dialog.setMessage(message);
 	    dialog.setCancelable(true);
@@ -83,7 +82,14 @@ public class RoundActivity extends Activity {
 	        public void onClick(DialogInterface dialog, int buttonId) {
 	        	Intent submitIntent = new Intent();
 	        	for (TournamentPlayer player: playerList) {
-	        		player.addResult(games.get(player.getId()));
+	        		if (mCurrentBye == player.getId())
+                    {
+                        player.addBye();
+                    }
+                    else
+                    {
+                        player.addResult(games.get(player.getId()));
+                    }
 	        	}
 	        	submitIntent.putParcelableArrayListExtra(Constants.KEY_TOURNAMENT_PLAYERS, playerList);
 	        	setResult(Activity.RESULT_OK, submitIntent);
@@ -115,8 +121,10 @@ public class RoundActivity extends Activity {
 		
 		if (tempList.size() % 2 == 1) {
 			// Giving a bye to the last player
-			Log.e("PAIRING", "Giving a bye to " + tempList.get(tempList.size() -1).getName());
-			tempList.remove(tempList.size() -1);
+			mCurrentBye = tempList.get(tempList.size() -1).getId();
+            mCurrentByeName = tempList.get(tempList.size() -1).getName();
+            Log.e("PAIRING", "Giving a bye to " + mCurrentByeName);
+            tempList.remove(tempList.size() -1);
 		}
 		
 		int pairingNeeded = tempList.size() / 2;

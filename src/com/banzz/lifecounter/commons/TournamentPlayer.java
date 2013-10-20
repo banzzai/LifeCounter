@@ -35,6 +35,9 @@ public class TournamentPlayer implements Parcelable {
 		this.results.add(game);
 		calculate();
 	}
+    public void addBye() {
+        addResult(new Game(-1, 2, 0, 0));
+    }
 	public int getId() {
 		return id;
 	}
