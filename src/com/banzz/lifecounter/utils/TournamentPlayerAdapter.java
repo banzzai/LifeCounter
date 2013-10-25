@@ -7,7 +7,6 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListAdapter;
 import com.banzz.lifecounter.R;
@@ -70,7 +69,7 @@ public class TournamentPlayerAdapter implements ListAdapter
             view = inflater.inflate(R.layout.start_tournament_player_item, null);
         }
 
-        TournamentPlayer player = players.get(index);
+        final TournamentPlayer player = players.get(index);
 
         EditText userName = (EditText) view.findViewById(R.id.start_player_name);
         if (nameFields.get(player.getId()) == null)
@@ -92,17 +91,6 @@ public class TournamentPlayerAdapter implements ListAdapter
             @Override
             public void afterTextChanged(Editable editable) {
                 players.get(theIndex).setName(editable.toString());
-            }
-        });
-
-        Button deleteButton = (Button) view.findViewById(R.id.delete_button);
-        deleteButton.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view)
-            {
-                players.remove(theIndex);
-                listener.playerListChanged(players);
             }
         });
 

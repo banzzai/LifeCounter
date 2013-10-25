@@ -25,6 +25,8 @@ public class StartTournamentActivity extends Activity implements TournamentPlaye
     ArrayList<TournamentPlayer> playerlist;
     private ListView mPlayers;
     private int nextId = 7;
+    private int MAX_DRAFT_PLAYERS = 10;
+    private boolean mPlayerOverload = false;
 
     public void onCreate(Bundle savedInstanceState)
     {
@@ -39,19 +41,6 @@ public class StartTournamentActivity extends Activity implements TournamentPlaye
 
         mNumberOfPlayers = (TextView) view.findViewById(R.id.number_of_players);
         updatePlayerNumber();
-
-        Button mAddButton = (Button) view.findViewById(R.id.add_player_button);
-        mAddButton.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view)
-            {
-                int thisId = nextId++;
-                playerlist.add(playerlist.size(), new TournamentPlayer(thisId, "player" + thisId, new ArrayList<Game>()));
-                mPlayers.setAdapter(new TournamentPlayerAdapter(StartTournamentActivity.this, playerlist));
-                updatePlayerNumber();
-            }
-        });
 
         Button mValidateButton = (Button) view.findViewById(R.id.validate_players);
         mValidateButton.setOnClickListener(new View.OnClickListener()
@@ -73,21 +62,30 @@ public class StartTournamentActivity extends Activity implements TournamentPlaye
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         String load = preferences.getString(getString(R.string.key_last_tournament), null);
 
-        if (load != null)
+        int playerTarget = getIntent().getIntExtra(getString(R.string.extra_player_number), -1);
+        if (playerTarget > MAX_DRAFT_PLAYERS)
+        {
+            mPlayerOverload = true;
+            playerTarget = MAX_DRAFT_PLAYERS;
+        }
+
+        if (load == null || playerTarget != -1)
+        {
+            if (playerTarget == -1)
+            {
+                playerTarget = 6;
+            }
+            playerlist = new ArrayList<TournamentPlayer>();
+            for (int i=0; i<playerTarget; i++)
+            {
+                playerlist.add(new TournamentPlayer(i, "player" + i, new ArrayList<Game>()));
+            }
+        }
+        else
         {
             Gson gson = new Gson();
             TournamentPlayer[] bob = gson.fromJson(load, (Class<TournamentPlayer[]>) TournamentPlayer[].class);
             playerlist = new ArrayList<TournamentPlayer>(Arrays.asList(bob));
-        }
-        else
-        {
-            playerlist = new ArrayList<TournamentPlayer>();
-            playerlist.add(new TournamentPlayer(0, "player", new ArrayList<Game>()));
-            playerlist.add(new TournamentPlayer(1, "player2", new ArrayList<Game>()));
-            playerlist.add(new TournamentPlayer(2, "player3", new ArrayList<Game>()));
-            playerlist.add(new TournamentPlayer(3, "player4", new ArrayList<Game>()));
-            playerlist.add(new TournamentPlayer(4, "player5", new ArrayList<Game>()));
-            playerlist.add(new TournamentPlayer(5, "player6", new ArrayList<Game>()));
         }
     }
 

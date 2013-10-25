@@ -1,19 +1,25 @@
 package com.banzz.lifecounter.activities;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 import com.banzz.lifecounter.R;
 import com.banzz.lifecounter.utils.Utils.Constants;
 
 public class FrontMenuActivity extends android.app.Activity {
-	
-	@Override
+
+    private static final int DEFAULT_PLAYER_NUMBER = 6;
+
+    @Override
 	protected void onResume() {
 		super.onResume();
 	}
@@ -58,7 +64,42 @@ public class FrontMenuActivity extends android.app.Activity {
 			
 			@Override
 			public void onClick(View arg0) {
-				startActivity(new Intent(getApplicationContext(), StartTournamentActivity.class));
+                AlertDialog.Builder builder = new AlertDialog.Builder(FrontMenuActivity.this);
+                LayoutInflater inflater = getLayoutInflater();
+                View view = inflater.inflate(R.layout.pick_player_number, null);
+
+                final EditText playerNumber = (EditText) view.findViewById(R.id.player_number);
+                playerNumber.setText("" + DEFAULT_PLAYER_NUMBER);
+
+                builder.setMessage(R.string.how_many_players).setTitle(R.string.players);
+                builder.setPositiveButton(R.string.load_player_list, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        Intent startTournamentIntent = new Intent(getApplicationContext(), StartTournamentActivity.class);
+                        startTournamentIntent.putExtra(getString(R.string.extra_player_number), -1);
+                        startActivity(startTournamentIntent);
+                        dialog.dismiss();
+                    }
+                });
+                builder.setNeutralButton(R.string.new_player_list, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        Intent startTournamentIntent = new Intent(getApplicationContext(), StartTournamentActivity.class);
+                        startTournamentIntent.putExtra(getString(R.string.extra_player_number), Integer.valueOf(playerNumber.getText().toString()));
+                        startActivity(startTournamentIntent);
+                        dialog.dismiss();
+                    }
+                });
+
+                builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener()
+                {
+                    public void onClick(DialogInterface dialog, int id)
+                    {
+                        dialog.dismiss();
+                    }
+                });
+
+                builder.setView(view);
+                AlertDialog dialog = builder.create();
+                dialog.show();
 			}
 		});
 	}

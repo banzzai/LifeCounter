@@ -4,11 +4,15 @@
     <!-- General -->
     <string name="app_name">LifeCounter</string>
     <string name="cancel">Cancel</string>
+    <string name="ok">Ok</string>
     <string name="go_back">Go back</string>
     <string name="Save">Save</string>
     <string name="Load">Load</string>
 	<string name="Delete">Delete</string>
     <string name="sd_not_found">Cannot access SD storage!</string>
+
+    <!-- General -->
+    <string name="extra_player_number">extra_player_number</string>
     
     <!-- Load Player -->
     <string name="load_player">Load Player (select which player slot to load in, then click on the player you want to load)</string>
@@ -135,6 +139,11 @@
     <string name="pick_a_color">for labels</string>
 
     <!-- Tournament view -->
+    <string name="new_player_list">New</string>
+    <string name="load_player_list">Load</string>
+    <string name="players">Players</string>
+    <string name="click_to_edit">Click on the names to edit them.</string>
+    <string name="how_many_players">Load previous list of players (Load), or use new players (New)</string>
     <string name="number_of_players">%d Players:</string>
     <string name="add_player">Add a player</string>
     <string name="validate_players">Start</string>
