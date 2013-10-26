@@ -143,7 +143,7 @@
     <string name="load_player_list">Load</string>
     <string name="players">Players</string>
     <string name="click_to_edit">Click on the names to edit them.</string>
-    <string name="how_many_players">Load previous list of players (Load), or use new players (New)</string>
+    <string name="how_many_players">Load previous list of players (Load) or use new players (New)</string>
     <string name="number_of_players">%d Players:</string>
     <string name="add_player">Add a player</string>
     <string name="validate_players">Start</string>
