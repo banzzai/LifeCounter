@@ -259,8 +259,8 @@ public class TwoPlayerActivity extends Activity implements OnClickListener, Load
 		mShowPoison		= preferences.getBoolean(getString(R.string.key_show_poison), false);
 		player1_back_number = preferences.getInt(getString(R.string.key_back1), 0);
 		player2_back_number = preferences.getInt(getString(R.string.key_back2), 1);
-//		setLife(player_one_wheel, preferences.getInt(getString(R.string.key_life1), 20), true);
-//		setLife(player_two_wheel, preferences.getInt(getString(R.string.key_life2), 20), true);
+		setLife(Constants.PLAYER_ONE, preferences.getInt(getString(R.string.key_life1), 20));
+		setLife(Constants.PLAYER_TWO, preferences.getInt(getString(R.string.key_life2), 20));
 		player2_rotate(preferences.getBoolean(getString(R.string.key_rotate_player2), false));
 		
 		initArrays();

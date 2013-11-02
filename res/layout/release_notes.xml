@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:padding="3dp"
+    >
+    
+    <TextView
+        android:id="@+id/pick_color_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:gravity="center_horizontal"
+        android:text="@string/pick_color_text"
+    />
+
+    <RelativeLayout
+            android:id="@+id/colors"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/pick_color_text"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="10dp"
+            >
+
+    <Button
+            android:id="@+id/color_1"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="#0044ff"
+    />
+
+    <Button
+            android:id="@+id/color_2"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="#4400cc"
+            android:layout_marginLeft="5dp"
+            android:layout_alignTop="@+id/color_1"
+            android:layout_toRightOf="@+id/color_1"
+            />
+
+    <Button
+            android:id="@+id/color_3"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="#44ffcc"
+            android:layout_marginLeft="5dp"
+            android:layout_alignTop="@+id/color_1"
+            android:layout_toRightOf="@+id/color_2"
+            />
+
+    <Button
+            android:id="@+id/color_4"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="#117733"
+            android:layout_marginLeft="5dp"
+            android:layout_alignTop="@+id/color_1"
+            android:layout_toRightOf="@+id/color_3"
+            />
+
+    <Button
+            android:id="@+id/color_5"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="#44ffcc"
+            android:layout_marginLeft="5dp"
+            android:layout_alignTop="@+id/color_1"
+            android:layout_toRightOf="@+id/color_4"
+            />
+
+    <Button
+            android:id="@+id/color_7"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="#117733"
+            android:layout_marginTop="5dp"
+            android:layout_below="@+id/color_1"
+            />
+
+    <Button
+            android:id="@+id/color_8"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="#117733"
+            android:layout_marginLeft="5dp"
+            android:layout_alignTop="@id/color_7"
+            android:layout_toRightOf="@id/color_7"
+            />
+
+    <Button
+            android:id="@+id/color_9"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="#117733"
+            android:layout_marginLeft="5dp"
+            android:layout_alignTop="@id/color_7"
+            android:layout_toRightOf="@+id/color_8"
+            />
+
+    <Button
+            android:id="@+id/color_10"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="#117733"
+            android:layout_marginLeft="5dp"
+            android:layout_alignTop="@id/color_7"
+            android:layout_toRightOf="@+id/color_9"
+            />
+
+    <Button
+            android:id="@+id/color_11"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="#117733"
+            android:layout_marginLeft="5dp"
+            android:layout_alignTop="@id/color_7"
+            android:layout_toRightOf="@+id/color_10"
+            />
+    </RelativeLayout>
+
+    <TextView
+            android:id="@+id/pick_color_preview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:layout_below="@id/colors"
+            android:text="@string/pick_color_preview"
+    />
+
+    <Button
+            android:id="@+id/more_colors"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/more_colors"
+            style="@style/ButtonSmall"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="5dp"
+            android:layout_below="@id/pick_color_preview"
+    />
+</RelativeLayout>
