@@ -2,6 +2,8 @@
 <resources>
 
     <!-- General -->
+    <string name="version_code">11001</string>
+    <string name="version_name">1.1.001</string>
     <string name="app_name">LifeCounter</string>
     <string name="cancel">Cancel</string>
     <string name="ok">Ok</string>
@@ -10,10 +12,15 @@
     <string name="Load">Load</string>
 	<string name="Delete">Delete</string>
     <string name="sd_not_found">Cannot access SD storage!</string>
-
-    <!-- General -->
     <string name="extra_player_number">extra_player_number</string>
-    
+
+    <!-- Release Notes -->
+    <string name="whats_new">What\'s new in</string>
+    <string name="release_notes_key">releaseNotes</string>
+    <string name="release_notes_string">releaseNotesStringId_</string>
+    <string name="releaseNotesStringId_11001">Here are the release notes</string>
+    <string name="release_notes">* Release notes\n* Bug fixes</string>
+
     <!-- Load Player -->
     <string name="load_player">Load Player (select which player slot to load in, then click on the player you want to load)</string>
     <string name="no_saved_players">No player currently saved. You can save player profiles through the edit option in the menu.</string>

@@ -3,8 +3,10 @@ package com.banzz.lifecounter.activities;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -102,5 +104,34 @@ public class FrontMenuActivity extends android.app.Activity {
                 dialog.show();
 			}
 		});
+
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        String currentNotesKey = getString(R.string.release_notes_key) + getString(R.string.version_code);
+        boolean releaseNotesShown = preferences.getBoolean(currentNotesKey, false);
+        if (!releaseNotesShown)
+        {
+            showReleaseNotes(currentNotesKey);
+        }
 	}
+
+    private void showReleaseNotes(final String notesKey)
+    {
+        AlertDialog.Builder builder = new AlertDialog.Builder(FrontMenuActivity.this);
+        LayoutInflater inflater = getLayoutInflater();
+        View view = inflater.inflate(R.layout.release_notes, null);
+
+        final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+
+        builder.setTitle(getString(R.string.whats_new) + " 1.1.001");
+        builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                preferences.edit().putBoolean(notesKey, true).commit();
+                dialog.dismiss();
+            }
+        });
+
+        builder.setView(view);
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
 }
