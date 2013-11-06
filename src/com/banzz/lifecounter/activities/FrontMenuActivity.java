@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
@@ -13,9 +12,7 @@ import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 import com.banzz.lifecounter.R;
-import com.banzz.lifecounter.utils.Utils.Constants;
 
 public class FrontMenuActivity extends android.app.Activity {
 
@@ -51,13 +48,12 @@ public class FrontMenuActivity extends android.app.Activity {
 			}
 		});
         
-        Button mDonations = (Button) findViewById(R.id.donations_button);
-        mDonations.setOnClickListener(new OnClickListener() {
+        Button mHelpUs = (Button) findViewById(R.id.helpus_button);
+        mHelpUs.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View arg0) {
-				Toast.makeText(FrontMenuActivity.this, FrontMenuActivity.this.getString(R.string.donation_thanks), Toast.LENGTH_LONG).show();
-				startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.PAYPAL_DONATIONS)));
+				startActivity(new Intent(getApplicationContext(), HelpUsActivity.class));
 			}
 		});
         

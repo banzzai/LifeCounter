@@ -19,7 +19,7 @@
     <string name="release_notes_key">releaseNotes</string>
     <string name="release_notes_string">releaseNotesStringId_</string>
     <string name="releaseNotesStringId_11001">Here are the release notes</string>
-    <string name="release_notes">* Release notes\n* Bug fixes</string>
+    <string name="release_notes">* Release notes\n* Help us tab\n* Bug fixes</string>
 
     <!-- Load Player -->
     <string name="load_player">Load Player (select which player slot to load in, then click on the player you want to load)</string>
@@ -97,8 +97,19 @@
     <string name="new_game">New Game</string>
     <string name="button_settings">Settings</string>
     <string name="button_pick_images">Pick images</string>
-    <string name="donations">Donations</string>
     <string name="tournament">Draft</string>
+    <string name="helpus">Help Us</string>
+
+    <!-- Help Us Menu -->
+    <string name="donations">Donate Us</string>
+    <string name="rate_us">Rate Us</string>
+    <string name="feedback">Feedback Us</string>
+    <string name="facebook_us">Facebook Us</string>
+    <string name="twitter_us">Twitter Us</string>
+    <string name="blog_us">Blog Us</string>
+    <string name="no_mail_client">There are no email clients installed.</string>
+    <string name="send_feedback">Send feedback...</string>
+    <string name="feedback_for_version">Feedback for version %s</string>
     
     <!-- Context menu -->
     <string name="string_action_lock">Lock images</string>

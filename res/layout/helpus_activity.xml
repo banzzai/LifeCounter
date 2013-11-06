@@ -1,0 +1,142 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#333333"
+    >
+        <ImageView
+            android:id="@+id/front_title"
+            android:layout_height="100dp"
+            android:layout_width="match_parent"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/title"
+        />
+
+        <!-- First button row -->
+
+        <Button
+            android:id="@+id/rate_button"
+            style="@style/ButtonText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_toLeftOf="@+id/top_separator"
+            android:layout_centerVertical="true"
+            android:layout_marginTop="-30dp"
+            android:layout_alignParentLeft="true"
+            android:background="@drawable/btn_green_matte"
+            android:text="@string/rate_us"
+        />
+
+        <ImageView
+            android:id="@+id/top_separator"
+            android:layout_height="20dp"
+            android:layout_width="20dp"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_marginTop="-30dp"
+        />
+
+        <Button
+            android:id="@+id/feedback_button"
+            style="@style/ButtonText"
+            android:background="@drawable/btn_green_matte"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/top_separator"
+            android:layout_centerVertical="true"
+            android:layout_marginTop="-30dp"
+            android:layout_alignParentRight="true"
+            android:text="@string/feedback"
+            android:layout_gravity="center"
+        />
+
+        <!-- Second button row -->
+
+        <Button
+            android:id="@+id/donation_button"
+            style="@style/ButtonText"
+            android:background="@drawable/btn_green_matte"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@id/rate_button"
+            android:layout_toLeftOf="@+id/bottom_separator"
+            android:layout_marginTop="40dp"
+            android:text="@string/donations"
+            android:layout_gravity="center"
+        />
+
+        <ImageView
+            android:id="@+id/bottom_separator"
+            android:layout_height="20dp"
+            android:layout_width="20dp"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/rate_button"
+            android:layout_marginTop="40dp"
+        />
+
+        <Button
+            android:id="@+id/blog_button"
+            style="@style/ButtonText"
+            android:background="@drawable/btn_green_matte"
+            android:layout_alignParentRight="true"
+            android:layout_toRightOf="@+id/bottom_separator"
+            android:layout_below="@id/rate_button"
+            android:layout_marginTop="40dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/blog_us"
+            android:layout_gravity="center"
+        />
+
+        <!-- Third button row -->
+
+        <Button
+            android:id="@+id/facebook_button"
+            style="@style/ButtonText"
+            android:background="@drawable/btn_green_matte"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@id/donation_button"
+            android:layout_toLeftOf="@+id/very_bottom_separator"
+            android:layout_marginTop="40dp"
+            android:text="@string/facebook_us"
+            android:layout_gravity="center"
+        />
+
+        <ImageView
+            android:id="@+id/very_bottom_separator"
+            android:layout_height="20dp"
+            android:layout_width="20dp"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/donation_button"
+            android:layout_marginTop="40dp"
+        />
+
+        <Button
+            android:id="@+id/twitter_button"
+            style="@style/ButtonText"
+            android:background="@drawable/btn_green_matte"
+            android:layout_alignParentRight="true"
+            android:layout_toRightOf="@+id/very_bottom_separator"
+            android:layout_below="@id/donation_button"
+            android:layout_marginTop="40dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/twitter_us"
+            android:layout_gravity="center"
+        />
+
+        <ImageView
+            android:id="@+id/bullzzai_logo"
+            android:layout_width="100dp"
+            android:layout_height="140dp"
+            android:background="@drawable/tr_logo"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="20dp"
+        />
+</RelativeLayout>

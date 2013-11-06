@@ -10,8 +10,13 @@ public class Utils {
 		public static final int PLAYER_TWO 	= 1;
 		
 		//Misc
-		public static final String PAYPAL_DONATIONS = "https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=BD7UPFTH3FTFL&lc=US&item_name=Mayor%20Suplex&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted";
-		
+		public static final String PAYPAL_DONATIONS     = "https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=BD7UPFTH3FTFL&lc=US&item_name=Mayor%20Suplex&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted";
+		public static final String APP_STORE_DONATIONS  = "https://play.google.com/store/apps/details?id=com.banzz.lifecounter";
+        public static final String BLOG_URL             = "http://bullzzai.wordpress.com/";
+        public static final String FACEBOOK_URL         = "https://www.facebook.com/pages/Bullzzai/139751209567171";
+        public static final String TWITTER_URL          = "https://twitter.com/Bullzzai_blog";
+        public static final String BULLZZAI_EMAIL       = "bullzzai.blog@gmail.com";
+
 		//Intent request codes
 		public static final int REQUEST_EDIT_PLAYERS	= 0;
 		public static final int REQUEST_PICK_IMAGES 	= 1;
