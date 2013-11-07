@@ -19,7 +19,7 @@
     <string name="release_notes_key">releaseNotes</string>
     <string name="release_notes_string">releaseNotesStringId_</string>
     <string name="releaseNotesStringId_11001">Here are the release notes</string>
-    <string name="release_notes">* Release notes\n* Help us tab\n* Bug fixes</string>
+    <string name="release_notes">* Release notes.\n* Help us tab.\n* Bug fixes.</string>
 
     <!-- Load Player -->
     <string name="load_player">Load Player (select which player slot to load in, then click on the player you want to load)</string>

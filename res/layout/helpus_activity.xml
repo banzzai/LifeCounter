@@ -22,8 +22,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_toLeftOf="@+id/top_separator"
-            android:layout_centerVertical="true"
-            android:layout_marginTop="-30dp"
+            android:layout_below="@+id/front_title"
+            android:layout_marginTop="50dp"
             android:layout_alignParentLeft="true"
             android:background="@drawable/btn_green_matte"
             android:text="@string/rate_us"
@@ -34,8 +34,8 @@
             android:layout_height="20dp"
             android:layout_width="20dp"
             android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:layout_marginTop="-30dp"
+            android:layout_below="@+id/front_title"
+            android:layout_marginTop="50dp"
         />
 
         <Button
@@ -45,8 +45,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/top_separator"
-            android:layout_centerVertical="true"
-            android:layout_marginTop="-30dp"
+            android:layout_below="@+id/front_title"
+            android:layout_marginTop="50dp"
             android:layout_alignParentRight="true"
             android:text="@string/feedback"
             android:layout_gravity="center"
