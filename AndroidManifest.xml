@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.banzz.lifecounter"
-    android:versionCode="11001"
-    android:versionName="1.1.001" >
+    android:versionCode="11002"
+    android:versionName="1.1.002" >
 
     <uses-sdk
         android:minSdkVersion="7"

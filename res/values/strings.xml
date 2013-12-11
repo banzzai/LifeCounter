@@ -2,8 +2,8 @@
 <resources>
 
     <!-- General -->
-    <string name="version_code">11001</string>
-    <string name="version_name">1.1.001</string>
+    <string name="version_code">11002</string>
+    <string name="version_name">1.1.002</string>
     <string name="app_name">LifeCounter</string>
     <string name="cancel">Cancel</string>
     <string name="ok">Ok</string>
