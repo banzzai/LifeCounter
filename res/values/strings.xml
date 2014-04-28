@@ -2,9 +2,8 @@
 <resources>
 
     <!-- General -->
-    <string name="version_code">11002</string>
-    <string name="version_name">1.1.002</string>
-    <string name="app_name">LifeCounter</string>
+    <string name="version_code">11003</string>
+    <string name="version_name">1.1.003</string>
     <string name="cancel">Cancel</string>
     <string name="ok">Ok</string>
     <string name="go_back">Go back</string>
@@ -15,11 +14,10 @@
     <string name="extra_player_number">extra_player_number</string>
 
     <!-- Release Notes -->
-    <string name="whats_new">What\'s new in</string>
+    <string name="whats_new">What\'s new in %s</string>
     <string name="release_notes_key">releaseNotes</string>
     <string name="release_notes_string">releaseNotesStringId_</string>
-    <string name="releaseNotesStringId_11001">Here are the release notes</string>
-    <string name="release_notes">* Release notes.\n* Help us tab.\n* Bug fixes.</string>
+    <string name="release_notes">* White score plates.\n* Bug fixes.</string>
 
     <!-- Load Player -->
     <string name="load_player">Load Player (select which player slot to load in, then click on the player you want to load)</string>

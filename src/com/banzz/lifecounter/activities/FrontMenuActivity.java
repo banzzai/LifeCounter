@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
@@ -118,9 +119,22 @@ public class FrontMenuActivity extends android.app.Activity {
 
         final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
 
-        builder.setTitle(getString(R.string.whats_new) + " 1.1.001");
-        builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
+        String versionString = "1.1.001";
+        try
+        {
+            versionString = getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
+        }
+        catch (PackageManager.NameNotFoundException e)
+        {
+            e.printStackTrace();
+            return;
+        }
+
+        builder.setTitle(getString(R.string.whats_new, versionString));
+        builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener()
+        {
+            public void onClick(DialogInterface dialog, int id)
+            {
                 preferences.edit().putBoolean(notesKey, true).commit();
                 dialog.dismiss();
             }

@@ -15,92 +15,85 @@
          android:fitsSystemWindows.
     -->
 
-        <LinearLayout
-            android:id="@+id/fullscreen_content_edit"
+    <LinearLayout
+        android:id="@+id/fullscreen_content_edit"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#333333"
+        android:orientation="horizontal"
+        tools:ignore="UselessParent" >
+
+        <RelativeLayout
+            android:id="@+id/player_zero_screen"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#333333"
-            android:orientation="horizontal"
-            tools:ignore="UselessParent" >
+            android:layout_weight="1"
+            android:orientation="vertical"
+            >
 
-            <LinearLayout 
-			    android:id="@+id/player_zero_screen"
-			    android:layout_width="match_parent"
-			    android:layout_height="match_parent"
-			    android:layout_weight="1"
-                android:orientation="vertical"
-			    >
+            <ImageView
+                android:id="@+id/background_player0"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
 
-          	<RelativeLayout
-            	android:layout_width="match_parent"
-            	android:layout_height="match_parent"
-			    android:layout_weight="1"
-                >
-			    
-			    <ImageView
-			        android:id="@+id/background_player0"
-			        android:layout_width="match_parent"
-			        android:layout_height="match_parent" />
-			    
-				<TextView
-				    android:id="@+id/edit_player0"
-				    android:layout_width="match_parent"
-				    android:layout_height="wrap_content"
-				    android:background="#00ffffff"
-				    android:gravity="center_horizontal"
-				    android:textAppearance="@style/ButtonText"
-				    android:textColor="#FFF" />
-				
-                <TextView
-                    android:id="@+id/big_life_0"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:textAppearance="@style/bigLife" />
+            <TextView
+                android:id="@+id/edit_player0"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:textAppearance="@style/ButtonText" />
 
-				<TextView
-                    android:id="@+id/plus_0"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_above="@+id/big_life_0"
-                    android:layout_centerHorizontal="true"
-                    android:text="@string/plus"
-                    android:textAppearance="@style/bigLife" />
-                
-                <TextView
-                    android:id="@+id/minus_0"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/big_life_0"
-                    android:layout_centerHorizontal="true"
-                    android:text="@string/minus"
-                    android:textAppearance="@style/bigLife" />
+            <TextView
+                android:id="@+id/big_life_0"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:textAppearance="@style/bigLife" />
 
-                <!--<kankan.wheel.widget.WheelView-->
-                    <!--android:id="@+id/player_zero"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_alignParentBottom="true" />-->
-	            
-            </RelativeLayout>
-        </LinearLayout>
+            <TextView
+                android:id="@+id/plus_0"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/big_life_0"
+                android:layout_centerHorizontal="true"
+                android:includeFontPadding="false"
+                android:text="@string/plus"
+                android:textAppearance="@style/bigLife" />
+
+            <TextView
+                android:id="@+id/minus_0"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/big_life_0"
+                android:layout_centerHorizontal="true"
+                android:includeFontPadding="false"
+                android:text="@string/minus"
+                android:textAppearance="@style/bigLife" />
+
+            <!--<kankan.wheel.widget.WheelView-->
+                <!--android:id="@+id/player_zero"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_alignParentBottom="true" />-->
+
+        </RelativeLayout>
 
         <!-- EDIT ZONE -->
         <RelativeLayout
-			android:id="@+id/edit_controls"
-		    android:layout_width="match_parent"
-		    android:layout_height="match_parent"
-		    android:layout_weight="1"
+            android:id="@+id/edit_controls"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
             android:orientation="vertical"
-		    >
-          	
-		    <TextView
+            >
+
+            <TextView
                 android:id="@+id/edit_player_id"
-		        android:layout_width="match_parent"
-		        android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:textSize="25sp"
-		        android:scaleType="center"
-		        android:text="@string/edit_player"
+                android:scaleType="center"
+                android:text="@string/edit_player"
                 android:layout_alignParentTop="true"
                 android:layout_marginTop="5dp"
                 android:layout_marginLeft="5dp"
@@ -162,47 +155,47 @@
                 android:textColor="#FFFFFF"
             />
 
-		    <!--<LinearLayout -->
-		        <!--android:layout_width="match_parent"-->
-		        <!--android:layout_height="wrap_content"-->
+            <!--<LinearLayout -->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
                 <!--android:visibility="gone"-->
-		    <!-->-->
-				<!--<CheckBox -->
-			        <!--android:id="@+id/check_buttons"-->
-			        <!--android:layout_width="wrap_content"-->
-			        <!--android:layout_height="wrap_content"-->
-			    <!--/>-->
-			    <!---->
-			    <!--<TextView-->
-			        <!--android:id="@+id/label_for_buttons"-->
-			        <!--android:layout_width="wrap_content"-->
-			        <!--android:layout_height="wrap_content"-->
-			        <!--android:labelFor="@id/check_buttons"-->
-			        <!--android:text="@string/show_buttons"-->
-			    <!--/>        -->
-		    <!--</LinearLayout>-->
-		    <!---->
-		    <!--<LinearLayout -->
-		        <!--android:layout_width="match_parent"-->
-		        <!--android:layout_height="wrap_content"-->
+            <!-->-->
+                <!--<CheckBox -->
+                    <!--android:id="@+id/check_buttons"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                <!--/>-->
+                <!---->
+                <!--<TextView-->
+                    <!--android:id="@+id/label_for_buttons"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:labelFor="@id/check_buttons"-->
+                    <!--android:text="@string/show_buttons"-->
+                <!--/>        -->
+            <!--</LinearLayout>-->
+            <!---->
+            <!--<LinearLayout -->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
                 <!--android:visibility="gone"-->
-		    <!-->-->
-			    <!--<CheckBox -->
-			        <!--android:id="@+id/check_wheels"-->
-			        <!--android:layout_width="wrap_content"-->
-			        <!--android:layout_height="wrap_content"-->
-			    <!--/>-->
-			    <!---->
-			    <!--<TextView-->
-			        <!--android:id="@+id/label_for_wheels"-->
-			        <!--android:layout_width="wrap_content"-->
-			        <!--android:layout_height="wrap_content"-->
-			        <!--android:labelFor="@id/check_wheels"-->
-			        <!--android:text="@string/show_wheels"-->
-			    <!--/>-->
-		    <!--</LinearLayout>"-->
-		    
-		    <Button
+            <!-->-->
+                <!--<CheckBox -->
+                    <!--android:id="@+id/check_wheels"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                <!--/>-->
+                <!---->
+                <!--<TextView-->
+                    <!--android:id="@+id/label_for_wheels"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:labelFor="@id/check_wheels"-->
+                    <!--android:text="@string/show_wheels"-->
+                <!--/>-->
+            <!--</LinearLayout>"-->
+
+            <Button
                 android:id="@+id/images_button"
                 style="@style/ButtonSmall"
                 android:background="@drawable/btn_green_matte"
@@ -211,9 +204,9 @@
                 android:text="@string/button_pick_images"
                 android:layout_below="@id/edit_name"
                 android:layout_gravity="center"
-			/>
-		    
-		    <Button
+            />
+
+            <Button
                 android:id="@+id/color_button"
                 style="@style/ButtonText"
                 android:background="@drawable/btn_green_matte"
@@ -223,9 +216,9 @@
                 android:text="@string/pick_color"
                 android:layout_below="@id/images_button"
                 android:layout_gravity="center"
-			/>
-		    
-		    <Button
+            />
+
+            <Button
                 android:id="@+id/load_button"
                 style="@style/ButtonText"
                 android:background="@drawable/btn_green_matte"
@@ -235,9 +228,9 @@
                 android:layout_marginTop="20dp"
                 android:layout_below="@id/color_button"
                 android:layout_gravity="center"
-			/>
-		    
-		    <Button
+            />
+
+            <Button
                 android:id="@+id/save_button"
                 style="@style/ButtonText"
                 android:background="@drawable/btn_green_matte"
@@ -247,9 +240,9 @@
                 android:layout_marginTop="20dp"
                 android:layout_below="@id/load_button"
                 android:layout_gravity="center"
-			/>
-		    
-		    <Button
+            />
+
+            <Button
                 android:id="@+id/delete_button"
                 style="@style/ButtonText"
                 android:background="@drawable/btn_green_matte"
@@ -259,9 +252,9 @@
                 android:layout_marginTop="20dp"
                 android:layout_below="@id/save_button"
                 android:layout_gravity="center"
-			/>
-		    
-		    <Button
+            />
+
+            <Button
                 android:id="@+id/apply_button"
                 style="@style/ButtonText"
                 android:background="@drawable/btn_green_matte"
@@ -271,10 +264,9 @@
                 android:layout_marginTop="20dp"
                 android:layout_below="@id/delete_button"
                 android:layout_gravity="center"
-			/>
+            />
         </RelativeLayout>
-            
-	</LinearLayout>
+    </LinearLayout>
 
     <include layout="@layout/activity_edit_player_wizard"
         android:layout_height="match_parent"

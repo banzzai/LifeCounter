@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.banzz.lifecounter"
-    android:versionCode="11002"
-    android:versionName="1.1.002" >
+    android:versionCode="11003"
+    android:versionName="1.1.003" >
 
     <uses-sdk
-        android:minSdkVersion="7"
+        android:minSdkVersion="11"
         android:targetSdkVersion="17" />
     
 	<uses-permission android:name="android.permission.WAKE_LOCK" />
