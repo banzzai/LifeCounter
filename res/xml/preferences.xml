@@ -16,6 +16,12 @@
                 <!--android:defaultValue="false"/>-->
 
         <CheckBoxPreference
+            android:key="@string/key_show_plaque"
+            android:title="@string/show_plaque"
+            android:summary="@string/show_plaque_subtitle"
+            android:defaultValue="true"/>
+
+        <CheckBoxPreference
                 android:key="@string/key_show_poison"
                 android:title="@string/show_poison"
                 android:defaultValue="false"/>

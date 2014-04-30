@@ -15,6 +15,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.Editable;
@@ -83,6 +84,8 @@ public class EditPlayerActivity extends Activity implements OnClickListener,
 	private Player[] mUsers;
     private RelativeLayout wizardLayout;
 
+    private boolean mShowPlaque = true;
+
     @Override
 	protected void onPause() {
 		super.onPause();
@@ -93,7 +96,7 @@ public class EditPlayerActivity extends Activity implements OnClickListener,
 	protected void onResume() {
 		super.onResume();
 		checkOrientation(getResources().getConfiguration().orientation);
-		updateUI();
+		updateUI(true);
 	};
 	
 	@Override
@@ -302,7 +305,7 @@ public class EditPlayerActivity extends Activity implements OnClickListener,
 		});
 		
 		loadSavedProfiles();
-		updateUI();
+		updateUI(true);
 
         wizardLayout = (RelativeLayout) findViewById(R.id.edit_wizard_layout);
 
@@ -451,13 +454,23 @@ public class EditPlayerActivity extends Activity implements OnClickListener,
 		}
 	}
 
+    private void updateUI(boolean checkPlaque)
+    {
+        updateUI(null, checkPlaque);
+    }
+
     private void updateUI()
     {
-        updateUI(null);
+        updateUI(null, false);
+    }
+
+    private void updateUI(String newPlayerName)
+    {
+        updateUI(newPlayerName, false);
     }
 
 	//This function should just update what shows on screen, and not change any value. This is not starting a new game!
-	private void updateUI(String newPlayerName) {
+	private void updateUI(String newPlayerName, boolean checkPlaques) {
 		Player player = players[mSelectedPlayer];
 		//int color = player.getColor() != -1 ? player.getColor() : getResources().getColor(R.color.lifeText);
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -466,6 +479,11 @@ public class EditPlayerActivity extends Activity implements OnClickListener,
         //There is no callback when coming from settings, so we're going to set the player object color property from settings whenever we refresh display.
 		//At least the reducancy is used for both UI and save data now. Other values are saved in the object when they are actually being set.
 		player.setColor(color);
+
+        if (checkPlaques)
+        {
+            mShowPlaque		= preferences.getBoolean(getString(R.string.key_show_plaque), true);
+        }
 		
 		boolean showButtons = player.showButons();
 		boolean showWheel = player.showWheel();
@@ -509,6 +527,21 @@ public class EditPlayerActivity extends Activity implements OnClickListener,
             mTextBox.setText(player.getName());
         }
 
+        if (mShowPlaque)
+        {
+            mBigLife0.setBackgroundResource(R.drawable.box);
+        }
+        else
+        {
+            if (Build.VERSION.SDK_INT < 16)
+            {
+                mBigLife0.setBackgroundDrawable(null);
+            }
+            else
+            {
+                mBigLife0.setBackground(null);
+            }
+        }
 //		check_buttons.setChecked(player.showButons());
 //		check_wheels.setChecked(player.showWheel());
 	}

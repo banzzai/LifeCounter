@@ -133,6 +133,7 @@
     <string name="key_show_buttons">showButtons</string>
     <string name="key_show_wheels">showWheels</string>
     <string name="key_show_poison">showPoison</string>
+    <string name="key_show_plaque">showPlaque</string>
     <string name="key_color">fontColor</string>
     <string name="key_hide_wizard">hideWizard</string>
     <string name="key_hide_edit_wizard">hideEditWizard</string>
@@ -151,8 +152,10 @@
     <string name="summary_show_buttons">+ and -</string>
     <string name="show_wheels">Show Wheels</string>
     <string name="show_poison">Show Poison</string>
-    <string name="color_pick">Color</string>
+    <string name="color_pick">Default Color</string>
     <string name="pick_a_color">for labels</string>
+    <string name="show_plaque">Show Score Plate</string>
+    <string name="show_plaque_subtitle">transparent white square under scores</string>
 
     <!-- Tournament view -->
     <string name="new_player_list">New</string>

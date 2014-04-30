@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.res.Configuration;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
@@ -82,6 +83,7 @@ public class TwoPlayerActivity extends Activity implements OnClickListener, Load
 	private WakeLock wl;
 	private boolean mBackGroundLock = false;
 	private boolean mShowPoison = true;
+    private boolean mShowPlaque = true;
 	private int mOrientation = -1;
 	
 	private VerticalSeekBar poisonBar1;
@@ -107,8 +109,9 @@ public class TwoPlayerActivity extends Activity implements OnClickListener, Load
 		super.onResume();
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
 		mShowPoison = preferences.getBoolean(getString(R.string.key_show_poison), false);
-		
-		try {
+        mShowPlaque		= preferences.getBoolean(getString(R.string.key_show_plaque), true);
+
+        try {
 			LIFE_START = Integer.valueOf(preferences.getString(getString(R.string.key_life_start), "20"));
 			Integer.valueOf(preferences.getString(getString(R.string.key_life_start), "20"));
 		} catch (NumberFormatException e) {
@@ -257,7 +260,8 @@ public class TwoPlayerActivity extends Activity implements OnClickListener, Load
 		final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
 		mBackGroundLock = preferences.getBoolean(getString(R.string.key_background_lock), false);
 		mShowPoison		= preferences.getBoolean(getString(R.string.key_show_poison), false);
-		player1_back_number = preferences.getInt(getString(R.string.key_back1), 0);
+        mShowPlaque		= preferences.getBoolean(getString(R.string.key_show_plaque), true);
+        player1_back_number = preferences.getInt(getString(R.string.key_back1), 0);
 		player2_back_number = preferences.getInt(getString(R.string.key_back2), 1);
 		setLife(Constants.PLAYER_ONE, preferences.getInt(getString(R.string.key_life1), 20));
 		setLife(Constants.PLAYER_TWO, preferences.getInt(getString(R.string.key_life2), 20));
@@ -344,6 +348,25 @@ public class TwoPlayerActivity extends Activity implements OnClickListener, Load
 			poisonCount1.setVisibility(View.GONE);
 			poisonCount2.setVisibility(View.GONE);
 		}
+
+        if (mShowPlaque)
+        {
+            mBigLife1.setBackgroundResource(R.drawable.box);
+            mBigLife2.setBackgroundResource(R.drawable.box);
+        }
+        else
+        {
+            if (Build.VERSION.SDK_INT < 16)
+            {
+                mBigLife1.setBackgroundDrawable(null);
+                mBigLife2.setBackgroundDrawable(null);
+            }
+            else
+            {
+                mBigLife1.setBackground(null);
+                mBigLife2.setBackground(null);
+            }
+        }
 		
 		for (int i=0; i<PLAYER_NUMBER; i++) {
 			updatePlayerUI(i);
