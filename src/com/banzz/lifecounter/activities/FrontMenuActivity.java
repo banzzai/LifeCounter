@@ -69,11 +69,11 @@ public class FrontMenuActivity extends android.app.Activity {
 
                 final EditText playerNumber = (EditText) view.findViewById(R.id.player_number);
                 playerNumber.setText("" + DEFAULT_PLAYER_NUMBER);
+                final Intent startTournamentIntent = new Intent(getApplicationContext(), StartTournamentActivity.class);
 
                 builder.setMessage(R.string.how_many_players).setTitle(R.string.players);
                 builder.setPositiveButton(R.string.load_player_list, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        Intent startTournamentIntent = new Intent(getApplicationContext(), StartTournamentActivity.class);
                         startTournamentIntent.putExtra(getString(R.string.extra_player_number), -1);
                         startActivity(startTournamentIntent);
                         dialog.dismiss();
@@ -81,7 +81,6 @@ public class FrontMenuActivity extends android.app.Activity {
                 });
                 builder.setNeutralButton(R.string.new_player_list, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        Intent startTournamentIntent = new Intent(getApplicationContext(), StartTournamentActivity.class);
                         startTournamentIntent.putExtra(getString(R.string.extra_player_number), Integer.valueOf(playerNumber.getText().toString()));
                         startActivity(startTournamentIntent);
                         dialog.dismiss();

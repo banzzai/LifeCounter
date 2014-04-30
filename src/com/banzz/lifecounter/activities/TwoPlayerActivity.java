@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -223,6 +224,7 @@ public class TwoPlayerActivity extends Activity implements OnClickListener, Load
 		poisonBar1.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
 			@Override
 			public void onStopTrackingTouch(SeekBar seekBar) {
+                poisonValue1 = seekBar.getProgress();
 				poisonCount1.setText(""+seekBar.getProgress());
 				return;
 			}
@@ -237,11 +239,25 @@ public class TwoPlayerActivity extends Activity implements OnClickListener, Load
 			}
 		});
 		poisonCount1 = (TextView) findViewById(R.id.poisonCount1);
-		
+		poisonCount1.setOnClickListener(new OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                if (poisonValue1 < 10)
+                {
+                    poisonValue1++;
+                }
+                poisonBar1.setProgressAndThumb(poisonValue1);
+                poisonCount1.setText(""+poisonValue1);
+            }
+        });
+
 		poisonBar2 = (VerticalSeekBar) findViewById(R.id.poisonBar2);
 		poisonBar2.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
 			@Override
 			public void onStopTrackingTouch(SeekBar seekBar) {
+                poisonValue2 = seekBar.getProgress();
 				poisonCount2.setText(""+seekBar.getProgress());
 				return;
 			}
@@ -256,6 +272,19 @@ public class TwoPlayerActivity extends Activity implements OnClickListener, Load
 			}
 		});
 		poisonCount2 = (TextView) findViewById(R.id.poisonCount2);
+        poisonCount2.setOnClickListener(new OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                if (poisonValue2 < 10)
+                {
+                    poisonValue2++;
+                }
+                poisonBar2.setProgressAndThumb(poisonValue2);
+                poisonCount2.setText(""+poisonValue2);
+            }
+        });
 		
 		final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
 		mBackGroundLock = preferences.getBoolean(getString(R.string.key_background_lock), false);
