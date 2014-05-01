@@ -70,6 +70,7 @@ public class FrontMenuActivity extends android.app.Activity {
                 final EditText playerNumber = (EditText) view.findViewById(R.id.player_number);
                 playerNumber.setText("" + DEFAULT_PLAYER_NUMBER);
                 final Intent startTournamentIntent = new Intent(getApplicationContext(), StartTournamentActivity.class);
+                startTournamentIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
                 builder.setMessage(R.string.how_many_players).setTitle(R.string.players);
                 builder.setPositiveButton(R.string.load_player_list, new DialogInterface.OnClickListener() {

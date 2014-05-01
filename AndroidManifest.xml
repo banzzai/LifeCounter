@@ -67,17 +67,20 @@
         <activity
             android:name="com.banzz.lifecounter.activities.TournamentActivity"
             android:theme="@android:style/Theme.Black"
+            android:taskAffinity=".draft"
             android:screenOrientation="portrait">
         </activity>
         
         <activity
             android:name="com.banzz.lifecounter.activities.RoundActivity"
             android:theme="@android:style/Theme.Black"
+            android:taskAffinity=".draft"
             android:screenOrientation="portrait">
         </activity>
         <activity android:name=".activities.StartTournamentActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan"
+            android:taskAffinity=".draft"
             android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
     </application>
