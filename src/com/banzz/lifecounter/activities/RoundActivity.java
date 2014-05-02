@@ -25,6 +25,7 @@ import java.util.HashMap;
 @SuppressLint("UseSparseArrays")
 public class RoundActivity extends Activity {
 
+    private static final String TAG = RoundActivity.class.getName();
 	private ArrayList<TournamentPlayer> playerList = new ArrayList<TournamentPlayer>();
 	private ArrayList<Match> matches = new ArrayList<Match>();
 	private HashMap<Integer, Game> games = new HashMap<Integer, Game>();
@@ -123,14 +124,14 @@ public class RoundActivity extends Activity {
 			// Giving a bye to the last player
 			mCurrentBye = tempList.get(tempList.size() -1).getId();
             mCurrentByeName = tempList.get(tempList.size() -1).getName();
-            Log.e("PAIRING", "Giving a bye to " + mCurrentByeName);
+            Log.d(TAG, "Giving a bye to " + mCurrentByeName);
             tempList.remove(tempList.size() -1);
 		}
 		
 		int pairingNeeded = tempList.size() / 2;
 		
 		while (matches.size() < pairingNeeded && attempt <= playerList.size()) {
-			Log.e("PAIRING", "Attempt #" + attempt);
+			Log.d(TAG, "Attempt #" + attempt);
 			matchUp(tempList);
 			
 			attempt++;
@@ -139,9 +140,9 @@ public class RoundActivity extends Activity {
 	
 	private void matchUp(ArrayList<TournamentPlayer> tempList) {
 		if (tempList.size() == 2) {
-			Log.e("PAIRING", "No choice left, picking " + tempList.get(0).getName() + " and " + tempList.get(1).getName());
+			Log.d(TAG, "No choice left, picking " + tempList.get(0).getName() + " and " + tempList.get(1).getName());
 			if (tempList.get(0).getPastOpponents().contains(tempList.get(1).getId())) {
-				Log.e("PAIRING", "Though they already played");
+				Log.d(TAG, "Though they already played");
 			}
 			matches.add(new Match(tempList.get(0), tempList.get(1)));
 			tempList.remove(1);
@@ -154,19 +155,19 @@ public class RoundActivity extends Activity {
 		int targetScore = currentPlayer.getScore();
 		boolean picked = false;
 		
-		Log.e("PAIRING", "Picking for " + currentPlayer.getName() + ",  score " + currentPlayer.getScore());
+		Log.d(TAG, "Picking for " + currentPlayer.getName() + ",  score " + currentPlayer.getScore());
 		
 		while (!picked) {
-			Log.e("PAIRING", "Checking out score " + targetScore);	
+			Log.d(TAG, "Checking out score " + targetScore);
 			ArrayList<TournamentPlayer> candidates = new ArrayList<TournamentPlayer>();
 			for (TournamentPlayer otherPlayer: tempList) {
 				if (otherPlayer.getScore() == targetScore) {
 					if (!currentPlayer.getPastOpponents().contains(otherPlayer.getId()) && !otherPlayer.equals(currentPlayer)) {
-						Log.e("PAIRING", otherPlayer.getName() + " good candidate.");
+						Log.d(TAG, otherPlayer.getName() + " good candidate.");
 						candidates.add(otherPlayer);
 					}
 					else {
-						Log.e("PAIRING", otherPlayer.getName() + " already played against.");
+						Log.d(TAG, otherPlayer.getName() + " already played against.");
 					}
 				}
 				else
@@ -176,7 +177,7 @@ public class RoundActivity extends Activity {
 						continue;
 					}
 					else if (candidates.isEmpty()) {
-						Log.e("PAIRING", "New target score " + otherPlayer.getScore());
+						Log.d(TAG, "New target score " + otherPlayer.getScore());
 						targetScore = otherPlayer.getScore();
 					}
 					break;
@@ -187,7 +188,7 @@ public class RoundActivity extends Activity {
 				// Should be able to take a pick now
 				Collections.shuffle(candidates);
 				TournamentPlayer pickedPlayer = candidates.get(0);
-				Log.e("PAIRING", "Picking at random out of " + candidates.size() + ": choosing " + pickedPlayer.getName());
+				Log.d(TAG, "Picking at random out of " + candidates.size() + ": choosing " + pickedPlayer.getName());
 				matches.add(new Match(currentPlayer, pickedPlayer));
 				tempList.remove(pickedPlayer);
 				tempList.remove(currentPlayer);
