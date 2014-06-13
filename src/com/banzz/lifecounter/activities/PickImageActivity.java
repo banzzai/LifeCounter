@@ -10,6 +10,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Point;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -86,20 +87,30 @@ public class PickImageActivity extends Activity {
 					pickCropImageIntent.setType("image/*");
 					pickCropImageIntent.putExtra("crop", "true");
 					pickCropImageIntent.putExtra("scale", true);
-					
-					Display display = getWindowManager().getDefaultDisplay();
-					Point size = new Point();
-					display.getSize(size);
-					int width = size.x;
-					int height = size.y;
+
+                    Display display = getWindowManager().getDefaultDisplay();
+                    int width;
+                    int height;
+                    if (Build.VERSION.SDK_INT < 13)
+                    {
+                        width = display.getWidth();
+                        height = display.getHeight();
+                    }
+                    else
+                    {
+                        Point size = new Point();
+                        display.getSize(size);
+                        width = size.x;
+                        height = size.y;
+                    }
 					if (isLarge) {
-						//pickCropImageIntent.putExtra("outputX", height / 2);
-						//pickCropImageIntent.putExtra("outputY", width);
+						pickCropImageIntent.putExtra("outputX", height / 2);
+						pickCropImageIntent.putExtra("outputY", width);
 						pickCropImageIntent.putExtra("aspectX", height / 2);
 						pickCropImageIntent.putExtra("aspectY", width);
 					} else {
-						//pickCropImageIntent.putExtra("outputX", width / 2);
-						//pickCropImageIntent.putExtra("outputY", height);
+						pickCropImageIntent.putExtra("outputX", width / 2);
+						pickCropImageIntent.putExtra("outputY", height);
 						pickCropImageIntent.putExtra("aspectX", width / 2);
 						pickCropImageIntent.putExtra("aspectY", height);
 					}

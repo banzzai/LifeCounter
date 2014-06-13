@@ -4,19 +4,12 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
-
 import com.banzz.lifecounter.R;
-import com.banzz.lifecounter.utils.Utils;
 
 import java.util.Random;
 
@@ -28,6 +21,12 @@ public class ToolboxMenuDialog extends DialogFragment {
         //super(context, android.R.style.Theme_Translucent_NoTitleBar_Fullscreen);
         mContext = context;
         mListener = listener;
+    }
+
+    //Don't want to bother with save/load instances right now...
+    public ToolboxMenuDialog() {
+        //super(context, android.R.style.Theme_Translucent_NoTitleBar_Fullscreen);
+        dismiss();
     }
 
     public interface ToolBoxDialogListener {
