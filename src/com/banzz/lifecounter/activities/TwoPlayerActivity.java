@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.res.Configuration;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -13,17 +14,22 @@ import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnTouchListener;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ViewFlipper;
+
 import com.banzz.lifecounter.R;
 import com.banzz.lifecounter.commons.Player;
 import com.banzz.lifecounter.utils.SystemUiHider;
@@ -94,6 +100,10 @@ public class TwoPlayerActivity extends Activity implements OnClickListener, Load
 	private int poisonValue1 = 0;
 	private int poisonValue2 = 0;
     private ToolboxMenuDialog mToolBoxDialog;
+    
+    // For the first use wizard
+    private ViewFlipper mViewFlipper;
+    private float mWizardFlipperLastX;
 
     @Override
 	protected void onPause() {
@@ -303,11 +313,11 @@ public class TwoPlayerActivity extends Activity implements OnClickListener, Load
 		close_wizard.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				findViewById(R.id.wizard_layout).setVisibility(View.GONE);
+				findViewById(R.id.wizard_view).setVisibility(View.GONE);
 			}
 		});
 		
-		Button never_show_wizard = (Button) findViewById(R.id.never_show);
+		/*Button never_show_wizard = (Button) findViewById(R.id.never_show);
 		never_show_wizard.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
@@ -317,7 +327,7 @@ public class TwoPlayerActivity extends Activity implements OnClickListener, Load
 		    	preferenceEditor.putBoolean(getString(R.string.key_hide_wizard), true);
 		    	preferenceEditor.commit();
 			}
-		});
+		});*/
 
         mToolBoxDialog = new ToolboxMenuDialog(TwoPlayerActivity.this, TwoPlayerActivity.this);
         Button menuButton = (Button) findViewById(R.id.central_button);
@@ -328,11 +338,23 @@ public class TwoPlayerActivity extends Activity implements OnClickListener, Load
             }
         });
 
+        mViewFlipper = (ViewFlipper) findViewById(R.id.wizard_flipper);
+        mViewFlipper.setOnTouchListener(new OnTouchListener() {
+        	@Override
+        	public boolean onTouch(View v, MotionEvent event) {
+	        	return onTouchEvent(event);
+        	}
+        });
+        updateCount();
+        
+        TextView wizTitle = (TextView) findViewById(R.id.wizard_title);
+        Typeface type = Typeface.createFromAsset(getAssets(),"fonts/HelveticaNeue.ttf"); 
+        wizTitle.setTypeface(type);
+        wizTitle.setText(getString(R.string.app_name).toUpperCase(getResources().getConfiguration().locale));
+        
 		if (preferences.getBoolean(getString(R.string.key_hide_wizard), false)) {
-			findViewById(R.id.wizard_layout).setVisibility(View.GONE);
+			findViewById(R.id.wizard_view).setVisibility(View.GONE);
 		}
-        TextView wizard_text = (TextView) findViewById(R.id.wizard_text_container);
-        wizard_text.setText(String.format(getText(R.string.wizard_text).toString(), getText(R.string.app_name)));
     }
 
 
@@ -385,16 +407,16 @@ public class TwoPlayerActivity extends Activity implements OnClickListener, Load
         }
         else
         {
-            if (Build.VERSION.SDK_INT < 16)
+            //if (Build.VERSION.SDK_INT < 16)
             {
                 mBigLife1.setBackgroundDrawable(null);
                 mBigLife2.setBackgroundDrawable(null);
             }
-            else
+            /*else
             {
                 mBigLife1.setBackground(null);
                 mBigLife2.setBackground(null);
-            }
+            }*/
         }
 		
 		for (int i=0; i<PLAYER_NUMBER; i++) {
@@ -695,5 +717,72 @@ public class TwoPlayerActivity extends Activity implements OnClickListener, Load
 	  if (checkOrientation(newConfig.orientation)) {
 		  updateUI();
 	  }
+	}
+	
+	// Method to handle touch event like left to right swap and right to left swap
+	public boolean onTouchEvent(MotionEvent touchevent) 
+	{
+		switch (touchevent.getAction())
+		{
+			// when user first touches the screen to swap
+			case MotionEvent.ACTION_DOWN: 
+			{
+				mWizardFlipperLastX = touchevent.getX();
+				return true;
+			}
+			case MotionEvent.ACTION_UP: 
+			{
+				float currentX = touchevent.getX();
+	
+				// if left to right swipe on screen
+				if (mWizardFlipperLastX < currentX) 
+				{
+					// If no more View/Child to flip
+					if (mViewFlipper.getDisplayedChild() == 0)
+					{
+						break;
+					}
+	
+					// set the required Animation type to ViewFlipper
+					// The Next screen will come in form Left and current Screen will go OUT from Right 
+					mViewFlipper.setInAnimation(this, R.anim.in_from_left);
+					mViewFlipper.setOutAnimation(this, R.anim.out_to_right);
+					// Show the next Screen
+					mViewFlipper.showPrevious();
+					updateCount();
+				}
+	
+				// if right to left swipe on screen
+				if (mWizardFlipperLastX > currentX)
+				{
+					if (mViewFlipper.getDisplayedChild() == mViewFlipper.getChildCount() -1)
+					{
+						break;
+					}
+					
+					// set the required Animation type to ViewFlipper
+					// The Next screen will come in form Right and current Screen will go OUT from Left 
+					mViewFlipper.setInAnimation(this, R.anim.in_from_right);
+					mViewFlipper.setOutAnimation(this, R.anim.out_to_left);
+					// Show The Previous Screen
+					mViewFlipper.showNext();
+					updateCount();
+				}
+				break;
+			}
+		}
+        return true;
+    }
+	
+	private void updateCount()
+	{
+		final int pageCount = mViewFlipper.getDisplayedChild();
+		
+		// Assuming that the number of pages is the same as the number of child dots
+		LinearLayout dots =  (LinearLayout) findViewById(R.id.wizard_dots);
+		for (int i=0; i<mViewFlipper.getChildCount(); i++)
+		{
+			dots.getChildAt(i).setSelected(i==pageCount);
+		}
 	}
 }
