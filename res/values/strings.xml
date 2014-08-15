@@ -62,8 +62,9 @@
     <string name="minus">-</string>
 
     <!-- First Use Wizard -->
-    <string name="close">Close</string>
-    <string name="never_show">Never show</string>
+    <string name="close_wizard_title">Close</string>
+    <string name="close_wizard_message">Leave this tutorial?</string>
+    <string name="never_show">Don\'t show again</string>
     <string name="wizard_text">Welcome to %s! You can access the toolbox by clicking the gear icon
         in the middle.</string>
     <string name="wizard_text_middle">Tools are corresponding to the icons: new game, roll dice,

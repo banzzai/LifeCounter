@@ -31,6 +31,7 @@ import android.widget.Toast;
 import android.widget.ViewFlipper;
 
 import com.banzz.lifecounter.R;
+import com.banzz.lifecounter.activities.CloseWizardDialog.CloseWizardDialogListener;
 import com.banzz.lifecounter.commons.Player;
 import com.banzz.lifecounter.utils.SystemUiHider;
 import com.banzz.lifecounter.utils.Utils.Constants;
@@ -45,7 +46,8 @@ import java.util.Random;
  * @see SystemUiHider
  */
 public class TwoPlayerActivity extends Activity implements OnClickListener, LoadPlayerDialog.LoadPlayerDialogListener,
-                                                            ToolboxMenuDialog.ToolBoxDialogListener {
+                                                            ToolboxMenuDialog.ToolBoxDialogListener,
+                                                            CloseWizardDialogListener {
 	public static int LIFE_START = 20;
 	public static int PLAYER_NUMBER = 2;
 	
@@ -310,10 +312,12 @@ public class TwoPlayerActivity extends Activity implements OnClickListener, Load
 		updateUI();
 
 		Button close_wizard = (Button) findViewById(R.id.close_wizard);
+		final CloseWizardDialog closeWizardDialog = new CloseWizardDialog();
+		closeWizardDialog.setListener(this);
 		close_wizard.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				findViewById(R.id.wizard_view).setVisibility(View.GONE);
+				closeWizardDialog.show(getFragmentManager(), getString(R.string.close_wizard_title));
 			}
 		});
 		
@@ -357,6 +361,18 @@ public class TwoPlayerActivity extends Activity implements OnClickListener, Load
 		}
     }
 
+	@Override
+	public void onDismissWizard(final boolean neverShow) {
+		if (neverShow)
+		{
+			final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+			Editor preferenceEditor = preferences.edit();
+	    	
+	    	preferenceEditor.putBoolean(getString(R.string.key_hide_wizard), true);
+	    	preferenceEditor.commit();
+		}
+		findViewById(R.id.wizard_view).setVisibility(View.GONE);
+	}
 
 	private void initArrays() {
 		playerBacks[Constants.PLAYER_ONE] = player1_back_number;
