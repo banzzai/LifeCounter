@@ -1,7 +1,10 @@
 package com.banzz.lifecounter.utils;
 
+import android.content.Context;
+import android.graphics.Typeface;
+
 public class Utils {
-	public class Constants {
+	public static class Constants {
 		//Game parameters
 		public static final int LIFE_MAX 	= 999;
 		public static final int LIFE_MIN 	= 0;
@@ -36,5 +39,16 @@ public class Utils {
 		public static final String PROFILES_FILE_NAME 	= "/players.JSON";
 		public static final String TEMP_FILE_NAME 		= "temp.jpg";
 		public static final String TEMP_LARGE_FILE_NAME = "temp_large.jpg";
+		
+		public static Typeface FONT_HELVETICA_NUEUE = null;
+		public static String STRING_HELVETICA_NUEUE = "HelveticaNeue";
+		public static Typeface FONT_HELVETICA_NUEUE_CONDENSED = null;
+		public static String STRING_HELVETICA_NUEUE_CONDENSED = "HelveticaNeueC";
+	}
+	
+	public static void initUtils(Context context)
+	{
+		Constants.FONT_HELVETICA_NUEUE = Typeface.createFromAsset(context.getAssets(), "fonts/"+Constants.STRING_HELVETICA_NUEUE+".ttf");
+		Constants.FONT_HELVETICA_NUEUE_CONDENSED = Typeface.createFromAsset(context.getAssets(), "fonts/"+Constants.STRING_HELVETICA_NUEUE_CONDENSED+".ttf"); 
 	}
 }

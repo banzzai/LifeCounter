@@ -72,7 +72,14 @@
     <string name="wizard_text_part2">This app is still in Beta so your feedback is welcome! Check
         out edit player and the draft organizer too! Thanks for your support :) Bullzzai</string>
     <string name="app_name">MTG20 LifeCounter</string>
-
+    
+    <string name="wiz_text_1">Welcome to MTG20 LifeCounter. We are going to show you around the app. Swipe to continue.</string>
+	<string name="wiz_text_2">Click there to start a new game! Let\'s see what the game screen looks like.</string>
+	<string name="wiz_text_3">This button in the middle is the tool box. From there you can flip a coin, roll a dice, reset life counts, and flip player 2 upside down.</string>
+	<string name="wiz_text_4">Click here (imagine it\'s it) to manage your player profiles.\nPlayer profiles are fun, you can pick images and colors for them.</string>
+	<string name="wiz_text_5">This button starts the draft organiser. Enter your friends names, and we will keep score and tell you who is playing the next round.</string>
+	<string name="wiz_text_6">Alright have fun now! Close this to start usign the app (should I make swipe do that too?)</string>
+    
     <!-- Edit Wizard -->
     <string name="edit_wizard_text">Welcome to edit player screen! Here you can set a name for your
         player profile, pick a color for the life counter, and select images for the background.

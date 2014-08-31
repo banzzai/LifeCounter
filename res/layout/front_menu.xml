@@ -96,4 +96,10 @@
             android:layout_alignParentBottom="true"
             android:layout_marginBottom="20dp"
         />
+        
+        <include
+            android:id="@+id/wizard_view"
+            layout="@layout/main_wizard"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"/>
 </RelativeLayout>

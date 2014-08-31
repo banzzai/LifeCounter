@@ -11,4 +11,8 @@
         <attr name="buttonBarButtonStyle" format="reference" />
     </declare-styleable>
 
+    <declare-styleable name="FontedTextView">
+        <attr name="font" format="string" />
+    </declare-styleable>
+        
 </resources>

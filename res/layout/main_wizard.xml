@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:bullzzai="http://schemas.android.com/apk/res-auto"
     android:layout_width="fill_parent"
 	android:layout_height="fill_parent">
 		
@@ -12,35 +13,94 @@
 			android:layout_width="fill_parent"
 			android:layout_height="fill_parent"
 			android:background="@color/color_v2_1">
-		    
+		    <com.banzz.lifecounter.commons.FontedTextView
+		        android:layout_width="fill_parent"
+				style="@style/WizardDescription"
+				android:text="@string/wiz_text_1"
+				/>
 		</LinearLayout>
+		
+		<ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/main_1"
+            android:scaleType="fitXY"
+            />
 		
 		<LinearLayout 
 			android:layout_width="fill_parent"
 			android:layout_height="fill_parent"
 			android:background="@color/color_v2_2">
-		    
+		    <com.banzz.lifecounter.commons.FontedTextView
+		        android:layout_width="fill_parent"
+				style="@style/WizardDescription"
+				android:text="@string/wiz_text_2" 
+		        />
 		</LinearLayout>
+		
+		<ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/two_player"
+            android:scaleType="fitXY"
+            />
 		
 		<LinearLayout 
 			android:layout_width="fill_parent"
 			android:layout_height="fill_parent"
 			android:background="@color/color_v2_3">
-		    
+		    <com.banzz.lifecounter.commons.FontedTextView
+		        android:layout_width="fill_parent"
+				style="@style/WizardDescription"
+				android:text="@string/wiz_text_3" 
+		        />
 		</LinearLayout>
+		
+		<ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/main_2"
+            android:scaleType="fitXY"
+            />
 		
 		<LinearLayout 
 			android:layout_width="fill_parent"
 			android:layout_height="fill_parent"
 			android:background="@color/color_v2_4">
-		    
+		    <com.banzz.lifecounter.commons.FontedTextView
+		        android:layout_width="fill_parent"
+				style="@style/WizardDescription"
+				android:text="@string/wiz_text_4" 
+		        />
 		</LinearLayout>
+		
+		<ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/main_3"
+            android:scaleType="fitXY"
+            />
 		
 		<LinearLayout 
 			android:layout_width="fill_parent"
 			android:layout_height="fill_parent"
 			android:background="@color/color_v2_5">
-		    
+		    <com.banzz.lifecounter.commons.FontedTextView
+		        android:layout_width="fill_parent"
+				style="@style/WizardDescription"
+				android:text="@string/wiz_text_5" 
+		        />
+		</LinearLayout>
+		
+		<LinearLayout 
+			android:layout_width="fill_parent"
+			android:layout_height="fill_parent"
+			android:background="@color/color_v2_6">
+		    <com.banzz.lifecounter.commons.FontedTextView
+		        android:layout_width="fill_parent"
+				style="@style/WizardDescription"
+				android:text="@string/wiz_text_6" 
+		        />
 		</LinearLayout>
 	</ViewFlipper>
 	
@@ -64,26 +124,25 @@
 			    android:layout_marginTop="5dp"
 			    android:layout_marginRight="5dp"
 			    android:textSize="10pt"
-			    android:text="X" 
+			    android:text="x" 
 		        >
 		    </Button>
 		</RelativeLayout>
 		<!-- Lower half -->
 		<RelativeLayout
+		    android:id="@+id/wizard_overlay"
 		    android:layout_width="fill_parent"
 		    android:layout_height="0dp"
 		    android:layout_weight="1" 
 		    android:background="@color/transparent_black"
 		    >
-			<TextView
+			<com.banzz.lifecounter.commons.FontedTextView
 			    android:id="@+id/wizard_title"
-			    android:layout_width="wrap_content"
-			    android:layout_height="wrap_content"
 			    android:layout_alignParentBottom="true"
 			    android:layout_marginBottom="80dp"
 			    android:layout_centerHorizontal="true"
-			    android:textSize="14pt"
-			    android:textColor="@color/white"/>
+			    style="@style/WizardTitle"
+			    />
 			
 			<LinearLayout 
 			    android:id="@+id/wizard_dots"
@@ -119,6 +178,12 @@
 		            android:layout_marginLeft="5dp"/>
 				<ImageView 
 				    android:id="@+id/dot_5"
+		            android:background="@drawable/dot"
+		            android:layout_width="10dp"
+		            android:layout_height="10dp"
+		            android:layout_marginLeft="5dp"/>
+				<ImageView 
+				    android:id="@+id/dot_6"
 		            android:background="@drawable/dot"
 		            android:layout_width="10dp"
 		            android:layout_height="10dp"

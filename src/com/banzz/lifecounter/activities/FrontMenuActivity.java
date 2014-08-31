@@ -4,21 +4,59 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnTouchListener;
+import android.view.animation.Animation;
+import android.view.animation.Animation.AnimationListener;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
-import com.banzz.lifecounter.R;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+import android.widget.ViewFlipper;
 
-public class FrontMenuActivity extends android.app.Activity {
+import com.banzz.lifecounter.R;
+import com.banzz.lifecounter.activities.CloseWizardDialog.CloseWizardDialogListener;
+import com.banzz.lifecounter.utils.Utils;
+
+public class FrontMenuActivity extends android.app.Activity implements CloseWizardDialogListener {
 
     private static final int DEFAULT_PLAYER_NUMBER = 6;
 
+    // For the first use wizard
+    private ViewFlipper mViewFlipper;
+    private RelativeLayout mWizardOverlay;
+    private float mWizardFlipperLastX;
+    private final int DOT_COUNT = 6;
+    private WizardPageParams[] mWizardPageParams;
+	private AnimationListener mFlipAction;
+	
+	private final int NO_FADE = 0;
+	private final int FADE_IN = 1;
+	private final int FADE_OUT = 2;
+	
+	private int mOverlayFade = NO_FADE;
+    
+	class WizardPageParams
+    {
+    	public WizardPageParams(int dotIndex, boolean showOverlay)
+    	{
+    		mDotIndex = dotIndex;
+    		mShowOverlay = showOverlay;
+    	}
+    	
+    	public int mDotIndex;
+    	public boolean mShowOverlay;
+    }
+	
     @Override
 	protected void onResume() {
 		super.onResume();
@@ -27,9 +65,12 @@ public class FrontMenuActivity extends android.app.Activity {
 	@Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        
+        Utils.initUtils(getApplicationContext());
         getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
         getActionBar().hide();
         setContentView(R.layout.front_menu);
+        
         
         Button mButton = (Button) findViewById(R.id.two_player_button);
         mButton.setOnClickListener(new OnClickListener() {
@@ -102,7 +143,15 @@ public class FrontMenuActivity extends android.app.Activity {
 			}
 		});
 
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        if (!preferences.getBoolean(getString(R.string.key_hide_wizard), false)) {
+    		initWizard();
+        }
+        else
+        {
+        	findViewById(R.id.wizard_view).setVisibility(View.GONE);
+        }
+    		
         String currentNotesKey = getString(R.string.release_notes_key) + getString(R.string.version_code);
         boolean releaseNotesShown = preferences.getBoolean(currentNotesKey, false);
         if (!releaseNotesShown)
@@ -111,6 +160,80 @@ public class FrontMenuActivity extends android.app.Activity {
         }
 	}
 
+	private void initWizard()
+	{
+		mViewFlipper = (ViewFlipper) findViewById(R.id.wizard_flipper);
+        mViewFlipper.setOnTouchListener(new OnTouchListener() {
+        	@Override
+        	public boolean onTouch(View v, MotionEvent event) {
+	        	return onTouchEvent(event);
+        	}
+        });
+        
+        Button close_wizard = (Button) findViewById(R.id.close_wizard);
+		final CloseWizardDialog closeWizardDialog = new CloseWizardDialog();
+		closeWizardDialog.setListener(this);
+		close_wizard.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				closeWizardDialog.show(getFragmentManager(), getString(R.string.close_wizard_title));
+			}
+		});
+        
+        // Wizard page params
+        mWizardPageParams = new WizardPageParams[]{
+        		new WizardPageParams(1, true),
+        		new WizardPageParams(1, false),
+        		new WizardPageParams(2, true),
+        		new WizardPageParams(2, false),
+        		new WizardPageParams(3, true),
+        		new WizardPageParams(3, false),
+        		new WizardPageParams(4, true),
+        		new WizardPageParams(4, false),
+        		new WizardPageParams(5, true),
+        		new WizardPageParams(6, true)
+        		};
+        mWizardOverlay = (RelativeLayout) findViewById(R.id.wizard_overlay);
+
+        mFlipAction = new AnimationListener() {
+			@Override
+			public void onAnimationStart(Animation animation) {
+				if (mOverlayFade == FADE_OUT)
+				{
+					mWizardOverlay.animate().setDuration(300).alpha(0);
+				}
+				else if (mOverlayFade == FADE_IN)
+				{
+					mWizardOverlay.animate().setDuration(300).alpha(1);
+				}
+			}
+			@Override
+			public void onAnimationRepeat(Animation animation) {}
+			@Override
+			public void onAnimationEnd(Animation animation) {
+				updateDots();
+			}
+		};
+        
+		updateDots();
+        
+        TextView wizTitle = (TextView) findViewById(R.id.wizard_title);
+        wizTitle.setText(getString(R.string.app_name).toUpperCase(getResources().getConfiguration().locale));
+	}
+
+	@Override
+	public void onDismissWizard(final boolean neverShow) {
+		if (neverShow)
+		{
+			final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+			Editor preferenceEditor = preferences.edit();
+	    	
+	    	preferenceEditor.putBoolean(getString(R.string.key_hide_wizard), true);
+	    	preferenceEditor.commit();
+		}
+		findViewById(R.id.wizard_view).setVisibility(View.GONE);
+	}
+	
     private void showReleaseNotes(final String notesKey)
     {
         AlertDialog.Builder builder = new AlertDialog.Builder(FrontMenuActivity.this);
@@ -144,4 +267,91 @@ public class FrontMenuActivity extends android.app.Activity {
         AlertDialog dialog = builder.create();
         dialog.show();
     }
+    
+ // Method to handle touch event like left to right swap and right to left swap
+ 	public boolean onTouchEvent(MotionEvent touchevent) 
+ 	{
+ 		switch (touchevent.getAction())
+ 		{
+ 			// when user first touches the screen to swap
+ 			case MotionEvent.ACTION_DOWN: 
+ 			{
+ 				mWizardFlipperLastX = touchevent.getX();
+ 				return true;
+ 			}
+ 			case MotionEvent.ACTION_UP: 
+ 			{
+ 				float currentX = touchevent.getX();
+ 	
+ 				// if left to right swipe on screen
+ 				if (mWizardFlipperLastX < currentX) 
+ 				{
+ 					// If no more View/Child to flip
+ 					if (mViewFlipper.getDisplayedChild() == 0)
+ 					{
+ 						break;
+ 					}
+ 	
+ 					// set the required Animation type to ViewFlipper
+ 					// The Next screen will come in form Left and current Screen will go OUT from Right 
+ 					mViewFlipper.setInAnimation(this, R.anim.in_from_left);
+ 					mViewFlipper.setOutAnimation(this, R.anim.out_to_right);
+ 					
+ 					mViewFlipper.getInAnimation().setAnimationListener(null);
+ 					mViewFlipper.getInAnimation().setAnimationListener(mFlipAction);
+ 					
+ 					// Setup an animation for the overlay if needed
+ 					updateOverlayFadeAnimation(false);
+ 					
+ 					mViewFlipper.showPrevious();
+ 				}
+ 	
+ 				// if right to left swipe on screen
+ 				if (mWizardFlipperLastX > currentX)
+ 				{
+ 					if (mViewFlipper.getDisplayedChild() == mViewFlipper.getChildCount() -1)
+ 					{
+ 						break;
+ 					}
+ 					
+ 					// set the required Animation type to ViewFlipper
+ 					// The Next screen will come in form Right and current Screen will go OUT from Left 
+ 					mViewFlipper.setInAnimation(this, R.anim.in_from_right);
+ 					mViewFlipper.setOutAnimation(this, R.anim.out_to_left);
+
+ 					mViewFlipper.getInAnimation().setAnimationListener(null);
+ 					mViewFlipper.getInAnimation().setAnimationListener(mFlipAction);
+ 					
+ 					// Setup an animation for the overlay if needed
+ 					updateOverlayFadeAnimation(true);
+ 					
+ 					mViewFlipper.showNext();
+ 				}
+ 				break;
+ 			}
+ 		}
+         return true;
+     }
+ 	
+ 	// Setup an animation for the overlay based on the current page and the one we're moving to
+ 	private void updateOverlayFadeAnimation(boolean goingForward)
+ 	{
+ 		final boolean currentShowOverlay = mWizardPageParams[mViewFlipper.getDisplayedChild()].mShowOverlay;
+ 		final boolean nextShowOverlay = mWizardPageParams[mViewFlipper.getDisplayedChild()+(goingForward?1:-1)].mShowOverlay;
+ 		
+ 		mOverlayFade = (!currentShowOverlay && nextShowOverlay) ? FADE_IN : (currentShowOverlay && !nextShowOverlay) ? FADE_OUT : NO_FADE;
+ 	}
+ 	
+ 	private void updateDots()
+ 	{
+ 		final int pageCount = mViewFlipper.getDisplayedChild();
+ 		
+ 		LinearLayout dots =  (LinearLayout) findViewById(R.id.wizard_dots);
+ 		for (int i=0; i<DOT_COUNT; i++)
+ 		{
+ 			// Using i+1 because I want to call my dots #1 to #x and not start with dot 0
+ 			dots.getChildAt(i).setSelected(mWizardPageParams[mViewFlipper.getDisplayedChild()].mDotIndex==i+1);
+ 		}
+ 		//mWizardOverlay.setVisibility(mWizardPageParams[mViewFlipper.getDisplayedChild()].mShowOverlay?View.VISIBLE:View.GONE);
+ 	}
 }
