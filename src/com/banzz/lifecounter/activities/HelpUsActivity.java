@@ -13,8 +13,6 @@ import com.banzz.lifecounter.utils.Utils.Constants;
 
 public class HelpUsActivity extends android.app.Activity {
 
-    private static final int DEFAULT_PLAYER_NUMBER = 6;
-
     @Override
 	protected void onResume() {
 		super.onResume();
@@ -86,9 +84,9 @@ public class HelpUsActivity extends android.app.Activity {
     private void sendMail() {
         Intent i = new Intent(Intent.ACTION_SEND);
         i.setType("message/rfc822");
-        i.putExtra(Intent.EXTRA_EMAIL  , new String[]{Constants.BULLZZAI_EMAIL});
-        i.putExtra(Intent.EXTRA_SUBJECT,  getString(R.string.feedback_for_version, getString(R.string.version_name)));
-        i.putExtra(Intent.EXTRA_TEXT   , "");
+        i.putExtra(Intent.EXTRA_EMAIL, new String[]{Constants.BULLZZAI_EMAIL});
+        i.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.feedback_for_version, getString(R.string.version_name)));
+        i.putExtra(Intent.EXTRA_TEXT, "");
         try {
             startActivity(Intent.createChooser(i, getString(R.string.send_feedback)));
         } catch (android.content.ActivityNotFoundException ex) {
