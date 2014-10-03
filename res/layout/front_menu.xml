@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#333333"
+    android:background="@color/front_color_1"
     >
         <ImageView
             android:id="@+id/front_title"
@@ -10,91 +10,98 @@
             android:layout_width="match_parent"
             android:layout_alignParentTop="true"
             android:layout_marginTop="20dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:background="@drawable/title"
         />
 
-        <Button
-            android:id="@+id/two_player_button"
-            style="@style/ButtonText"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/first_line"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_toLeftOf="@+id/top_separator"
-            android:layout_centerVertical="true"
-            android:layout_marginTop="-30dp"
+            android:layout_below="@+id/front_title"
+            android:orientation="horizontal"
             android:layout_alignParentLeft="true"
-            android:background="@drawable/btn_green_matte"
-            android:text="@string/new_game"
-        />
-
-        <ImageView
-            android:id="@+id/top_separator"
-            android:layout_height="20dp"
-            android:layout_width="20dp"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:layout_marginTop="-30dp"
-        />
-
-        <Button
-            android:id="@+id/settings_button"
-            style="@style/ButtonText"
-            android:background="@drawable/btn_green_matte"
-            android:layout_width="wrap_content"
+            android:layout_marginTop="40dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            >
+            <com.banzz.lifecounter.commons.FontedButton
+		        android:id="@+id/two_player_button"
+	            android:layout_width="100dp"
+	            android:layout_height="wrap_content"
+	            android:layout_weight="1"
+	            android:text="@string/new_game"
+    			style="@style/NewButtonText"
+				android:drawableTop="@drawable/new_game"
+	        />
+	        <com.banzz.lifecounter.commons.FontedButton
+	            android:id="@+id/edit_profiles"
+	            android:layout_width="100dp"
+	            android:layout_height="wrap_content"
+	            android:layout_weight="1"
+	            android:text="@string/profile_menu"
+	            style="@style/NewButtonText"
+	            android:drawableTop="@drawable/profiles"
+	        />
+	        <com.banzz.lifecounter.commons.FontedButton
+	            android:id="@+id/tournament_button"
+	            android:layout_width="100dp"
+	            android:layout_height="wrap_content"
+	            android:layout_weight="1"
+	            android:text="@string/tournament"
+	            style="@style/NewButtonText"
+	            android:drawableTop="@drawable/draft"
+	        />
+	    </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/top_separator"
-            android:layout_centerVertical="true"
-            android:layout_marginTop="-30dp"
-            android:layout_alignParentRight="true"
-            android:text="@string/button_settings"
-            android:layout_gravity="center"
-        />
-
-        <Button
-            android:id="@+id/tournament_button"
-            style="@style/ButtonText"
-            android:background="@drawable/btn_green_matte"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_below="@+id/first_line"
+            android:orientation="horizontal"
             android:layout_alignParentLeft="true"
-            android:layout_below="@id/two_player_button"
-            android:layout_toLeftOf="@+id/bottom_separator"
             android:layout_marginTop="40dp"
-            android:text="@string/tournament"
-            android:layout_gravity="center"
-        />
-
-        <ImageView
-            android:id="@+id/bottom_separator"
-            android:layout_height="20dp"
-            android:layout_width="20dp"
-            android:layout_centerHorizontal="true"
-            android:layout_below="@id/two_player_button"
-            android:layout_marginTop="40dp"
-        />
-
-        <Button
-            android:id="@+id/helpus_button"
-            style="@style/ButtonText"
-            android:background="@drawable/btn_green_matte"
-            android:layout_alignParentRight="true"
-            android:layout_toRightOf="@+id/bottom_separator"
-            android:layout_below="@id/two_player_button"
-            android:layout_marginTop="40dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/helpus"
-            android:layout_gravity="center"
-        />
-
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            >
+	        <FrameLayout 
+	            android:layout_width="0dp"
+	            android:layout_height="wrap_content"
+	            android:layout_weight="1"
+	        />
+	        <com.banzz.lifecounter.commons.FontedButton
+	            android:id="@+id/settings_button"
+	            android:layout_width="100dp"
+	            android:layout_height="wrap_content"
+	            android:layout_weight="1"
+	            android:text="@string/button_settings"
+	            style="@style/NewButtonText"
+	            android:drawableTop="@drawable/settings"
+	        />
+	        <com.banzz.lifecounter.commons.FontedButton
+	            android:id="@+id/helpus_button"
+	            android:layout_width="100dp"
+	            android:layout_height="wrap_content"
+	            android:layout_weight="1"
+	            android:text="@string/helpus"
+	            style="@style/NewButtonText"
+	            android:drawableTop="@drawable/social"
+	        />
+	        <FrameLayout 
+	            android:layout_width="0dp"
+	            android:layout_height="wrap_content"
+	            android:layout_weight="1"
+	        />
+        </LinearLayout>
+        
         <ImageView
             android:id="@+id/bullzzai_logo"
-            android:layout_width="100dp"
-            android:layout_height="140dp"
-            android:background="@drawable/tr_logo"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:background="@drawable/logo"
             android:layout_centerHorizontal="true"
             android:layout_alignParentBottom="true"
-            android:layout_marginBottom="20dp"
+            android:layout_marginBottom="10dp"
         />
         
         <include

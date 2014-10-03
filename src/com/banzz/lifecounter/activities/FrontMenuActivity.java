@@ -1,11 +1,13 @@
 package com.banzz.lifecounter.activities;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
@@ -35,7 +37,7 @@ public class FrontMenuActivity extends android.app.Activity implements CloseWiza
     private ViewFlipper mViewFlipper;
     private RelativeLayout mWizardOverlay;
     private float mWizardFlipperLastX;
-    private final int DOT_COUNT = 6;
+    private final int DOT_COUNT = 7;
     private WizardPageParams[] mWizardPageParams;
 	private AnimationListener mFlipAction;
 	
@@ -44,6 +46,8 @@ public class FrontMenuActivity extends android.app.Activity implements CloseWiza
 	private final int FADE_OUT = 2;
 	
 	private int mOverlayFade = NO_FADE;
+
+	private CloseWizardDialog mCloseWizardDialog;
     
 	class WizardPageParams
     {
@@ -143,6 +147,9 @@ public class FrontMenuActivity extends android.app.Activity implements CloseWiza
 			}
 		});
 
+        mCloseWizardDialog = new CloseWizardDialog(this);
+		mCloseWizardDialog.setListener(this);
+        
         final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         if (!preferences.getBoolean(getString(R.string.key_hide_wizard), false)) {
     		initWizard();
@@ -171,12 +178,10 @@ public class FrontMenuActivity extends android.app.Activity implements CloseWiza
         });
         
         Button close_wizard = (Button) findViewById(R.id.close_wizard);
-		final CloseWizardDialog closeWizardDialog = new CloseWizardDialog();
-		closeWizardDialog.setListener(this);
 		close_wizard.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				closeWizardDialog.show(getFragmentManager(), getString(R.string.close_wizard_title));
+				mCloseWizardDialog.show();
 			}
 		});
         
@@ -191,7 +196,9 @@ public class FrontMenuActivity extends android.app.Activity implements CloseWiza
         		new WizardPageParams(4, true),
         		new WizardPageParams(4, false),
         		new WizardPageParams(5, true),
-        		new WizardPageParams(6, true)
+        		new WizardPageParams(5, false),
+        		new WizardPageParams(6, true),
+        		new WizardPageParams(7, true)
         		};
         mWizardOverlay = (RelativeLayout) findViewById(R.id.wizard_overlay);
 
@@ -232,6 +239,11 @@ public class FrontMenuActivity extends android.app.Activity implements CloseWiza
 	    	preferenceEditor.commit();
 		}
 		findViewById(R.id.wizard_view).setVisibility(View.GONE);
+	}
+	
+	private boolean isWizardShowing()
+	{
+		return View.GONE != findViewById(R.id.wizard_view).getVisibility();
 	}
 	
     private void showReleaseNotes(final String notesKey)
@@ -276,11 +288,21 @@ public class FrontMenuActivity extends android.app.Activity implements CloseWiza
  			// when user first touches the screen to swap
  			case MotionEvent.ACTION_DOWN: 
  			{
+ 				if (!isWizardShowing())
+ 				{
+ 					return false;
+ 				}
+ 				
  				mWizardFlipperLastX = touchevent.getX();
  				return true;
  			}
  			case MotionEvent.ACTION_UP: 
  			{
+ 				if (!isWizardShowing())
+ 				{
+ 					return false;
+ 				}
+ 				
  				float currentX = touchevent.getX();
  	
  				// if left to right swipe on screen
@@ -307,10 +329,11 @@ public class FrontMenuActivity extends android.app.Activity implements CloseWiza
  				}
  	
  				// if right to left swipe on screen
- 				if (mWizardFlipperLastX > currentX)
+ 				if (mWizardFlipperLastX >= currentX)
  				{
  					if (mViewFlipper.getDisplayedChild() == mViewFlipper.getChildCount() -1)
  					{
+ 						mCloseWizardDialog.show();
  						break;
  					}
  					
@@ -344,14 +367,11 @@ public class FrontMenuActivity extends android.app.Activity implements CloseWiza
  	
  	private void updateDots()
  	{
- 		final int pageCount = mViewFlipper.getDisplayedChild();
- 		
  		LinearLayout dots =  (LinearLayout) findViewById(R.id.wizard_dots);
  		for (int i=0; i<DOT_COUNT; i++)
  		{
  			// Using i+1 because I want to call my dots #1 to #x and not start with dot 0
  			dots.getChildAt(i).setSelected(mWizardPageParams[mViewFlipper.getDisplayedChild()].mDotIndex==i+1);
  		}
- 		//mWizardOverlay.setVisibility(mWizardPageParams[mViewFlipper.getDisplayedChild()].mShowOverlay?View.VISIBLE:View.GONE);
  	}
 }
