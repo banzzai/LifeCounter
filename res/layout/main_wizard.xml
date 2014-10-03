@@ -41,7 +41,7 @@
 		<ImageView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:src="@drawable/two_player"
+            android:src="@drawable/main_2"
             android:scaleType="fitXY"
             />
 		
@@ -59,7 +59,7 @@
 		<ImageView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:src="@drawable/main_2"
+            android:src="@drawable/main_3"
             android:scaleType="fitXY"
             />
 		
@@ -77,7 +77,7 @@
 		<ImageView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:src="@drawable/main_3"
+            android:src="@drawable/main_4"
             android:scaleType="fitXY"
             />
 		
@@ -92,6 +92,13 @@
 		        />
 		</LinearLayout>
 		
+		<ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/main_5"
+            android:scaleType="fitXY"
+            />
+		
 		<LinearLayout 
 			android:layout_width="fill_parent"
 			android:layout_height="fill_parent"
@@ -100,6 +107,17 @@
 		        android:layout_width="fill_parent"
 				style="@style/WizardDescription"
 				android:text="@string/wiz_text_6" 
+		        />
+		</LinearLayout>
+		
+		<LinearLayout 
+			android:layout_width="fill_parent"
+			android:layout_height="fill_parent"
+			android:background="@color/color_v2_7">
+		    <com.banzz.lifecounter.commons.FontedTextView
+		        android:layout_width="fill_parent"
+				style="@style/WizardDescription"
+				android:text="@string/wiz_text_7" 
 		        />
 		</LinearLayout>
 	</ViewFlipper>
@@ -117,14 +135,13 @@
 		>
 		    <Button 
 		        android:id="@+id/close_wizard"
-		        android:layout_width="wrap_content"
-			    android:layout_height="wrap_content"
+		        android:layout_width="40dp"
+			    android:layout_height="40dp"
 			    android:layout_alignParentTop="true"
 			    android:layout_alignParentRight="true"
 			    android:layout_marginTop="5dp"
 			    android:layout_marginRight="5dp"
-			    android:textSize="10pt"
-			    android:text="x" 
+				android:background="@drawable/close_button" 
 		        >
 		    </Button>
 		</RelativeLayout>
@@ -184,6 +201,12 @@
 		            android:layout_marginLeft="5dp"/>
 				<ImageView 
 				    android:id="@+id/dot_6"
+		            android:background="@drawable/dot"
+		            android:layout_width="10dp"
+		            android:layout_height="10dp"
+		            android:layout_marginLeft="5dp"/>
+				<ImageView 
+				    android:id="@+id/dot_7"
 		            android:background="@drawable/dot"
 		            android:layout_width="10dp"
 		            android:layout_height="10dp"

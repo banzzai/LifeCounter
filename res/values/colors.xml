@@ -3,6 +3,7 @@
     <color name="box_white">#80FFFFFF</color>
     <color name="transparent_white">#40FFFFFF</color>
     <color name="transparent_black">#25000000</color>
+    <color name="transparent">#00000000</color>
 	<color name="lifeText">#FFFFFFFF</color>
 	<color name="poison">#AA0CA620</color>
 	<color name="reddism">#AAA60C20</color>
@@ -11,6 +12,7 @@
 	<color name="SHADE">#55FFFFFF</color>
 	<color name="GRADIENT_END">#FFFFFFFF</color>
 
+	<color name="dialog_button_white">#EEFFFFFF</color>
 	<color name="white">#FFFFFF</color>
 	
     <color name="color_1">#000000</color>
@@ -29,6 +31,10 @@
     <color name="color_v2_3">#eb1c23</color>
     <color name="color_v2_4">#77c742</color>
     <color name="color_v2_5">#8147de</color>
-    <color name="color_v2_6">#2f3291</color>
+    <color name="color_v2_6">#117191</color>
+    <color name="color_v2_7">#2f3291</color>
+    
+    <color name="front_color_1">#117191</color>
+    <color name="front_color_2">#ff931f</color>
     
 </resources>
