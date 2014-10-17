@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="@dimen/profile_wheel_height"
+    android:gravity="center_horizontal" >
+  
+	<com.banzz.lifecounter.commons.RoundedImageView 
+		android:id="@+id/profile_wheel_icon"
+		android:layout_gravity="center_horizontal"
+		android:layout_alignParentLeft="true"
+		android:layout_width="@dimen/profile_wheel_height"
+		android:layout_height="fill_parent"
+		android:padding="3dp" />
+    
+  <TextView android:id="@+id/profile_wheel_name"
+		android:layout_centerVertical="true"
+		android:layout_toRightOf="@+id/profile_wheel_icon"
+		android:layout_marginLeft="6dp"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:textSize="20sp"
+		android:includeFontPadding="false"
+		android:textColor="#F000"
+		android:textStyle="bold" />
+
+</RelativeLayout>
