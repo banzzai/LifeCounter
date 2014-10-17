@@ -39,8 +39,10 @@ import java.util.Random;
  *
  * @see SystemUiHider
  */
-public class TwoPlayerActivity extends Activity implements OnClickListener, NewLoadPlayerDialog.NewLoadPlayerDialogListener,
+public class TwoPlayerActivity extends Activity implements OnClickListener, LoadPlayerDialog.LoadPlayerDialogListener,
                                                             ToolboxMenuDialog.ToolBoxDialogListener {
+	private static final String TAG = TwoPlayerActivity.class.getName();
+	
 	public static int LIFE_START = 20;
 	public static int PLAYER_NUMBER = 2;
 	
@@ -73,10 +75,6 @@ public class TwoPlayerActivity extends Activity implements OnClickListener, NewL
 	private TextView mMinus1;
 	private TextView mMinus2;
 	private TextView[] minuses = {null, null};
-	
-//	private WheelView player_one_wheel;
-//	private WheelView player_two_wheel;
-//	private WheelView[] wheels = {null, null};
 	
 	private ImageView player1_background;
 	private ImageView player2_background;
@@ -175,9 +173,6 @@ public class TwoPlayerActivity extends Activity implements OnClickListener, NewL
         mMinus2		= (TextView) findViewById(R.id.minus_2);
         mMinus2.setOnClickListener(this);
         
-//        player_one_wheel = (WheelView) findViewById(R.id.player_one);
-//		player_one_wheel.setViewAdapter(new LifeAdapter(this, Constants.LIFE_MIN, Constants.LIFE_MAX));
-
 		player1_background = (ImageView) findViewById(R.id.background_player1);
 		player1_background.setOnClickListener(this);
 		player2_background = (ImageView) findViewById(R.id.background_player2);
@@ -186,40 +181,7 @@ public class TwoPlayerActivity extends Activity implements OnClickListener, NewL
 		player2_screen = (RelativeLayout) findViewById(R.id.player_two_screen);
 		
 		mBigLife1.setText(""+LIFE_START);
-//		player_one_wheel.addScrollingListener(new OnWheelScrollListener() {
-//			private int mStartScrolling1;
-//			@Override
-//			public void onScrollingStarted(WheelView wheel) {
-//				mStartScrolling1 = wheel.getCurrentItem();
-//			}
-//			@Override
-//			public void onScrollingFinished(WheelView wheel) {
-//				setLife(player_one_wheel, Constants.LIFE_MAX - wheel.getCurrentItem(), false);
-//				String sDelta = mStartScrolling1 - wheel.getCurrentItem() == 0 ? "" : (mStartScrolling1 - wheel.getCurrentItem() > 0 ? "+" : "") + (mStartScrolling1 - wheel.getCurrentItem());
-//				if (!sDelta.isEmpty()) {
-//					Toast.makeText(TwoPlayerActivity.this, sDelta, Toast.LENGTH_SHORT).show();
-//				}
-//			}
-//		});
-		
-//		player_two_wheel = (WheelView) findViewById(R.id.player_two);
-//		player_two_wheel.setViewAdapter(new LifeAdapter(this, Constants.LIFE_MIN, Constants.LIFE_MAX));
-		
 		mBigLife2.setText(""+LIFE_START);
-//		player_two_wheel.addScrollingListener(new OnWheelScrollListener() {
-//			private int mStartScrolling2;
-//			@Override
-//			public void onScrollingStarted(WheelView wheel) {
-//			}
-//			@Override
-//			public void onScrollingFinished(WheelView wheel) {
-//				setLife(player_two_wheel, Constants.LIFE_MAX - wheel.getCurrentItem(), false);
-//				String sDelta = mStartScrolling2 - wheel.getCurrentItem() == 0 ? "" : (mStartScrolling2 - wheel.getCurrentItem() > 0 ? "+" : "") + (mStartScrolling2 - wheel.getCurrentItem());
-//				if (!sDelta.isEmpty()) {
-//					Toast.makeText(TwoPlayerActivity.this, sDelta, Toast.LENGTH_SHORT).show();
-//				}
-//			}
-//		});
 		
 		poisonBar1 = (VerticalSeekBar) findViewById(R.id.poisonBar1);
 		poisonBar1.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
@@ -299,22 +261,10 @@ public class TwoPlayerActivity extends Activity implements OnClickListener, NewL
 		
 		initArrays();
 		updateUI();
-
-		/*Button never_show_wizard = (Button) findViewById(R.id.never_show);
-		never_show_wizard.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View arg0) {
-				findViewById(R.id.wizard_layout).setVisibility(View.GONE);
-				Editor preferenceEditor = preferences.edit();
-		    	
-		    	preferenceEditor.putBoolean(getString(R.string.key_hide_wizard), true);
-		    	preferenceEditor.commit();
-			}
-		});*/
 		
 		//if (savedInstanceState != null && savedInstanceState.getBoolean(SELECT_PLAYERS_EXTRA, false))
 		{
-			final NewLoadPlayerDialog loadDialog = new NewLoadPlayerDialog(TwoPlayerActivity.this);
+			final LoadPlayerDialog loadDialog = new LoadPlayerDialog(TwoPlayerActivity.this);
 	        loadDialog.setListener(TwoPlayerActivity.this);
 	        loadDialog.show();
 		}
@@ -348,15 +298,13 @@ public class TwoPlayerActivity extends Activity implements OnClickListener, NewL
 		minuses[Constants.PLAYER_ONE] = mMinus1;
 		minuses[Constants.PLAYER_TWO] = mMinus2;
 		
-//		wheels[Constants.PLAYER_ONE] = player_one_wheel;
-//		wheels[Constants.PLAYER_TWO] = player_two_wheel;
-		
 		backgrounds[Constants.PLAYER_ONE] = player1_background;
 		backgrounds[Constants.PLAYER_TWO] = player2_background;
 	}
 
 	//This function should just update what shows on screen, and not change any value. This is not starting a new game!
 	private void updateUI() {
+		Log.d(TAG, "updateUI()");
 		if (mShowPoison) {
 			poisonBar1.setVisibility(View.VISIBLE);
 			poisonBar2.setVisibility(View.VISIBLE);
@@ -429,12 +377,6 @@ public class TwoPlayerActivity extends Activity implements OnClickListener, NewL
 			minuses[player_number].setVisibility(View.GONE);
         }
 		
-//		if (players[player_number].showWheel()) {
-//        	wheels[player_number].setVisibility(View.VISIBLE);
-//        } else {
-//        	wheels[player_number].setVisibility(View.GONE);
-//        }
-		
 		String tallUrl = players[player_number].getTallBgUrl();
 		String largeUrl = players[player_number].getLargeBgUrl();
 		if (tallUrl != null || largeUrl != null) {
@@ -457,19 +399,15 @@ public class TwoPlayerActivity extends Activity implements OnClickListener, NewL
 		}  else if (clickedView.equals(mPlus1) || clickedView.equals(mEditName1)) {
 			//Clicking on player 1 + button
 			setLife(Constants.PLAYER_ONE, getLife(Constants.PLAYER_ONE) + 1);
-			//setLife(player_one_wheel, getLife(player_one_wheel) + 1, true);
 		}  else if (clickedView.equals(mPlus2) || clickedView.equals(mEditName2)) {
 			//Clicking on player 2 + button
             setLife(Constants.PLAYER_TWO, getLife(Constants.PLAYER_TWO) + 1);
-            //setLife(player_two_wheel, getLife(player_two_wheel) + 1, true);
 		}  else if (clickedView.equals(mMinus1)) {
 			//Clicking on player 1 - button
             setLife(Constants.PLAYER_ONE, getLife(Constants.PLAYER_ONE) - 1);
-            //setLife(player_one_wheel, getLife(player_one_wheel) - 1, true);
 		}  else if (clickedView.equals(mMinus2)) {
 			//Clicking on player 2 - button
             setLife(Constants.PLAYER_TWO, getLife(Constants.PLAYER_TWO) - 1);
-            //setLife(player_two_wheel, getLife(player_two_wheel) - 1, true);
 		}  else if (clickedView.equals(player1_background)) {
 			rollBackground(Constants.PLAYER_ONE);
 		}  else if (clickedView.equals(player2_background)) {
@@ -491,39 +429,10 @@ public class TwoPlayerActivity extends Activity implements OnClickListener, NewL
 		}
 	}
 
-	//SINCE WE ARE HACKING A WHEEL THAT WORKS BACKWARDS OF INDEX ALWAYS USE THIS GETTER
-//	private int getLife(WheelView player) {
-//		return Constants.LIFE_MAX - player.getCurrentItem();
-//	}
-
     private int getLife(int player) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         return preferences.getInt(getString(player == Constants.PLAYER_ONE ? R.string.key_life1 : R.string.key_life2), 20);
     }
-	
-	//SINCE WE ARE HACKING A WHEEL THAT WORKS BACKWARDS OF INDEX ALWAYS USE THIS SETTER
-//	private void setLife(WheelView player, int life, boolean adjustWheel) {
-//    	if (life < 0 || life > Constants.LIFE_MAX) {
-//    		return;
-//    	}
-//
-//		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-//    	Editor preferenceEditor = preferences.edit();
-//
-//    	if (adjustWheel) {
-//    		player.setCurrentItem(Constants.LIFE_MAX - life);
-//    	}
-//
-//    	if (player.equals(player_one_wheel)) {
-//    		mBigLife1.setText(""+life);
-//    		preferenceEditor.putInt(getString(R.string.key_life1), life);
-//    	} else if (player.equals(player_two_wheel)) {
-//    		mBigLife2.setText(""+life);
-//    		preferenceEditor.putInt(getString(R.string.key_life2), life);
-//    	}
-//
-//    	preferenceEditor.commit();
-//	}
 
     private void setLife(int player, int life) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -540,13 +449,6 @@ public class TwoPlayerActivity extends Activity implements OnClickListener, NewL
     	preferenceEditor.commit();
     }
 
-	/*@Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }*/
-
     @Override
     public void onPickAction(int action) {
         if (R.id.action_restart == action) {
@@ -554,7 +456,7 @@ public class TwoPlayerActivity extends Activity implements OnClickListener, NewL
         } else if (R.id.action_flip == action) {
             player2_rotate(player2_screen.getRotation() == 180 ? false : true);
         } else if (R.id.action_load == action) {
-            NewLoadPlayerDialog loadDialog = new NewLoadPlayerDialog(this);
+            LoadPlayerDialog loadDialog = new LoadPlayerDialog(this);
             loadDialog.setListener(this);
             loadDialog.show();
         } else if (R.id.action_edit == action) {
@@ -573,49 +475,6 @@ public class TwoPlayerActivity extends Activity implements OnClickListener, NewL
             startActivityForResult(editIntent, Constants.REQUEST_EDIT_PLAYERS);
         }
     }
-
-    /*@TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-	@Override
-    public boolean onMenuItemSelected(int featureId, MenuItem item) {
-    	if (R.id.action_restart == item.getItemId()) {
-    		restart_game();
-    	} else if (R.id.action_coin == item.getItemId()) {			
-			flip_coin();
-    	} else if (R.id.action_dice == item.getItemId()) {
-    		roll_dice(20);
-    	} else if (R.id.action_settings == item.getItemId()) {
-    		startActivity(new Intent(getApplicationContext(), SettingsActivity.class));
-    	} else if (R.id.action_flip == item.getItemId()) {
-    		player2_rotate(player2_screen.getRotation() == 180 ? false : true);
-    	} else if (R.id.action_load == item.getItemId()) {
-    		LoadPlayerDialog loadDialog = new LoadPlayerDialog();
-    		loadDialog.setListener(this);
-    	    loadDialog.show(getFragmentManager(), getString(R.string.load_player));
-    	} else if (R.id.action_edit == item.getItemId()) {
-    		//Save current player colors in the settings used for setColor options (trick comes from the fact the color picker widget is a preference menu)
-    		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-    		Editor preferenceEditor = preferences.edit();
-        	preferenceEditor.putInt(getString(R.string.key_color_p1), players[Constants.PLAYER_ONE].getColor());
-        	preferenceEditor.putInt(getString(R.string.key_color_p2), players[Constants.PLAYER_TWO].getColor());
-        	preferenceEditor.commit();
-        	
-        	//Launch edit player activity with both players
-    		Intent editIntent = new Intent(getApplicationContext(), EditPlayerActivity.class);
-    		editIntent.putExtra(Constants.KEY_PLAYER_ONE, players[Constants.PLAYER_ONE]);
-    		editIntent.putExtra(Constants.KEY_PLAYER_TWO, players[Constants.PLAYER_TWO]);
-    		
-    		startActivityForResult(editIntent, Constants.REQUEST_EDIT_PLAYERS);
-    	}
-    	else if (R.id.action_lock == item.getItemId()) {
-    		switchBackgroundLock();
-    	} else if (R.id.action_reset == item.getItemId()) {
-    		players[Constants.PLAYER_ONE] = null;
-    		players[Constants.PLAYER_TWO] = null;
-    		updateUI();
-    	}
-    	
-    	return super.onMenuItemSelected(featureId, item);
-    }*/
     
     private void switchBackgroundLock() {
     	SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -655,9 +514,7 @@ public class TwoPlayerActivity extends Activity implements OnClickListener, NewL
 
 
 	public void restart_game() {
-//		setLife(player_one_wheel, LIFE_START, true);
-//		setLife(player_two_wheel, LIFE_START, true);
-        setLife(Constants.PLAYER_ONE, LIFE_START);
+		setLife(Constants.PLAYER_ONE, LIFE_START);
         setLife(Constants.PLAYER_TWO, LIFE_START);
     }
 

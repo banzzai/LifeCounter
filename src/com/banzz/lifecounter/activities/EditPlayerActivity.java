@@ -6,8 +6,6 @@ import java.io.FileOutputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 
-//import kankan.wheel.widget.OnWheelScrollListener;
-//import kankan.wheel.widget.WheelView;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -27,9 +25,6 @@ import android.view.View.OnClickListener;
 import android.view.Window;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
@@ -51,10 +46,10 @@ import com.google.gson.Gson;
  *
  * @see SystemUiHider
  */
-public class EditPlayerActivity extends Activity implements OnClickListener,
-        LoadPlayerDialog.LoadPlayerDialogListener, PickColorDialog.PickColorDialogListener {
-	public static int LIFE_START = 20;
+public class EditPlayerActivity extends Activity implements OnClickListener, PickColorDialog.PickColorDialogListener {
+	private static final String TAG = EditPlayerActivity.class.getName();
 	
+	public static int LIFE_START = 20;
 	private int player0_back_number = 0;
 
 	private int mSelectedPlayer = Constants.PLAYER_ONE;
@@ -68,19 +63,13 @@ public class EditPlayerActivity extends Activity implements OnClickListener,
 						R.drawable.gruul, R.drawable.izzet, R.drawable.orzhov, R.drawable.selesnya, R.drawable.simic};
     
 	private TextView mEditName0;
-	
 	private TextView mPlus0;
 	private TextView mBigLife0;
 	private TextView mMinus0;
 	
-	//private WheelView player_zero_wheel;
-	
 	private ImageView player0_background;
 
 	private EditText mTextBox;
-//	private CheckBox check_wheels;
-//	private CheckBox check_buttons;
-
 	private Player[] mUsers;
     private RelativeLayout wizardLayout;
 
@@ -117,27 +106,6 @@ public class EditPlayerActivity extends Activity implements OnClickListener,
 				startActivityForResult(pickIntent, Constants.REQUEST_PICK_IMAGES);
 			}
 		});
-
-//		Gson gson = new Gson();
-//		String json = gson.toJson(knownPlayers);
-//		String fileName = Constants.PROFILES_FILE_NAME;
-//		File externalDir = getExternalFilesDir(null);
-//		
-//		FileOutputStream fos;
-//		try {
-//			File image = new File(externalDir, fileName);
-//			if (!image.exists()) {
-//				image.createNewFile();
-//			}	
-//			
-//			fos = new FileOutputStream(image);
-//			//fos = openFileOutput(externalDir + fileName, Context.MODE_PRIVATE);
-//			fos.write(json.getBytes());
-//			fos.close();
-//		} catch (Exception e) {
-//			Toast.makeText(this, "JSON WRITE FAILED", Toast.LENGTH_LONG).show();
-//			e.printStackTrace();
-//		}
         
         Intent i = getIntent();
         players[Constants.PLAYER_ONE] = (Player) i.getParcelableExtra(Constants.KEY_PLAYER_ONE);
@@ -150,29 +118,11 @@ public class EditPlayerActivity extends Activity implements OnClickListener,
         mPlus0.setOnClickListener(this);
         mMinus0		= (TextView) findViewById(R.id.minus_0);
         mMinus0.setOnClickListener(this);
-        
-//        player_zero_wheel = (WheelView) findViewById(R.id.player_zero);
-//		player_zero_wheel.setViewAdapter(new LifeAdapter(this, Constants.LIFE_MIN, Constants.LIFE_MAX));
 		
 		player0_background = (ImageView) findViewById(R.id.background_player0);
 		player0_background.setOnClickListener(this);
 		
 		mBigLife0.setText(""+LIFE_START);
-//		player_zero_wheel.addScrollingListener(new OnWheelScrollListener() {
-//			private int mStartScrolling0;
-//			@Override
-//			public void onScrollingStarted(WheelView wheel) {
-//				mStartScrolling0 = wheel.getCurrentItem();
-//			}
-//			@Override
-//			public void onScrollingFinished(WheelView wheel) {
-//				setLife(player_zero_wheel, Constants.LIFE_MAX - wheel.getCurrentItem(), false);
-//				String sDelta = mStartScrolling0 - wheel.getCurrentItem() == 0 ? "" : (mStartScrolling0 - wheel.getCurrentItem() > 0 ? "+" : "") + (mStartScrolling0- wheel.getCurrentItem());
-//				if (!sDelta.isEmpty()) {
-//					Toast.makeText(EditPlayerActivity.this, sDelta, Toast.LENGTH_SHORT).show();
-//				}
-//			}
-//		});
 		
 		//EDIT PART
 		RadioGroup mGroup = (RadioGroup) findViewById(R.id.edit_radio);
@@ -220,24 +170,6 @@ public class EditPlayerActivity extends Activity implements OnClickListener,
                 }
             }
         });
-
-//		check_buttons = (CheckBox) findViewById(R.id.check_buttons);
-//		check_buttons.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-//			@Override
-//			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-//				players[mSelectedPlayer].setShowButtons(isChecked);
-//				updateUI();
-//			}
-//		});
-//
-//		check_wheels = (CheckBox) findViewById(R.id.check_wheels);
-//		check_wheels.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-//			@Override
-//			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-//				players[mSelectedPlayer].setShowWheel(isChecked);
-//				updateUI();
-//			}
-//		});
 		
 		Button colorButton = (Button) findViewById(R.id.color_button);
 		colorButton.setOnClickListener(new OnClickListener() {
@@ -253,9 +185,9 @@ public class EditPlayerActivity extends Activity implements OnClickListener,
 		loadButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				LoadPlayerDialog loadDialog = new LoadPlayerDialog();
-				loadDialog.setListener(EditPlayerActivity.this);
-			    loadDialog.show(getFragmentManager(), getString(R.string.load_player));
+//				LoadPlayerDialog loadDialog = new LoadPlayerDialog();
+//				loadDialog.setListener(EditPlayerActivity.this);
+//			    loadDialog.show(getFragmentManager(), getString(R.string.load_player));
 			}
 		});
 
@@ -393,20 +325,18 @@ public class EditPlayerActivity extends Activity implements OnClickListener,
 			fis = new FileInputStream(externalDir + fileName);
 
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Log.e(TAG, "Couldn't load file " + fileName);
 		}
 		
 		Gson gson = new Gson();
 		if (fis == null) {
-			//Empty list
+			Log.e(TAG, "Empty Json");
 		} else {
 			Reader reader = new InputStreamReader(fis);
 			mUsers = gson.fromJson(reader, Player[].class);
 		}
 	}
 
-	//TODO Remove this abomination and use ArrayList or something (it was to make it easier on json and probably a bad idea; now there's [] all over the place)
 	private Player[] addPlayer(Player player, Player[] players) {
 		int length = players == null ? 0 : players.length;
 		Player[] newPlayerList = new Player[length+1];
@@ -470,6 +400,7 @@ public class EditPlayerActivity extends Activity implements OnClickListener,
     }
 
 	//This function should just update what shows on screen, and not change any value. This is not starting a new game!
+	@SuppressWarnings("deprecation")
 	private void updateUI(String newPlayerName, boolean checkPlaques) {
 		Player player = players[mSelectedPlayer];
 		//int color = player.getColor() != -1 ? player.getColor() : getResources().getColor(R.color.lifeText);
@@ -482,11 +413,10 @@ public class EditPlayerActivity extends Activity implements OnClickListener,
 
         if (checkPlaques)
         {
-            mShowPlaque		= preferences.getBoolean(getString(R.string.key_show_plaque), true);
+            mShowPlaque = preferences.getBoolean(getString(R.string.key_show_plaque), true);
         }
 		
 		boolean showButtons = player.showButons();
-		boolean showWheel = player.showWheel();
 		int background_id = player.getBackGroundId();
 
 		mBigLife0.setTextColor(color);
@@ -502,12 +432,6 @@ public class EditPlayerActivity extends Activity implements OnClickListener,
         	mPlus0.setVisibility(View.GONE);
         	mMinus0.setVisibility(View.GONE);
         }
-		
-//		if (showWheel) {
-//        	player_zero_wheel.setVisibility(View.VISIBLE);
-//        } else {
-//        	player_zero_wheel.setVisibility(View.GONE);
-//        }
 		
 		String tallUrl = player.getTallBgUrl();
 		String largeUrl = player.getLargeBgUrl();
@@ -542,8 +466,6 @@ public class EditPlayerActivity extends Activity implements OnClickListener,
                 mBigLife0.setBackground(null);
             }
         }
-//		check_buttons.setChecked(player.showButons());
-//		check_wheels.setChecked(player.showWheel());
 	}
 
 	private boolean checkOrientation(int orientation) {
@@ -560,10 +482,8 @@ public class EditPlayerActivity extends Activity implements OnClickListener,
 			//Clicking on player 0 life total
 		} else if (clickedView.equals(mPlus0)) {
 			//Clicking on player 1 + button
-			//setLife(player_zero_wheel, getLife(player_zero_wheel) + 1, true);
 		}  else if (clickedView.equals(mMinus0)) {
 			//Clicking on player 1 - button
-			//setLife(player_zero_wheel, getLife(player_zero_wheel) - 1, true);
 		}  else if (clickedView.equals(player0_background)) {
 			rollBackground(Constants.PLAYER_ZERO);
 		}
@@ -576,32 +496,12 @@ public class EditPlayerActivity extends Activity implements OnClickListener,
     	updateUI();
 	}
 
-	//SINCE WE ARE HACKING A WHEEL THAT WORKS BACKWARDS OF INDEX ALWAYS USE THIS GETTER
-//	private int getLife(WheelView player) {
-//		return Constants.LIFE_MAX - player.getCurrentItem();
+//	@Override
+//	public void onValidateLoad(Player player, int player_slot) {
+//		mSelectedPlayer = player_slot;
+//		players[player_slot] = new Player(player);
+//		updateUI();
 //	}
-	
-	//SINCE WE ARE HACKING A WHEEL THAT WORKS BACKWARDS OF INDEX ALWAYS USE THIS SETTER
-//	private void setLife(WheelView player, int life, boolean adjustWheel) {
-//    	if (life < 0 || life > Constants.LIFE_MAX) {
-//    		return;
-//    	}
-//
-////    	if (adjustWheel) {
-////    		player.setCurrentItem(Constants.LIFE_MAX - life);
-////    	}
-//
-////    	if (player.equals(player_zero_wheel)) {
-////    		mBigLife0.setText(""+life);
-////    	}
-//	}
-
-	@Override
-	public void onValidateLoad(Player player, int player_slot) {
-		mSelectedPlayer = player_slot;
-		players[player_slot] = new Player(player);
-		updateUI();
-	}
 	
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
@@ -615,7 +515,6 @@ public class EditPlayerActivity extends Activity implements OnClickListener,
         	   break;
 		}
 	}
-	
 	
 	@Override
 	public void onBackPressed() {

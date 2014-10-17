@@ -1,57 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_gravity="center_horizontal"
-    android:background="#FFFFFF"
-    android:padding="5dp"
     >
     
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="64dp"
-        android:scaleType="center"
-        android:text="@string/load_player" />
-    
-    <RadioGroup
-        android:id="@+id/radio_group"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:gravity="center_horizontal"
-        android:orientation="horizontal" >
-	    
-	    <RadioButton 
-	        android:id="@+id/radio_player_1"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:checked="true"
-	        android:text="@string/player_1"
-		/>
-	    <RadioButton android:id="@+id/radio_player_2"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:text="@string/player_2"
-	    />
-	</RadioGroup>
-    
-    <ListView
-        android:id="@+id/player_select"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginLeft="4dp"
-        android:layout_marginRight="4dp"
-        android:layout_marginBottom="4dp"
-     	/>
-    
-    <TextView
-        android:id="@+id/no_saved_players"
+    <com.banzz.lifecounter.commons.FontedTextView
+        android:id="@+id/select_profiles_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="@style/error"
-		android:visibility="gone"
-        android:text="@string/no_saved_players" />
+        android:layout_alignParentTop="true"
+        android:scaleType="center"
+        style="@style/NewButtonText"
+        android:text="@string/select_players_text" />
+
+    <kankan.wheel.widget.WheelView
+        android:id="@+id/player_one_profile"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/profile_wheel_height"
+        android:layout_below="@+id/select_profiles_text"
+        android:layout_marginTop="5dp" />
     
-</LinearLayout>
+    <kankan.wheel.widget.WheelView
+        android:id="@+id/player_two_profile"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/profile_wheel_height"
+        android:layout_below="@+id/player_one_profile"
+        android:layout_marginTop="10dp" />
+    
+    <com.banzz.lifecounter.commons.FontedButton
+        android:id="@+id/select_players_ok_button"
+        android:layout_below="@+id/player_two_profile"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/Play"
+		style="@style/DialogButton"
+		android:layout_marginTop="10dp" />
+    
+</RelativeLayout>
