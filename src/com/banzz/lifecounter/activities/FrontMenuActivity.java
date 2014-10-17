@@ -1,13 +1,13 @@
 package com.banzz.lifecounter.activities;
 
 import android.app.AlertDialog;
+
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.pm.PackageManager;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
@@ -78,10 +78,11 @@ public class FrontMenuActivity extends android.app.Activity implements CloseWiza
         
         Button mButton = (Button) findViewById(R.id.two_player_button);
         mButton.setOnClickListener(new OnClickListener() {
-			
 			@Override
 			public void onClick(View arg0) {
-				startActivity(new Intent(getApplicationContext(), TwoPlayerActivity.class));
+				final Intent newGameIntent = new Intent(getApplicationContext(), TwoPlayerActivity.class);
+				newGameIntent.putExtra(TwoPlayerActivity.SELECT_PLAYERS_EXTRA, true);
+				startActivity(newGameIntent);
 			}
 		});
         

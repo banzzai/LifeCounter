@@ -12,6 +12,7 @@ public class Player implements Parcelable {
 	private int mBackGroundId;
 	private String mTallBgUrl;
 	private String mLargeBgUrl;
+	private String mThumbnailUrl;
 		
 	public Player() {
 		this(null, "Player 0", -1, false, true, 0, null, null);
@@ -100,6 +101,14 @@ public class Player implements Parcelable {
 		return mLargeBgUrl;
 	}
 
+	public void setThumbnailUrl(String thumbnailUrl) {
+		this.mThumbnailUrl = thumbnailUrl;
+	}
+
+	public String getThumbnailUrl() {
+		return mThumbnailUrl;
+	}
+	
 	public void setLargeBgUrl(String mLargeBgUrl) {
 		this.mLargeBgUrl = mLargeBgUrl;
 	}

@@ -12,7 +12,7 @@
 	<color name="SHADE">#55FFFFFF</color>
 	<color name="GRADIENT_END">#FFFFFFFF</color>
 
-	<color name="dialog_button_white">#EEFFFFFF</color>
+	<color name="dialog_button_text">#FF2D2D2D</color>
 	<color name="white">#FFFFFF</color>
 	
     <color name="color_1">#000000</color>

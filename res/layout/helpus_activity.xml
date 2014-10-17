@@ -35,7 +35,7 @@
 	            android:layout_weight="1"
 	            android:text="@string/rate_us"
     			style="@style/NewButtonText"
-				android:drawableTop="@drawable/new_game"
+				android:drawableTop="@drawable/rate_us"
 	        />
 	        <com.banzz.lifecounter.commons.FontedButton
 	            android:id="@+id/feedback_button"
@@ -44,7 +44,7 @@
 	            android:layout_weight="1"
 	            android:text="@string/feedback"
 	            style="@style/NewButtonText"
-	            android:drawableTop="@drawable/profiles"
+	            android:drawableTop="@drawable/contact_us"
 	        />
 	        <com.banzz.lifecounter.commons.FontedButton
 	            android:id="@+id/donation_button"
@@ -53,7 +53,7 @@
 	            android:layout_weight="1"
 	            android:text="@string/donations"
 	            style="@style/NewButtonText"
-	            android:drawableTop="@drawable/draft"
+	            android:drawableTop="@drawable/donate_us"
 	        />
 	    </LinearLayout>
 	    
@@ -76,7 +76,7 @@
 	            android:layout_weight="1"
 	            android:text="@string/blog_us"
 	            style="@style/NewButtonText"
-	            android:drawableTop="@drawable/settings"
+	            android:drawableTop="@drawable/blog_us"
 	        />
 	        <com.banzz.lifecounter.commons.FontedButton
 	            android:id="@+id/facebook_button"
@@ -85,7 +85,7 @@
 	            android:layout_weight="1"
 	            android:text="@string/facebook_us"
 	            style="@style/NewButtonText"
-	            android:drawableTop="@drawable/settings"
+	            android:drawableTop="@drawable/facebook_us"
 	        />
 	        <com.banzz.lifecounter.commons.FontedButton
 	            android:id="@+id/twitter_button"
@@ -94,7 +94,7 @@
 	            android:layout_weight="1"
 	            android:text="@string/twitter_us"
 	            style="@style/NewButtonText"
-	            android:drawableTop="@drawable/social"
+	            android:drawableTop="@drawable/twitter_us"
 	        />
         </LinearLayout>
         

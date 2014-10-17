@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -38,10 +39,12 @@ import java.util.Random;
  *
  * @see SystemUiHider
  */
-public class TwoPlayerActivity extends Activity implements OnClickListener, LoadPlayerDialog.LoadPlayerDialogListener,
+public class TwoPlayerActivity extends Activity implements OnClickListener, NewLoadPlayerDialog.NewLoadPlayerDialogListener,
                                                             ToolboxMenuDialog.ToolBoxDialogListener {
 	public static int LIFE_START = 20;
 	public static int PLAYER_NUMBER = 2;
+	
+	public static String SELECT_PLAYERS_EXTRA = "select_players";
 	
 	private int player1_back_number = 0;
 	private int player2_back_number = 1;
@@ -308,7 +311,14 @@ public class TwoPlayerActivity extends Activity implements OnClickListener, Load
 		    	preferenceEditor.commit();
 			}
 		});*/
-
+		
+		//if (savedInstanceState != null && savedInstanceState.getBoolean(SELECT_PLAYERS_EXTRA, false))
+		{
+			final NewLoadPlayerDialog loadDialog = new NewLoadPlayerDialog(TwoPlayerActivity.this);
+	        loadDialog.setListener(TwoPlayerActivity.this);
+	        loadDialog.show();
+		}
+	        
         mToolBoxDialog = new ToolboxMenuDialog(TwoPlayerActivity.this, TwoPlayerActivity.this);
         Button menuButton = (Button) findViewById(R.id.central_button);
         menuButton.setOnClickListener(new OnClickListener() {
@@ -368,16 +378,16 @@ public class TwoPlayerActivity extends Activity implements OnClickListener, Load
         }
         else
         {
-            //if (Build.VERSION.SDK_INT < 16)
+            if (Build.VERSION.SDK_INT < 16)
             {
                 mBigLife1.setBackgroundDrawable(null);
                 mBigLife2.setBackgroundDrawable(null);
             }
-            /*else
+            else
             {
                 mBigLife1.setBackground(null);
                 mBigLife2.setBackground(null);
-            }*/
+            }
         }
 		
 		for (int i=0; i<PLAYER_NUMBER; i++) {
@@ -402,7 +412,6 @@ public class TwoPlayerActivity extends Activity implements OnClickListener, Load
 			players[player_number].setBackGroundId(player_number);
 			players[player_number].setName("Player " + (player_number + 1));
 		}
-		
 		
 		int color = players[player_number].getColor();
 
@@ -545,9 +554,9 @@ public class TwoPlayerActivity extends Activity implements OnClickListener, Load
         } else if (R.id.action_flip == action) {
             player2_rotate(player2_screen.getRotation() == 180 ? false : true);
         } else if (R.id.action_load == action) {
-            LoadPlayerDialog loadDialog = new LoadPlayerDialog();
+            NewLoadPlayerDialog loadDialog = new NewLoadPlayerDialog(this);
             loadDialog.setListener(this);
-            loadDialog.show(getFragmentManager(), getString(R.string.load_player));
+            loadDialog.show();
         } else if (R.id.action_edit == action) {
             //Save current player colors in the settings used for setColor options (trick comes from the fact the color picker widget is a preference menu)
             SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -654,9 +663,11 @@ public class TwoPlayerActivity extends Activity implements OnClickListener, Load
 
 
 	@Override
-	public void onValidateLoad(Player player, int player_slot) {
-		players[player_slot] = new Player(player);
-		updatePlayerUI(player_slot);
+	public void onValidateLoad(Player player1, Player player2) {
+		players[Constants.PLAYER_ONE] = new Player(player1);
+		players[Constants.PLAYER_TWO] = new Player(player2);
+		updatePlayerUI(Constants.PLAYER_ONE);
+		updatePlayerUI(Constants.PLAYER_TWO);
 	}
 	
 	protected void onActivityResult(int requestCode, int resultCode, Intent intent) {

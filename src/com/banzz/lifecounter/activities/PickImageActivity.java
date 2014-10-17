@@ -15,12 +15,14 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.provider.MediaStore.Images;
+import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
+
 import com.banzz.lifecounter.R;
 import com.banzz.lifecounter.commons.Player;
 import com.banzz.lifecounter.utils.SingleMediaScanner;
@@ -33,12 +35,16 @@ import java.io.IOException;
 import java.util.Date;
 
 public class PickImageActivity extends Activity {
-    private static final int INDEX_LARGE = 0;
+	private static final String TAG = PickImageActivity.class.getName();
+	
+	private static final int INDEX_LARGE = 0;
     private static final int INDEX_TALL = 1;
     
     private static final int STATUS_EMPTY = -1;
     private static final int STATUS_PICKED = 0;
     private static final int STATUS_CROPPED = 1;
+
+	private static final int THUMBNAIL_HEIGHT = 200;
     
     private Button mSaveImageButton;
     private ImageView mImageViewLarge;
@@ -310,7 +316,6 @@ public class PickImageActivity extends Activity {
                             // TODO Auto-generated catch block
                             e.printStackTrace();
                      }
-
                }
                break;
            case Constants.REQUEST_PICK_CROP_IMAGE:
@@ -339,5 +344,59 @@ public class PickImageActivity extends Activity {
 		if (imageStatus[INDEX_TALL]!=STATUS_EMPTY && imageStatus[INDEX_LARGE]!=STATUS_EMPTY) {
 			mSaveImageButton.setVisibility(View.VISIBLE);
 		}
+	}
+
+	public static void createThumbnailForPlayer(String playerName, Context context) {
+		Bitmap bitmap;
+		String thumbnailImagePath = playerName + "_thumb.png";
+		String largeImagePath = playerName + "_large.png";
+		
+        try 
+        {
+        	//bitmap = MediaStore.Images.Media.getBitmap(context.getContentResolver(), Uri.parse(playerName + "_large.png"));
+        	File sdCardDirectory = Environment
+					.getExternalStorageDirectory();
+			String dirString = sdCardDirectory + "/"
+					+ context.getString(R.string.app_name) + "/";   
+        	bitmap = BitmapFactory.decodeFile(dirString + "/"+ largeImagePath);
+			if (bitmap == null)
+			{
+				throw new FileNotFoundException("Failed to load " + thumbnailImagePath);
+			}
+			int imageWidth = bitmap.getWidth();
+			int imageHeight = bitmap.getHeight();
+			
+			Bitmap thumbnail = Bitmap.createScaledBitmap(bitmap, (THUMBNAIL_HEIGHT*imageWidth)/imageHeight, THUMBNAIL_HEIGHT, true);
+			saveImage(thumbnailImagePath, thumbnail, context);
+        }
+        catch (FileNotFoundException e)
+        {
+               Log.e(TAG, "createThumbnailFrom() FileNotFoundException: " + thumbnailImagePath, e);
+        }
+        catch (IOException e) 
+        {
+        	Log.e(TAG, "createThumbnailFrom() IOException: " + thumbnailImagePath, e);
+        }
+	}
+	
+	private static void saveImage(String imagePath, Bitmap bitmapImage, Context context) throws IOException {
+		File sdCardDirectory = Environment
+				.getExternalStorageDirectory();
+		String dirString = sdCardDirectory + "/"
+				+ context.getString(R.string.app_name) + "/";
+		
+		File image = new File(dirString, imagePath);
+		if (image.exists()) {
+			image.delete();
+		}									
+		image.createNewFile();
+		
+		FileOutputStream outStream = new FileOutputStream(image);
+
+		// 100 to keep full quality of the image
+		bitmapImage.compress(Bitmap.CompressFormat.PNG, 100, outStream);
+
+		outStream.flush();
+		outStream.close();
 	}
 }

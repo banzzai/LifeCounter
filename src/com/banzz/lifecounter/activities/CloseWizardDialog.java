@@ -2,14 +2,12 @@ package com.banzz.lifecounter.activities;
 
 import com.banzz.lifecounter.R;
 
-import android.app.Dialog;
 import android.content.Context;
 import android.view.View;
-import android.view.Window;
 import android.widget.Button;
 import android.widget.CheckBox;
 
-public class CloseWizardDialog extends Dialog {
+public class CloseWizardDialog extends LifeCounterDialog {
 	CloseWizardDialogListener mListener;
 	private CheckBox mNeverShowBox;
 
@@ -23,10 +21,7 @@ public class CloseWizardDialog extends Dialog {
 	
 	public CloseWizardDialog(final Context context)
     {
-        super(context, R.style.custom_dialog_theme);
-
-	    requestWindowFeature(Window.FEATURE_NO_TITLE);
-        
+        super(context);
         this.setContentView(R.layout.close_wizard_dialog);
         
         mNeverShowBox = (CheckBox) findViewById(R.id.never_show_checkbox);
