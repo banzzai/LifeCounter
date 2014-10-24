@@ -1,7 +1,17 @@
 package com.banzz.lifecounter.utils;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
+import com.banzz.lifecounter.R;
+
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.graphics.Typeface;
+import android.os.Environment;
+import android.preference.PreferenceManager;
 
 public class Utils {
 	public static class Constants {
@@ -45,10 +55,74 @@ public class Utils {
 		public static Typeface FONT_HELVETICA_NUEUE_CONDENSED = null;
 		public static String STRING_HELVETICA_NUEUE_CONDENSED = "HelveticaNeueC";
 	}
+
+	private static String mStorageString;
 	
 	public static void initUtils(Context context)
 	{
 		Constants.FONT_HELVETICA_NUEUE = Typeface.createFromAsset(context.getAssets(), "fonts/"+Constants.STRING_HELVETICA_NUEUE+".ttf");
-		Constants.FONT_HELVETICA_NUEUE_CONDENSED = Typeface.createFromAsset(context.getAssets(), "fonts/"+Constants.STRING_HELVETICA_NUEUE_CONDENSED+".ttf"); 
+		Constants.FONT_HELVETICA_NUEUE_CONDENSED = Typeface.createFromAsset(context.getAssets(), "fonts/"+Constants.STRING_HELVETICA_NUEUE_CONDENSED+".ttf");
+		
+		if (mStorageString == null)
+		{
+			File sdCardDirectory = Environment.getExternalStorageDirectory();
+			mStorageString = sdCardDirectory + "/" + context.getString(R.string.app_name) + "/";	
+		}
+	}
+	
+	/**
+	 * Save an image to the app storage.
+	 * 
+	 * @param imageName name of the image file
+	 * @bitmapImage the image itself
+	 * @context Context used to retrieve the app's path
+	 */
+	public static void saveImage(String imageName, Bitmap bitmapImage) throws IOException {
+		String dirString = getAppStoragePath();
+		
+		File image = new File(dirString, imageName);
+		if (image.exists()) {
+			image.delete();
+		}									
+		image.createNewFile();
+		
+		FileOutputStream outStream = new FileOutputStream(image);
+		bitmapImage.compress(Bitmap.CompressFormat.PNG, 100, outStream);
+
+		outStream.flush();
+		outStream.close();
+	}
+	
+	/**
+	 * Generate an id for a new user profile. The implementation is primitive I don't think we need too
+	 * sophisticated code here right now.
+	 * 
+	 * @param context Context used to retrieve the setting containing the next available id
+	 * @return next available id
+	 */
+	public static String generateProfileId(Context context)
+	{
+		final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+		SharedPreferences.Editor edit = preferences.edit();
+		
+		// Get last available id
+		String profileIdKey = context.getString(R.string.key_profile_id);
+		int index = preferences.getInt(profileIdKey, 0);
+        
+		// Update next available id 
+		edit.putInt(profileIdKey, index+1);
+        edit.commit();
+		
+        return "mtg"+index+"lc";
+	}
+	
+	/**
+	 * Returns the app's storage path. Needs initUtils to have been called once.
+	 * 
+	 * @return app's storage path
+	 */
+	public static String getAppStoragePath()
+	{
+		return mStorageString;
 	}
 }

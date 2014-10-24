@@ -151,6 +151,7 @@
     <string name="key_current_tournament">currentTournament</string>
     <string name="key_last_tournament">lastTournament</string>
     <string name="key_saved_round">savedRound</string>
+    <string name="key_profile_id">profileId</string>
 
 	<!-- Settings:text -->
  	<string name="life_total_description">Life you start with</string>

@@ -16,7 +16,8 @@ import com.google.gson.Gson;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.net.Uri;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -57,18 +58,10 @@ public class LoadPlayerDialog extends LifeCounterDialog {
 		} else {
 			Reader reader = new InputStreamReader(fis);
 			mUsers = gson.fromJson(reader, Player[].class);
-
+			
 			if (mUsers != null && mUsers.length > 0) {
 				mUserLeftWheelAdapter = new UserWheelAdapter(mUsers, mContext, true);
 				mUserRightWheelAdapter = new UserWheelAdapter(mUsers, mContext, false);
-			}
-
-			for (int i=0; i < mUsers.length; i++)
-			{
-				if (mUsers[i].getThumbnailUrl() == null)
-				{
-					//PickImageActivity.createThumbnailForPlayer(mUsers[i].getName(), mContext);
-				}
 			}
 		}
 
@@ -102,11 +95,13 @@ public class LoadPlayerDialog extends LifeCounterDialog {
 	
 	private class UserWheelAdapter extends AbstractWheelTextAdapter {
 		private Player[] mUserList;
+		private Bitmap[] mImages;
 		
 		public UserWheelAdapter(Player[] users, Context mContext, boolean leftPlayer) {
 			super(mContext, leftPlayer? R.layout.profile_wheel_item_left : R.layout.profile_wheel_item_right, NO_RESOURCE);
 			
 			mUserList = users;
+			mImages = new Bitmap[users.length];
 		}
 
 		@Override
@@ -117,7 +112,30 @@ public class LoadPlayerDialog extends LifeCounterDialog {
 	        profileName.setText(mUserList[index].getName());
 	        
 	        RoundedImageView profileIcon = (RoundedImageView) view.findViewById(R.id.profile_wheel_icon);
-	        profileIcon.setImageURI(Uri.parse(mUserList[index].getLargeBgUrl()));
+	        String thumbnailUrl = mUserList[index].getThumbnailUrl() == null ? null : mUserList[index].getThumbnailUrl();
+        	
+	        if (mImages[index] == null)
+	        {
+	        	Bitmap newImage = BitmapFactory.decodeFile(thumbnailUrl);
+	        	if (newImage == null)
+	        	{
+	        		Log.e(TAG, "Could not find "+thumbnailUrl+" for " + mUsers[index].getName());
+	        	}
+	        	else
+	        	{
+	        		mImages[index] = BitmapFactory.decodeFile(thumbnailUrl);
+	        	}
+	        }
+	        
+	        if (mImages[index] != null)
+	        {
+	        	Log.e(TAG, "Setting image "+thumbnailUrl+" for " + mUsers[index].getName());
+	        	profileIcon.setImageBitmap(mImages[index]);
+	        }
+	        else
+	        {
+	        	Log.e(TAG, "Image still null for " + mUsers[index].getName());
+	        }
 	        
 	        return view;
 		}

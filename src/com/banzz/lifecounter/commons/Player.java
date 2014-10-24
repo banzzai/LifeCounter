@@ -15,10 +15,10 @@ public class Player implements Parcelable {
 	private String mThumbnailUrl;
 		
 	public Player() {
-		this(null, "Player 0", -1, false, true, 0, null, null);
+		this(null, "Player 0", -1, false, true, 0, null, null, null);
 	}
 	
-	public Player(String mId, String mName, int mColor, boolean mShowButtons, boolean mShowWheel, int mBackGroundId, String tallUrl, String largeUrl) {
+	public Player(String mId, String mName, int mColor, boolean mShowButtons, boolean mShowWheel, int mBackGroundId, String tallUrl, String largeUrl, String thumbUrl) {
 		super();
 		this.mId = mId;
 		this.mName = mName;
@@ -28,6 +28,7 @@ public class Player implements Parcelable {
 		this.mBackGroundId = mBackGroundId;
 		this.mTallBgUrl = tallUrl;
 		this.mLargeBgUrl = largeUrl;
+		this.mThumbnailUrl = thumbUrl;
 	}
 
 	public Player(Player player) {
@@ -39,6 +40,7 @@ public class Player implements Parcelable {
 		this.mShowWheel = player.showWheel();
 		this.mTallBgUrl = player.getTallBgUrl();
 		this.mLargeBgUrl = player.getLargeBgUrl();
+		this.mThumbnailUrl = player.getThumbnailUrl();
 	}
 
 	public String getId() {
@@ -126,6 +128,7 @@ public class Player implements Parcelable {
 		out.writeString(mName);
 		out.writeString(mTallBgUrl);
 		out.writeString(mLargeBgUrl);
+		out.writeString(mThumbnailUrl);
 		out.writeInt(mColor);
 		out.writeInt(mBackGroundId);
 		out.writeBooleanArray(new boolean[]{mShowButtons, mShowWheel});
@@ -148,6 +151,7 @@ public class Player implements Parcelable {
         mName = in.readString();
         mTallBgUrl = in.readString();
         mLargeBgUrl = in.readString();
+        mThumbnailUrl = in.readString();
         mColor = in.readInt();
         mBackGroundId = in.readInt();
         boolean[] myVals = new boolean[2];
