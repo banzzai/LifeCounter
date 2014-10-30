@@ -1,14 +1,10 @@
 package com.banzz.lifecounter.activities;
 
 import android.app.AlertDialog;
-
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -29,7 +25,7 @@ import com.banzz.lifecounter.activities.CloseWizardDialog.CloseWizardDialogListe
 import com.banzz.lifecounter.utils.Utils;
 
 public class FrontMenuActivity extends android.app.Activity implements CloseWizardDialogListener {
-
+	private static final String TAG = FrontMenuActivity.class.getName();
     private static final int DEFAULT_PLAYER_NUMBER = 6;
 
     // For the first use wizard
@@ -150,23 +146,27 @@ public class FrontMenuActivity extends android.app.Activity implements CloseWiza
         mCloseWizardDialog = new CloseWizardDialog(this);
 		mCloseWizardDialog.setListener(this);
         
-        final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        if (!preferences.getBoolean(getString(R.string.key_hide_wizard), false)) {
+        if (!Utils.getBooleanPreference(getString(R.string.key_hide_wizard), false)) {
     		initWizard();
         }
         else
         {
         	findViewById(R.id.wizard_view).setVisibility(View.GONE);
+        	
+        	checkForReleaseNotes();
         }
-    		
-        String currentNotesKey = getString(R.string.release_notes_key) + getString(R.string.version_code);
-        boolean releaseNotesShown = preferences.getBoolean(currentNotesKey, false);
+	}
+
+	private void checkForReleaseNotes()
+	{
+		String currentNotesKey = getString(R.string.release_notes_key) + Utils.getVersionString(this);
+		boolean releaseNotesShown = Utils.getBooleanPreference(currentNotesKey, false);
         if (!releaseNotesShown)
         {
             showReleaseNotes(currentNotesKey);
         }
 	}
-
+	
 	private void initWizard()
 	{
 		mViewFlipper = (ViewFlipper) findViewById(R.id.wizard_flipper);
@@ -232,13 +232,11 @@ public class FrontMenuActivity extends android.app.Activity implements CloseWiza
 	public void onDismissWizard(final boolean neverShow) {
 		if (neverShow)
 		{
-			final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-			Editor preferenceEditor = preferences.edit();
-	    	
-	    	preferenceEditor.putBoolean(getString(R.string.key_hide_wizard), true);
-	    	preferenceEditor.commit();
+			Utils.setBooleanPreference(getString(R.string.key_hide_wizard), true);
 		}
 		findViewById(R.id.wizard_view).setVisibility(View.GONE);
+		
+		checkForReleaseNotes();
 	}
 	
 	private boolean isWizardShowing()
@@ -248,29 +246,18 @@ public class FrontMenuActivity extends android.app.Activity implements CloseWiza
 	
     private void showReleaseNotes(final String notesKey)
     {
-        AlertDialog.Builder builder = new AlertDialog.Builder(FrontMenuActivity.this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
         LayoutInflater inflater = getLayoutInflater();
         View view = inflater.inflate(R.layout.release_notes, null);
 
-        final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-
-        String versionString = "1.1.001";
-        try
-        {
-            versionString = getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
-        }
-        catch (PackageManager.NameNotFoundException e)
-        {
-            e.printStackTrace();
-            return;
-        }
+        String versionString = Utils.getVersionString(this);
 
         builder.setTitle(getString(R.string.whats_new, versionString));
         builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener()
         {
             public void onClick(DialogInterface dialog, int id)
             {
-                preferences.edit().putBoolean(notesKey, true).commit();
+                Utils.setBooleanPreference(notesKey, true);
                 dialog.dismiss();
             }
         });
@@ -280,7 +267,7 @@ public class FrontMenuActivity extends android.app.Activity implements CloseWiza
         dialog.show();
     }
     
- // Method to handle touch event like left to right swap and right to left swap
+    // Method to handle touch event like left to right swap and right to left swap
  	public boolean onTouchEvent(MotionEvent touchevent) 
  	{
  		switch (touchevent.getAction())
@@ -290,6 +277,7 @@ public class FrontMenuActivity extends android.app.Activity implements CloseWiza
  			{
  				if (!isWizardShowing())
  				{
+ 					Log.d(TAG, "First use wizard isn't showing, skipping touch event.");
  					return false;
  				}
  				
@@ -300,6 +288,7 @@ public class FrontMenuActivity extends android.app.Activity implements CloseWiza
  			{
  				if (!isWizardShowing())
  				{
+ 					Log.d(TAG, "First use wizard isn't showing, skipping touch event.");
  					return false;
  				}
  				

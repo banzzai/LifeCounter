@@ -8,12 +8,16 @@ import com.banzz.lifecounter.R;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Typeface;
 import android.os.Environment;
 import android.preference.PreferenceManager;
+import android.util.Log;
 
 public class Utils {
+	private static final String TAG = Utils.class.getName();
+	
 	public static class Constants {
 		//Game parameters
 		public static final int LIFE_MAX 	= 999;
@@ -57,6 +61,7 @@ public class Utils {
 	}
 
 	private static String mStorageString;
+	private static SharedPreferences mPreferences;
 	
 	public static void initUtils(Context context)
 	{
@@ -68,6 +73,8 @@ public class Utils {
 			File sdCardDirectory = Environment.getExternalStorageDirectory();
 			mStorageString = sdCardDirectory + "/" + context.getString(R.string.app_name) + "/";	
 		}
+		
+		mPreferences = PreferenceManager.getDefaultSharedPreferences(context);
 	}
 	
 	/**
@@ -102,18 +109,89 @@ public class Utils {
 	 */
 	public static String generateProfileId(Context context)
 	{
-		final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-		SharedPreferences.Editor edit = preferences.edit();
-		
 		// Get last available id
 		String profileIdKey = context.getString(R.string.key_profile_id);
-		int index = preferences.getInt(profileIdKey, 0);
+		int index = getIntPreference(profileIdKey, 0);
         
 		// Update next available id 
-		edit.putInt(profileIdKey, index+1);
-        edit.commit();
-		
+		setIntPreference(profileIdKey, index+1);
+        
         return "mtg"+index+"lc";
+	}
+	
+	/**
+	 * Wrapper around SharedPreference to get a String preference
+	 * 
+	 * @param key Key to the preference
+	 * @param defaultValue Default String value
+	 * @return Value set in Preferences or default if not found
+	 */
+	public static String getStringPreference(final String key, final String defaultValue)
+	{
+		return mPreferences.getString(key, defaultValue);
+	}
+	
+	/**
+	 * Wrapper around SharedPreference to get an int preference
+	 * 
+	 * @param key Key to the preference
+	 * @param defaultValue Default int value
+	 * @return Value set in Preferences or default if not found
+	 */
+	public static int getIntPreference(final String key, final int defaultValue)
+	{
+		return mPreferences.getInt(key, defaultValue);
+	}
+
+	/**
+	 * Wrapper around SharedPreference to get a boolean preference
+	 * 
+	 * @param key Key to the preference
+	 * @param defaultValue Default boolean value
+	 * @return Value set in Preferences or default if not found
+	 */
+	public static boolean getBooleanPreference(final String key, final boolean defaultValue)
+	{
+		return mPreferences.getBoolean(key, defaultValue);
+	}
+	
+	/**
+	 * Wrapper around SharedPreference to set a String preference
+	 * 
+	 * @param key Key to the preference
+	 * @param defaultValue String value to set
+	 */
+	public static void setStringPreference(final String key, final String value)
+	{
+		SharedPreferences.Editor edit = mPreferences.edit();
+		edit.putString(key, value);
+        edit.commit();
+	}
+	
+	/**
+	 * Wrapper around SharedPreference to set an int preference
+	 * 
+	 * @param key Key to the preference
+	 * @param defaultValue int value to set
+	 */
+	public static void setIntPreference(final String key, final int value)
+	{
+		SharedPreferences.Editor edit = mPreferences.edit();
+		edit.putInt(key, value);
+        edit.commit();
+	}
+
+	/**
+	 * Wrapper around SharedPreference to set a boolean preference
+	 * 
+	 * @param key Key to the preference
+	 * @param defaultValue boolean value to set
+	 */
+	public static void setBooleanPreference(final String key, final boolean value)
+	{
+		SharedPreferences.Editor edit = mPreferences.edit();
+		edit.putBoolean(key, value);
+        edit.commit();
 	}
 	
 	/**
@@ -124,5 +202,24 @@ public class Utils {
 	public static String getAppStoragePath()
 	{
 		return mStorageString;
+	}
+
+	/**
+	 * Getting current version of the app
+	 * 
+	 * @param context needed to call the package manager
+	 * @return version of the app in a String
+	 */
+	public static String getVersionString(Context context) {
+		String versionString = "1.1.001";
+        try
+        {
+            versionString = context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionName;
+        }
+        catch (PackageManager.NameNotFoundException e)
+        {
+            Log.e(TAG, "Can't retrieve app version");
+        }
+        return versionString;
 	}
 }

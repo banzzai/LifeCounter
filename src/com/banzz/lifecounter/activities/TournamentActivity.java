@@ -2,17 +2,17 @@ package com.banzz.lifecounter.activities;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+
 import com.banzz.lifecounter.R;
 import com.banzz.lifecounter.commons.TournamentAdapter;
 import com.banzz.lifecounter.commons.TournamentPlayer;
+import com.banzz.lifecounter.utils.Utils;
 import com.banzz.lifecounter.utils.Utils.Constants;
 import com.google.gson.Gson;
 
@@ -34,23 +34,6 @@ public class TournamentActivity extends Activity {
 		setContentView(R.layout.activity_tournament);
         playerList = getIntent().getParcelableArrayListExtra(Constants.KEY_TOURNAMENT_PLAYERS);
         saveAsLastPlayerList();
-
-//        TournamentPlayer Alex = new TournamentPlayer(0, "Alex", new ArrayList<Game>());
-//		playerList.add(Alex);
-//		TournamentPlayer Olivier = new TournamentPlayer(1, "Olivier", new ArrayList<Game>());
-//		playerList.add(Olivier);
-//		TournamentPlayer Basile = new TournamentPlayer(2, "Basile", new ArrayList<Game>());
-//		playerList.add(Basile);
-//		TournamentPlayer David = new TournamentPlayer(3, "David", new ArrayList<Game>());
-//		playerList.add(David);
-//		TournamentPlayer Flo = new TournamentPlayer(4, "Flo", new ArrayList<Game>());
-//		playerList.add(Flo);
-//		TournamentPlayer Greg = new TournamentPlayer(5, "Greg", new ArrayList<Game>());
-//		playerList.add(Greg);
-//		TournamentPlayer Olivier = new TournamentPlayer(6, "Olivier", new ArrayList<Game>());
-//		playerList.add(Olivier);
-//		TournamentPlayer Tanisha = new TournamentPlayer(7, "Tanisha", new ArrayList<Game>());
-//		playerList.add(Tanisha);
 		
 		mPlayers = (ListView) findViewById(R.id.player_list);
 		Collections.sort(playerList, new PlayerComparator(true));
@@ -92,16 +75,14 @@ public class TournamentActivity extends Activity {
 
     private void saveARound(int key, boolean saveRoundNumber)
     {
-        Gson gson = new Gson();
-        String json = gson.toJson(playerList);
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        SharedPreferences.Editor edit = preferences.edit();
-        edit.putString(getString(key), json);
+        final Gson gson = new Gson();
+        final String json = gson.toJson(playerList);
+        
+        Utils.setStringPreference(getString(key), json);
         if (saveRoundNumber)
         {
-            edit.putInt(getString(R.string.key_saved_round), mRound);
+            Utils.setIntPreference(getString(R.string.key_saved_round), mRound);
         }
-        edit.commit();
     }
 
     private void saveRound()
@@ -116,17 +97,15 @@ public class TournamentActivity extends Activity {
 
     private void loadRound()
     {
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        String load = preferences.getString(getString(R.string.key_current_tournament),
-                null);
+        final String load = Utils.getStringPreference(getString(R.string.key_current_tournament), null);
 
         if (load != null)
         {
-            Gson gson = new Gson();
-            TournamentPlayer[] bob = gson.fromJson(load, (Class<TournamentPlayer[]>) TournamentPlayer[].class);
+            final Gson gson = new Gson();
+            final TournamentPlayer[] bob = gson.fromJson(load, (Class<TournamentPlayer[]>) TournamentPlayer[].class);
             playerList = new ArrayList<TournamentPlayer>(Arrays.asList(bob));
             mPlayers.setAdapter(new TournamentAdapter(this, playerList));
-            mRound = preferences.getInt(getString(R.string.key_saved_round), 0);
+            mRound = Utils.getIntPreference(getString(R.string.key_saved_round), 0);
             mRoundText.setText(getText(R.string.Round).toString() + " " + mRound);
         }
     }
@@ -143,7 +122,7 @@ public class TournamentActivity extends Activity {
 	        		
 	        		mRound++;
 	        		
-	        		TextView roundText = (TextView) findViewById(R.id.tournament_round);
+	        		final TextView roundText = (TextView) findViewById(R.id.tournament_round);
 	        		roundText.setText(getText(R.string.Round).toString() + " " + mRound);
 	        	}
 	        	break;

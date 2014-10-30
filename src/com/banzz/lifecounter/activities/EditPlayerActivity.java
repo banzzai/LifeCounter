@@ -10,12 +10,10 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -37,6 +35,7 @@ import android.widget.Toast;
 import com.banzz.lifecounter.R;
 import com.banzz.lifecounter.commons.Player;
 import com.banzz.lifecounter.utils.SystemUiHider;
+import com.banzz.lifecounter.utils.Utils;
 import com.banzz.lifecounter.utils.Utils.Constants;
 import com.google.gson.Gson;
 
@@ -253,10 +252,7 @@ public class EditPlayerActivity extends Activity implements OnClickListener, Pic
         never_show_wizard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
-                final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(EditPlayerActivity.this);
-                SharedPreferences.Editor preferenceEditor = preferences.edit();
-                preferenceEditor.putBoolean(getString(R.string.key_hide_edit_wizard), true);
-                preferenceEditor.commit();
+                Utils.setBooleanPreference(getString(R.string.key_hide_edit_wizard), true);
                 wizardLayout.setVisibility(View.GONE);
             }
         });
@@ -266,8 +262,7 @@ public class EditPlayerActivity extends Activity implements OnClickListener, Pic
 
     private void checkWizard()
     {
-        final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        if (!preferences.getBoolean(getString(R.string.key_hide_edit_wizard), false)) {
+        if (!Utils.getBooleanPreference(getString(R.string.key_hide_edit_wizard), false)) {
             wizardLayout.setVisibility(View.VISIBLE);
         }
     }
@@ -403,17 +398,18 @@ public class EditPlayerActivity extends Activity implements OnClickListener, Pic
 	@SuppressWarnings("deprecation")
 	private void updateUI(String newPlayerName, boolean checkPlaques) {
 		Player player = players[mSelectedPlayer];
-		//int color = player.getColor() != -1 ? player.getColor() : getResources().getColor(R.color.lifeText);
-		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        int defaultColor = getResources().getColor(R.color.lifeText);
-        int color = preferences.getInt(getString(mSelectedPlayer == Constants.PLAYER_ONE ? R.string.key_color_p1 : R.string.key_color_p2), defaultColor);
+		
+		int defaultColor = getResources().getColor(R.color.lifeText);
+        final String colorKey = getString(mSelectedPlayer == Constants.PLAYER_ONE ? R.string.key_color_p1 : R.string.key_color_p2);
+        final int color = Utils.getIntPreference(colorKey, defaultColor);
+		
         //There is no callback when coming from settings, so we're going to set the player object color property from settings whenever we refresh display.
 		//At least the reducancy is used for both UI and save data now. Other values are saved in the object when they are actually being set.
 		player.setColor(color);
 
         if (checkPlaques)
         {
-            mShowPlaque = preferences.getBoolean(getString(R.string.key_show_plaque), true);
+            mShowPlaque = Utils.getBooleanPreference(getString(R.string.key_show_plaque), true);
         }
 		
 		boolean showButtons = player.showButons();
@@ -550,12 +546,9 @@ public class EditPlayerActivity extends Activity implements OnClickListener, Pic
 
     @Override
     public void onValidateColor(int color) {
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        SharedPreferences.Editor edit = preferences.edit();
-
         String key = getString(mSelectedPlayer == Constants.PLAYER_TWO ? R.string.key_color_p2 : R.string.key_color_p1);
-        edit.putInt(key, getResources().getColor(color));
-        edit.commit();
+        Utils.setIntPreference(key, getResources().getColor(color));
+        
         updateUI();
     }
 }

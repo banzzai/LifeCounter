@@ -59,8 +59,7 @@ public class StartTournamentActivity extends Activity implements TournamentPlaye
 
     private void loadLastKnownPlayerList()
     {
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        String load = preferences.getString(getString(R.string.key_last_tournament), null);
+        final String load = Utils.getStringPreference(getString(R.string.key_last_tournament), null);
 
         int playerTarget = getIntent().getIntExtra(getString(R.string.extra_player_number), -1);
         if (playerTarget > MAX_DRAFT_PLAYERS)

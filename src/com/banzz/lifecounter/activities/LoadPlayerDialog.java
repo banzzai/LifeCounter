@@ -129,7 +129,6 @@ public class LoadPlayerDialog extends LifeCounterDialog {
 	        
 	        if (mImages[index] != null)
 	        {
-	        	Log.e(TAG, "Setting image "+thumbnailUrl+" for " + mUsers[index].getName());
 	        	profileIcon.setImageBitmap(mImages[index]);
 	        }
 	        else

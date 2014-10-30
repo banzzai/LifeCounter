@@ -3,15 +3,12 @@ package com.banzz.lifecounter.activities;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -28,6 +25,7 @@ import android.widget.Toast;
 import com.banzz.lifecounter.R;
 import com.banzz.lifecounter.commons.Player;
 import com.banzz.lifecounter.utils.SystemUiHider;
+import com.banzz.lifecounter.utils.Utils;
 import com.banzz.lifecounter.utils.Utils.Constants;
 import com.banzz.lifecounter.utils.VerticalSeekBar;
 
@@ -43,7 +41,7 @@ public class TwoPlayerActivity extends Activity implements OnClickListener, Load
                                                             ToolboxMenuDialog.ToolBoxDialogListener {
 	private static final String TAG = TwoPlayerActivity.class.getName();
 	
-	public static int LIFE_START = 20;
+	public static final int DEFAULT_LIFE_START = 20;
 	public static int PLAYER_NUMBER = 2;
 	
 	public static String SELECT_PLAYERS_EXTRA = "select_players";
@@ -51,6 +49,7 @@ public class TwoPlayerActivity extends Activity implements OnClickListener, Load
 	private int player1_back_number = 0;
 	private int player2_back_number = 1;
 	private int[] playerBacks = {-1, -1};
+	private int mActualLifeStart = DEFAULT_LIFE_START;
 	
 	private Player player_1;
 	private Player player_2;
@@ -107,15 +106,13 @@ public class TwoPlayerActivity extends Activity implements OnClickListener, Load
 	@Override
 	protected void onResume() {
 		super.onResume();
-		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-		mShowPoison = preferences.getBoolean(getString(R.string.key_show_poison), false);
-        mShowPlaque		= preferences.getBoolean(getString(R.string.key_show_plaque), true);
+		mShowPoison = Utils.getBooleanPreference(getString(R.string.key_show_poison), false);
+        mShowPlaque	= Utils.getBooleanPreference(getString(R.string.key_show_plaque), true);
 
         try {
-			LIFE_START = Integer.valueOf(preferences.getString(getString(R.string.key_life_start), "20"));
-			Integer.valueOf(preferences.getString(getString(R.string.key_life_start), "20"));
+			mActualLifeStart = Integer.valueOf(Utils.getStringPreference(getString(R.string.key_life_start), ""+DEFAULT_LIFE_START));
 		} catch (NumberFormatException e) {
-			String val = preferences.getString(getString(R.string.key_life_start), "20");
+			String val = Utils.getStringPreference(getString(R.string.key_life_start), ""+DEFAULT_LIFE_START);
 			Toast punny = Toast.makeText(this, "Oh you want " + val + " life, huh? You'll get 20 :p", Toast.LENGTH_SHORT);
 			punny.show();
 			Toast serious = Toast.makeText(this, "Seriously though, check your settings", Toast.LENGTH_LONG);
@@ -138,7 +135,7 @@ public class TwoPlayerActivity extends Activity implements OnClickListener, Load
 		}
 	};
 	
-	private boolean checkOrientation(int orientation) {
+	private boolean checkOrientation(final int orientation) {
 		if (orientation != mOrientation) {
 			mOrientation = orientation;
 			return true;
@@ -147,7 +144,7 @@ public class TwoPlayerActivity extends Activity implements OnClickListener, Load
 	}
 	
 	@Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
         getActionBar().hide();
@@ -180,8 +177,8 @@ public class TwoPlayerActivity extends Activity implements OnClickListener, Load
 		
 		player2_screen = (RelativeLayout) findViewById(R.id.player_two_screen);
 		
-		mBigLife1.setText(""+LIFE_START);
-		mBigLife2.setText(""+LIFE_START);
+		mBigLife1.setText(""+mActualLifeStart);
+		mBigLife2.setText(""+mActualLifeStart);
 		
 		poisonBar1 = (VerticalSeekBar) findViewById(R.id.poisonBar1);
 		poisonBar1.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
@@ -249,15 +246,14 @@ public class TwoPlayerActivity extends Activity implements OnClickListener, Load
             }
         });
 		
-		final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-		mBackGroundLock = preferences.getBoolean(getString(R.string.key_background_lock), false);
-		mShowPoison		= preferences.getBoolean(getString(R.string.key_show_poison), false);
-        mShowPlaque		= preferences.getBoolean(getString(R.string.key_show_plaque), true);
-        player1_back_number = preferences.getInt(getString(R.string.key_back1), 0);
-		player2_back_number = preferences.getInt(getString(R.string.key_back2), 1);
-		setLife(Constants.PLAYER_ONE, preferences.getInt(getString(R.string.key_life1), 20));
-		setLife(Constants.PLAYER_TWO, preferences.getInt(getString(R.string.key_life2), 20));
-		player2_rotate(preferences.getBoolean(getString(R.string.key_rotate_player2), false));
+		mBackGroundLock = Utils.getBooleanPreference(getString(R.string.key_background_lock), false);
+		mShowPoison	= Utils.getBooleanPreference(getString(R.string.key_show_poison), false);
+        mShowPlaque	= Utils.getBooleanPreference(getString(R.string.key_show_plaque), true);
+        player1_back_number = Utils.getIntPreference(getString(R.string.key_back1), 0);
+		player2_back_number = Utils.getIntPreference(getString(R.string.key_back2), 1);
+		setLife(Constants.PLAYER_ONE, Utils.getIntPreference(getString(R.string.key_life1), mActualLifeStart));
+		setLife(Constants.PLAYER_TWO, Utils.getIntPreference(getString(R.string.key_life2), mActualLifeStart));
+		player2_rotate(Utils.getBooleanPreference(getString(R.string.key_rotate_player2), false));
 		
 		initArrays();
 		updateUI();
@@ -343,7 +339,7 @@ public class TwoPlayerActivity extends Activity implements OnClickListener, Load
 		}
 	}
 	
-	private void updatePlayerUI(int player_number) {
+	private void updatePlayerUI(final int player_number) {
 		if (player_number > PLAYER_NUMBER) {
 			return;
 		}
@@ -351,12 +347,11 @@ public class TwoPlayerActivity extends Activity implements OnClickListener, Load
 		boolean loadPlayer = players[player_number] != null;
 		if (players[player_number] == null) {
 			//Loading default into Player x
-			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
 			players[player_number] = new Player();
             int defaultColor = getResources().getColor(R.color.lifeText);
-			players[player_number].setColor(preferences.getInt(getString(R.string.key_color), defaultColor));
-			players[player_number].setShowButtons(preferences.getBoolean(getString(R.string.key_show_buttons), true));
-			players[player_number].setShowWheel(preferences.getBoolean(getString(R.string.key_show_wheels), false));
+			players[player_number].setColor(Utils.getIntPreference(getString(R.string.key_color), defaultColor));
+			players[player_number].setShowButtons(Utils.getBooleanPreference(getString(R.string.key_show_buttons), true));
+			players[player_number].setShowWheel(Utils.getBooleanPreference(getString(R.string.key_show_wheels), false));
 			players[player_number].setBackGroundId(player_number);
 			players[player_number].setName("Player " + (player_number + 1));
 		}
@@ -415,42 +410,31 @@ public class TwoPlayerActivity extends Activity implements OnClickListener, Load
 		}
 	}
 	
-	private void rollBackground(int player) {
-		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-    	
-		if (!preferences.getBoolean(getString(R.string.key_background_lock), true)) {
-			Editor preferenceEditor = preferences.edit();
-	    	
-	    	playerBacks[player] = (playerBacks[player] + 1) % backgrounds_ids.length;
+	private void rollBackground(final int player) {
+		if (!Utils.getBooleanPreference(getString(R.string.key_background_lock), true)) {
+			playerBacks[player] = (playerBacks[player] + 1) % backgrounds_ids.length;
 	    	players[player].setBackGroundId(playerBacks[player]);
-	    	preferenceEditor.putInt(getString(player==Constants.PLAYER_ONE?R.string.key_back1:R.string.key_back2), playerBacks[player]);
-	    	preferenceEditor.commit();
+	    	Utils.setIntPreference(getString(player==Constants.PLAYER_ONE?R.string.key_back1:R.string.key_back2), playerBacks[player]);
 	    	updatePlayerUI(player);
 		}
 	}
 
-    private int getLife(int player) {
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        return preferences.getInt(getString(player == Constants.PLAYER_ONE ? R.string.key_life1 : R.string.key_life2), 20);
+    private int getLife(final int player) {
+        return Utils.getIntPreference(getString(player == Constants.PLAYER_ONE ? R.string.key_life1 : R.string.key_life2), 20);
     }
 
-    private void setLife(int player, int life) {
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-    	Editor preferenceEditor = preferences.edit();
-
+    private void setLife(final int player, final int life) {
         if (player == Constants.PLAYER_ONE) {
     		mBigLife1.setText(""+life);
-    		preferenceEditor.putInt(getString(R.string.key_life1), life);
+    		Utils.setIntPreference(getString(R.string.key_life1), life);
     	} else if (player == Constants.PLAYER_TWO) {
     		mBigLife2.setText(""+life);
-    		preferenceEditor.putInt(getString(R.string.key_life2), life);
+    		Utils.setIntPreference(getString(R.string.key_life2), life);
     	}
-
-    	preferenceEditor.commit();
     }
 
     @Override
-    public void onPickAction(int action) {
+    public void onPickAction(final int action) {
         if (R.id.action_restart == action) {
             restart_game();
         } else if (R.id.action_flip == action) {
@@ -461,12 +445,9 @@ public class TwoPlayerActivity extends Activity implements OnClickListener, Load
             loadDialog.show();
         } else if (R.id.action_edit == action) {
             //Save current player colors in the settings used for setColor options (trick comes from the fact the color picker widget is a preference menu)
-            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-            Editor preferenceEditor = preferences.edit();
-            preferenceEditor.putInt(getString(R.string.key_color_p1), players[Constants.PLAYER_ONE].getColor());
-            preferenceEditor.putInt(getString(R.string.key_color_p2), players[Constants.PLAYER_TWO].getColor());
-            preferenceEditor.commit();
-
+            Utils.setIntPreference(getString(R.string.key_color_p1), players[Constants.PLAYER_ONE].getColor());
+            Utils.setIntPreference(getString(R.string.key_color_p2), players[Constants.PLAYER_TWO].getColor());
+            
             //Launch edit player activity with both players
             Intent editIntent = new Intent(getApplicationContext(), EditPlayerActivity.class);
             editIntent.putExtra(Constants.KEY_PLAYER_ONE, players[Constants.PLAYER_ONE]);
@@ -477,24 +458,16 @@ public class TwoPlayerActivity extends Activity implements OnClickListener, Load
     }
     
     private void switchBackgroundLock() {
-    	SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+    	mBackGroundLock = !mBackGroundLock;
     	
-    	mBackGroundLock  = !mBackGroundLock;
-    	Editor preferenceEditor = preferences.edit();
+    	Utils.setBooleanPreference(getString(R.string.key_background_lock), mBackGroundLock);
     	
-    	preferenceEditor.putBoolean(getString(R.string.key_background_lock), mBackGroundLock);
-    	preferenceEditor.commit();
-
     	Toast.makeText(this, "Background images "+(mBackGroundLock?"":"un")+"locked", Toast.LENGTH_LONG).show();
 	}
 
 	private void player2_rotate(boolean doRotate) {
-    	Editor preferenceEditor = PreferenceManager.getDefaultSharedPreferences(this).edit();
-    	
     	player2_screen.setRotation(doRotate ? 180 : 0);
-    	preferenceEditor.putBoolean(getString(R.string.key_rotate_player2), doRotate);
-
-    	preferenceEditor.commit();
+    	Utils.setBooleanPreference(getString(R.string.key_rotate_player2), doRotate);
 	}
 
 	private void roll_dice(int max_value) {
@@ -514,8 +487,8 @@ public class TwoPlayerActivity extends Activity implements OnClickListener, Load
 
 
 	public void restart_game() {
-		setLife(Constants.PLAYER_ONE, LIFE_START);
-        setLife(Constants.PLAYER_TWO, LIFE_START);
+		setLife(Constants.PLAYER_ONE, mActualLifeStart);
+        setLife(Constants.PLAYER_TWO, mActualLifeStart);
     }
 
 
