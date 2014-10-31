@@ -20,7 +20,9 @@ import android.widget.TextView;
 import android.widget.ViewFlipper;
 
 import com.banzz.lifecounter.R;
+import com.banzz.lifecounter.common.Player;
 import com.banzz.lifecounter.common.Utils;
+import com.banzz.lifecounter.common.Utils.Constants;
 import com.banzz.lifecounter.dialog.CloseWizardDialog;
 import com.banzz.lifecounter.dialog.CloseWizardDialog.CloseWizardDialogListener;
 
@@ -64,8 +66,8 @@ public class FrontMenuActivity extends FullScreenActivity implements CloseWizard
         
         setContentView(R.layout.front_menu);
         
-        Button mButton = (Button) findViewById(R.id.two_player_button);
-        mButton.setOnClickListener(new OnClickListener() {
+        Button mNewGame = (Button) findViewById(R.id.two_player_button);
+        mNewGame.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
 				final Intent newGameIntent = new Intent(getApplicationContext(), TwoPlayerActivity.class);
@@ -74,9 +76,25 @@ public class FrontMenuActivity extends FullScreenActivity implements CloseWizard
 			}
 		});
         
+        Button mProfiles = (Button) findViewById(R.id.edit_profiles);
+        mProfiles.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				//Save current player colors in the settings used for setColor options (trick comes from the fact the color picker widget is a preference menu)
+		        //Utils.setIntPreference(getString(R.string.key_color_p1), players[Constants.PLAYER_ONE].getColor());
+		        //Utils.setIntPreference(getString(R.string.key_color_p2), players[Constants.PLAYER_TWO].getColor());
+		        
+		        //Launch edit player activity with both players
+		        Intent editIntent = new Intent(getApplicationContext(), EditPlayerActivity.class);
+		        editIntent.putExtra(Constants.KEY_PLAYER_ONE, new Player());
+		        editIntent.putExtra(Constants.KEY_PLAYER_TWO, new Player());
+
+		        startActivityForResult(editIntent, Constants.REQUEST_EDIT_PLAYERS);
+			}
+		});
+        
         Button mSettings = (Button) findViewById(R.id.settings_button);
         mSettings.setOnClickListener(new OnClickListener() {
-			
 			@Override
 			public void onClick(View arg0) {
 				startActivity(new Intent(getApplicationContext(), SettingsActivity.class));
@@ -85,7 +103,6 @@ public class FrontMenuActivity extends FullScreenActivity implements CloseWizard
         
         Button mHelpUs = (Button) findViewById(R.id.helpus_button);
         mHelpUs.setOnClickListener(new OnClickListener() {
-			
 			@Override
 			public void onClick(View arg0) {
 				startActivity(new Intent(getApplicationContext(), HelpUsActivity.class));
@@ -94,7 +111,6 @@ public class FrontMenuActivity extends FullScreenActivity implements CloseWizard
         
         Button mTournament = (Button) findViewById(R.id.tournament_button);
         mTournament.setOnClickListener(new OnClickListener() {
-			
 			@Override
 			public void onClick(View arg0) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(FrontMenuActivity.this);

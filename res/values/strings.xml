@@ -132,7 +132,6 @@
 	<string name="string_action_reset">Reset players</string>
     
     <!-- Settings:keys -->
-	<string name="key_background_lock">backgroundLock</string>
 	<string name="key_life2">lifeTwo</string>
 	<string name="key_life1">lifeOne</string>
 	<string name="key_color_p1">colorPlayerOne</string>
@@ -141,8 +140,6 @@
 	<string name="key_back1">backOne</string>
     <string name="key_back2">backTwo</string>
     <string name="key_rotate_player2">rotateTwo</string>
-    <string name="key_show_buttons">showButtons</string>
-    <string name="key_show_wheels">showWheels</string>
     <string name="key_show_poison">showPoison</string>
     <string name="key_show_plaque">showPlaque</string>
     <string name="key_color">fontColor</string>

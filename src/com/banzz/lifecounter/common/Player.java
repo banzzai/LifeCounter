@@ -7,24 +7,20 @@ public class Player implements Parcelable {
 	private String mId;
 	private String mName;
 	private int mColor;
-	private boolean mShowButtons;
-	private boolean mShowWheel;
 	private int mBackGroundId;
 	private String mTallBgUrl;
 	private String mLargeBgUrl;
 	private String mThumbnailUrl;
 		
 	public Player() {
-		this(null, "Player 0", -1, false, true, 0, null, null, null);
+		this(null, "Player 0", -1, 0, null, null, null);
 	}
 	
-	public Player(String mId, String mName, int mColor, boolean mShowButtons, boolean mShowWheel, int mBackGroundId, String tallUrl, String largeUrl, String thumbUrl) {
+	public Player(String mId, String mName, int mColor, int mBackGroundId, String tallUrl, String largeUrl, String thumbUrl) {
 		super();
 		this.mId = mId;
 		this.mName = mName;
 		this.mColor = mColor;
-		this.mShowButtons = mShowButtons;
-		this.mShowWheel = mShowWheel;
 		this.mBackGroundId = mBackGroundId;
 		this.mTallBgUrl = tallUrl;
 		this.mLargeBgUrl = largeUrl;
@@ -36,8 +32,6 @@ public class Player implements Parcelable {
 		this.mBackGroundId = player.getBackGroundId();
 		this.mColor = player.getColor();
 		this.mName = player.getName();
-		this.mShowButtons = player.showButons();
-		this.mShowWheel = player.showWheel();
 		this.mTallBgUrl = player.getTallBgUrl();
 		this.mLargeBgUrl = player.getLargeBgUrl();
 		this.mThumbnailUrl = player.getThumbnailUrl();
@@ -63,28 +57,12 @@ public class Player implements Parcelable {
 		return mColor;
 	}
 
-	public boolean showButons() {
-		return mShowButtons;
-	}
-
-	public boolean showWheel() {
-		return mShowWheel;
-	}
-
 	public int getBackGroundId() {
 		return mBackGroundId;
 	}
 
 	public void setColor(int mColor) {
 		this.mColor = mColor;
-	}
-
-	public void setShowButtons(boolean mShowButtons) {
-		this.mShowButtons = mShowButtons;
-	}
-
-	public void setShowWheel(boolean mShowWheel) {
-		this.mShowWheel = mShowWheel;
 	}
 
 	public void setBackGroundId(int mBackGroundId) {
@@ -131,7 +109,6 @@ public class Player implements Parcelable {
 		out.writeString(mThumbnailUrl);
 		out.writeInt(mColor);
 		out.writeInt(mBackGroundId);
-		out.writeBooleanArray(new boolean[]{mShowButtons, mShowWheel});
 	}
 	
 	// this is used to regenerate your object. All Parcelables must have a CREATOR that implements these two methods
@@ -154,10 +131,5 @@ public class Player implements Parcelable {
         mThumbnailUrl = in.readString();
         mColor = in.readInt();
         mBackGroundId = in.readInt();
-        boolean[] myVals = new boolean[2];
-        in.readBooleanArray(myVals);
-        
-        mShowButtons = myVals[0];
-        mShowWheel = myVals[1];
     }
 }

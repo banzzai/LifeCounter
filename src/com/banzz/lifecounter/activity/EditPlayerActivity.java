@@ -398,7 +398,6 @@ public class EditPlayerActivity extends FullScreenActivity implements OnClickLis
             mShowPlaque = Utils.getBooleanPreference(getString(R.string.key_show_plaque), true);
         }
 		
-		boolean showButtons = player.showButons();
 		int background_id = player.getBackGroundId();
 
 		mBigLife0.setTextColor(color);
@@ -407,14 +406,6 @@ public class EditPlayerActivity extends FullScreenActivity implements OnClickLis
 		mEditName0.setTextColor(color);
 		mEditName0.setText(player.getName());
 
-		if (showButtons) {
-			mPlus0.setVisibility(View.VISIBLE);
-			mMinus0.setVisibility(View.VISIBLE);
-        } else {
-        	mPlus0.setVisibility(View.GONE);
-        	mMinus0.setVisibility(View.GONE);
-        }
-		
 		String tallUrl = player.getTallBgUrl();
 		String largeUrl = player.getLargeBgUrl();
 		if (tallUrl != null || largeUrl != null) {

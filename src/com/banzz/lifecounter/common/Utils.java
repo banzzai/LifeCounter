@@ -19,14 +19,19 @@ public class Utils {
 	private static final String TAG = Utils.class.getName();
 	
 	public static class Constants {
-		//Game parameters
+		// Game parameters
 		public static final int LIFE_MAX 	= 999;
 		public static final int LIFE_MIN 	= 0;
 		public static final int PLAYER_ZERO = -1;
 		public static final int PLAYER_ONE 	= 0;
 		public static final int PLAYER_TWO 	= 1;
 		
-		//Misc
+		// Toolbox action ids
+		public static final int ACTION_RESTART		 = 0;
+		public static final int ACTION_LOAD_PLAYERS  = 1;
+		public static final int ACTION_FLIP_PLAYER_2 = 2;
+		
+		// Misc
 		public static final String PAYPAL_DONATIONS     = "https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=BD7UPFTH3FTFL&lc=US&item_name=Mayor%20Suplex&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted";
 		public static final String APP_STORE_DONATIONS  = "https://play.google.com/store/apps/details?id=com.banzz.lifecounter";
         public static final String BLOG_URL             = "http://bullzzai.wordpress.com/";
@@ -34,7 +39,7 @@ public class Utils {
         public static final String TWITTER_URL          = "https://twitter.com/Bullzzai_blog";
         public static final String BULLZZAI_EMAIL       = "bullzzai.blog@gmail.com";
 
-		//Intent request codes
+		// Intent request codes
 		public static final int REQUEST_EDIT_PLAYERS	= 0;
 		public static final int REQUEST_PICK_IMAGES 	= 1;
 		public static final int REQUEST_PICK_IMAGE 		= 2;
@@ -49,15 +54,16 @@ public class Utils {
 		public static final String KEY_PLAYER_TWO			= "player_two";
 		public static final String KEY_TOURNAMENT_PLAYERS	= "tournament_players";
 		
-		//Config
+		// Config
 		public static final String PROFILES_FILE_NAME 	= "/players.JSON";
 		public static final String TEMP_FILE_NAME 		= "temp.jpg";
 		public static final String TEMP_LARGE_FILE_NAME = "temp_large.jpg";
 		
-		public static Typeface FONT_HELVETICA_NUEUE = null;
-		public static String STRING_HELVETICA_NUEUE = "HelveticaNeue";
-		public static Typeface FONT_HELVETICA_NUEUE_CONDENSED = null;
-		public static String STRING_HELVETICA_NUEUE_CONDENSED = "HelveticaNeueC";
+		// Fonts
+		public static Typeface FONT_HELVETICA_NUEUE 			= null;
+		public static Typeface FONT_HELVETICA_NUEUE_CONDENSED 	= null;
+		public static String STRING_HELVETICA_NUEUE 			= "HelveticaNeue";
+		public static String STRING_HELVETICA_NUEUE_CONDENSED	= "HelveticaNeueC";
 	}
 
 	private static String mStorageString;

@@ -41,20 +41,11 @@
             />
 
     <Button
-            android:id="@+id/option_edit"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:background="@drawable/edit"
-            android:layout_toRightOf="@id/option_load"
-            android:layout_marginLeft="5dp"
-            />
-
-    <Button
             android:id="@+id/option_rotate"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:background="@drawable/flip"
-            android:layout_toRightOf="@id/option_edit"
+            android:layout_toRightOf="@id/option_load"
             android:layout_marginLeft="5dp"
             />
 </RelativeLayout>

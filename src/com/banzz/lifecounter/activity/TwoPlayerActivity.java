@@ -76,7 +76,6 @@ public class TwoPlayerActivity extends FullScreenActivity implements OnClickList
 	private RelativeLayout player2_screen;
 	
 	private WakeLock wl;
-	private boolean mBackGroundLock = false;
 	private boolean mShowPoison = true;
     private boolean mShowPlaque = true;
 	private int mOrientation = -1;
@@ -239,7 +238,6 @@ public class TwoPlayerActivity extends FullScreenActivity implements OnClickList
             }
         });
 		
-		mBackGroundLock = Utils.getBooleanPreference(getString(R.string.key_background_lock), false);
 		mShowPoison	= Utils.getBooleanPreference(getString(R.string.key_show_poison), false);
         mShowPlaque	= Utils.getBooleanPreference(getString(R.string.key_show_plaque), true);
         player1_back_number = Utils.getIntPreference(getString(R.string.key_back1), 0);
@@ -343,8 +341,6 @@ public class TwoPlayerActivity extends FullScreenActivity implements OnClickList
 			players[player_number] = new Player();
             int defaultColor = getResources().getColor(R.color.lifeText);
 			players[player_number].setColor(Utils.getIntPreference(getString(R.string.key_color), defaultColor));
-			players[player_number].setShowButtons(Utils.getBooleanPreference(getString(R.string.key_show_buttons), true));
-			players[player_number].setShowWheel(Utils.getBooleanPreference(getString(R.string.key_show_wheels), false));
 			players[player_number].setBackGroundId(player_number);
 			players[player_number].setName("Player " + (player_number + 1));
 		}
@@ -356,14 +352,6 @@ public class TwoPlayerActivity extends FullScreenActivity implements OnClickList
 		pluses[player_number].setTextColor(color);
 		editNames[player_number].setTextColor(color);
 		editNames[player_number].setText(loadPlayer ? players[player_number].getName() : "Player");
-		
-		if (players[player_number].showButons()) {
-			pluses[player_number].setVisibility(View.VISIBLE);
-			minuses[player_number].setVisibility(View.VISIBLE);
-        } else {
-        	pluses[player_number].setVisibility(View.GONE);
-			minuses[player_number].setVisibility(View.GONE);
-        }
 		
 		String tallUrl = players[player_number].getTallBgUrl();
 		String largeUrl = players[player_number].getLargeBgUrl();
@@ -396,19 +384,6 @@ public class TwoPlayerActivity extends FullScreenActivity implements OnClickList
 		}  else if (clickedView.equals(mMinus2)) {
 			//Clicking on player 2 - button
             setLife(Constants.PLAYER_TWO, getLife(Constants.PLAYER_TWO) - 1);
-		}  else if (clickedView.equals(player1_background)) {
-			rollBackground(Constants.PLAYER_ONE);
-		}  else if (clickedView.equals(player2_background)) {
-			rollBackground(Constants.PLAYER_TWO);
-		}
-	}
-	
-	private void rollBackground(final int player) {
-		if (!Utils.getBooleanPreference(getString(R.string.key_background_lock), true)) {
-			playerBacks[player] = (playerBacks[player] + 1) % backgrounds_ids.length;
-	    	players[player].setBackGroundId(playerBacks[player]);
-	    	Utils.setIntPreference(getString(player==Constants.PLAYER_ONE?R.string.key_back1:R.string.key_back2), playerBacks[player]);
-	    	updatePlayerUI(player);
 		}
 	}
 
@@ -428,15 +403,15 @@ public class TwoPlayerActivity extends FullScreenActivity implements OnClickList
 
     @Override
     public void onPickAction(final int action) {
-        if (R.id.action_restart == action) {
+        if (Utils.Constants.ACTION_RESTART == action) {
             restart_game();
-        } else if (R.id.action_flip == action) {
+        } else if (Utils.Constants.ACTION_FLIP_PLAYER_2 == action) {
             player2_rotate(player2_screen.getRotation() == 180 ? false : true);
-        } else if (R.id.action_load == action) {
+        } else if (Utils.Constants.ACTION_LOAD_PLAYERS == action) {
             LoadPlayerDialog loadDialog = new LoadPlayerDialog(this);
             loadDialog.setListener(this);
             loadDialog.show();
-        } else if (R.id.action_edit == action) {
+        }/* else if (R.id.action_edit == action) {
             //Save current player colors in the settings used for setColor options (trick comes from the fact the color picker widget is a preference menu)
             Utils.setIntPreference(getString(R.string.key_color_p1), players[Constants.PLAYER_ONE].getColor());
             Utils.setIntPreference(getString(R.string.key_color_p2), players[Constants.PLAYER_TWO].getColor());
@@ -447,37 +422,13 @@ public class TwoPlayerActivity extends FullScreenActivity implements OnClickList
             editIntent.putExtra(Constants.KEY_PLAYER_TWO, players[Constants.PLAYER_TWO]);
 
             startActivityForResult(editIntent, Constants.REQUEST_EDIT_PLAYERS);
-        }
+        }*/
     }
-    
-    private void switchBackgroundLock() {
-    	mBackGroundLock = !mBackGroundLock;
-    	
-    	Utils.setBooleanPreference(getString(R.string.key_background_lock), mBackGroundLock);
-    	
-    	Toast.makeText(this, "Background images "+(mBackGroundLock?"":"un")+"locked", Toast.LENGTH_LONG).show();
-	}
 
-	private void player2_rotate(boolean doRotate) {
+	private void player2_rotate(final boolean doRotate) {
     	player2_screen.setRotation(doRotate ? 180 : 0);
     	Utils.setBooleanPreference(getString(R.string.key_rotate_player2), doRotate);
 	}
-
-	private void roll_dice(int max_value) {
-    	Random random = new Random();
-    	//Both random and % seems to like negative values, hence the double trick...
-    	int dice_value = (((random.nextInt() % max_value) + max_value) % max_value) + 1;
-		Toast dice_rolled = Toast.makeText(this, dice_value + (dice_value == 1 ? " :(" : dice_value == max_value ? "!!" : ""), Toast.LENGTH_SHORT);
-		dice_rolled.show();
-	}
-
-
-	private void flip_coin() {
-    	Random random = new Random();
-		Toast coin_tossed = Toast.makeText(this, random.nextInt() % 2 == 0 ? "HEADS" : "TAILS", Toast.LENGTH_SHORT);
-		coin_tossed.show();
-    }
-
 
 	public void restart_game() {
 		setLife(Constants.PLAYER_ONE, mActualLifeStart);
@@ -486,14 +437,14 @@ public class TwoPlayerActivity extends FullScreenActivity implements OnClickList
 
 
 	@Override
-	public void onValidateLoad(Player player1, Player player2) {
+	public void onValidateLoad(final Player player1, final Player player2) {
 		players[Constants.PLAYER_ONE] = new Player(player1);
 		players[Constants.PLAYER_TWO] = new Player(player2);
 		updatePlayerUI(Constants.PLAYER_ONE);
 		updatePlayerUI(Constants.PLAYER_TWO);
 	}
 	
-	protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
+	protected void onActivityResult(final int requestCode, final int resultCode, final Intent intent) {
 		switch (requestCode) {
            case Constants.REQUEST_EDIT_PLAYERS:
         	   if (resultCode == Activity.RESULT_OK) {
@@ -506,7 +457,7 @@ public class TwoPlayerActivity extends FullScreenActivity implements OnClickList
 	}
 	
 	@Override
-	public void onConfigurationChanged(Configuration newConfig) {
+	public void onConfigurationChanged(final Configuration newConfig) {
 	  super.onConfigurationChanged(newConfig);
 	  
 	  if (checkOrientation(newConfig.orientation)) {
