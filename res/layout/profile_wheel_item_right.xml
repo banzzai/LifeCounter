@@ -15,7 +15,7 @@
 	  android:textColor="#F000"
 	  android:textStyle="bold"/>
   
-  <com.banzz.lifecounter.commons.RoundedImageView 
+  <com.banzz.lifecounter.common.RoundedImageView 
       android:id="@+id/profile_wheel_icon"
       android:layout_gravity="center_horizontal"
       android:layout_toRightOf="@+id/profile_wheel_name"

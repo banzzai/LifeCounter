@@ -6,7 +6,7 @@
     android:layout_gravity="center_horizontal"
     >
     
-    <com.banzz.lifecounter.commons.FontedTextView
+    <com.banzz.lifecounter.common.FontedTextView
         android:id="@+id/close_wizard_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -25,7 +25,7 @@
         android:text="@string/never_show"
     />
     
-    <com.banzz.lifecounter.commons.FontedButton
+    <com.banzz.lifecounter.common.FontedButton
         android:id="@+id/close_wizard_no"
         android:layout_below="@+id/never_show_checkbox"
         android:layout_alignParentLeft="true"
@@ -35,7 +35,7 @@
 		style="@style/DialogButton"
 	/>
 
-    <com.banzz.lifecounter.commons.FontedButton
+    <com.banzz.lifecounter.common.FontedButton
         android:id="@+id/close_wizard_yes"
         android:layout_below="@+id/never_show_checkbox"
         android:layout_toRightOf="@+id/close_wizard_no"

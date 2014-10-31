@@ -28,7 +28,7 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             >
-            <com.banzz.lifecounter.commons.FontedButton
+            <com.banzz.lifecounter.common.FontedButton
 		        android:id="@+id/rate_button"
 	            android:layout_width="100dp"
 	            android:layout_height="wrap_content"
@@ -37,7 +37,7 @@
     			style="@style/NewButtonText"
 				android:drawableTop="@drawable/rate_us"
 	        />
-	        <com.banzz.lifecounter.commons.FontedButton
+	        <com.banzz.lifecounter.common.FontedButton
 	            android:id="@+id/feedback_button"
 	            android:layout_width="100dp"
 	            android:layout_height="wrap_content"
@@ -46,7 +46,7 @@
 	            style="@style/NewButtonText"
 	            android:drawableTop="@drawable/contact_us"
 	        />
-	        <com.banzz.lifecounter.commons.FontedButton
+	        <com.banzz.lifecounter.common.FontedButton
 	            android:id="@+id/donation_button"
 	            android:layout_width="100dp"
 	            android:layout_height="wrap_content"
@@ -69,7 +69,7 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             >
-	        <com.banzz.lifecounter.commons.FontedButton
+	        <com.banzz.lifecounter.common.FontedButton
 	            android:id="@+id/blog_button"
 	            android:layout_width="100dp"
 	            android:layout_height="wrap_content"
@@ -78,7 +78,7 @@
 	            style="@style/NewButtonText"
 	            android:drawableTop="@drawable/blog_us"
 	        />
-	        <com.banzz.lifecounter.commons.FontedButton
+	        <com.banzz.lifecounter.common.FontedButton
 	            android:id="@+id/facebook_button"
 	            android:layout_width="100dp"
 	            android:layout_height="wrap_content"
@@ -87,7 +87,7 @@
 	            style="@style/NewButtonText"
 	            android:drawableTop="@drawable/facebook_us"
 	        />
-	        <com.banzz.lifecounter.commons.FontedButton
+	        <com.banzz.lifecounter.common.FontedButton
 	            android:id="@+id/twitter_button"
 	            android:layout_width="100dp"
 	            android:layout_height="wrap_content"

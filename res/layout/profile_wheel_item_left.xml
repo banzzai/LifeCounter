@@ -4,7 +4,7 @@
     android:layout_height="@dimen/profile_wheel_height"
     android:gravity="center_horizontal" >
   
-	<com.banzz.lifecounter.commons.RoundedImageView 
+	<com.banzz.lifecounter.common.RoundedImageView 
 		android:id="@+id/profile_wheel_icon"
 		android:layout_gravity="center_horizontal"
 		android:layout_alignParentLeft="true"

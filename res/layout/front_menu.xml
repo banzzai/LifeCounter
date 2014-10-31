@@ -26,7 +26,7 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             >
-            <com.banzz.lifecounter.commons.FontedButton
+            <com.banzz.lifecounter.common.FontedButton
 		        android:id="@+id/two_player_button"
 	            android:layout_width="100dp"
 	            android:layout_height="wrap_content"
@@ -35,7 +35,7 @@
     			style="@style/NewButtonText"
 				android:drawableTop="@drawable/new_game"
 	        />
-	        <com.banzz.lifecounter.commons.FontedButton
+	        <com.banzz.lifecounter.common.FontedButton
 	            android:id="@+id/edit_profiles"
 	            android:layout_width="100dp"
 	            android:layout_height="wrap_content"
@@ -44,7 +44,7 @@
 	            style="@style/NewButtonText"
 	            android:drawableTop="@drawable/profiles"
 	        />
-	        <com.banzz.lifecounter.commons.FontedButton
+	        <com.banzz.lifecounter.common.FontedButton
 	            android:id="@+id/tournament_button"
 	            android:layout_width="100dp"
 	            android:layout_height="wrap_content"
@@ -69,7 +69,7 @@
 	            android:layout_height="wrap_content"
 	            android:layout_weight="1"
 	        />
-	        <com.banzz.lifecounter.commons.FontedButton
+	        <com.banzz.lifecounter.common.FontedButton
 	            android:id="@+id/settings_button"
 	            android:layout_width="100dp"
 	            android:layout_height="wrap_content"
@@ -78,7 +78,7 @@
 	            style="@style/NewButtonText"
 	            android:drawableTop="@drawable/settings"
 	        />
-	        <com.banzz.lifecounter.commons.FontedButton
+	        <com.banzz.lifecounter.common.FontedButton
 	            android:id="@+id/helpus_button"
 	            android:layout_width="100dp"
 	            android:layout_height="wrap_content"

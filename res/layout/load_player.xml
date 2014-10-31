@@ -6,7 +6,7 @@
     android:layout_gravity="center_horizontal"
     >
     
-    <com.banzz.lifecounter.commons.FontedTextView
+    <com.banzz.lifecounter.common.FontedTextView
         android:id="@+id/select_profiles_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -29,7 +29,7 @@
         android:layout_below="@+id/player_one_profile"
         android:layout_marginTop="10dp" />
     
-    <com.banzz.lifecounter.commons.FontedButton
+    <com.banzz.lifecounter.common.FontedButton
         android:id="@+id/select_players_ok_button"
         android:layout_below="@+id/player_two_profile"
         android:layout_centerHorizontal="true"

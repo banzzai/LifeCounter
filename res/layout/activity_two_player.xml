@@ -81,7 +81,7 @@
 			        android:textAppearance="@style/poison"
 				/>
 
-                <com.banzz.lifecounter.utils.VerticalSeekBar
+                <com.banzz.lifecounter.common.VerticalSeekBar
                     android:id="@+id/poisonBar1"
                     android:layout_width="wrap_content"
                     android:layout_height="fill_parent"
@@ -161,7 +161,7 @@
 			        android:textAppearance="@style/poison"
 				/>
 
-                <com.banzz.lifecounter.utils.VerticalSeekBar
+                <com.banzz.lifecounter.common.VerticalSeekBar
                     android:id="@+id/poisonBar2"
                     android:layout_width="wrap_content"
                     android:layout_height="fill_parent"
