@@ -64,7 +64,7 @@ public class FrontMenuActivity extends FullScreenActivity implements CloseWizard
         
         Utils.initUtils(getApplicationContext());
         
-        setContentView(R.layout.front_menu);
+        setContentView(R.layout.activity_front_menu);
         
         Button mNewGame = (Button) findViewById(R.id.two_player_button);
         mNewGame.setOnClickListener(new OnClickListener() {
@@ -105,7 +105,7 @@ public class FrontMenuActivity extends FullScreenActivity implements CloseWizard
         mHelpUs.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				startActivity(new Intent(getApplicationContext(), HelpUsActivity.class));
+				startActivity(new Intent(getApplicationContext(), SocialLinksActivity.class));
 			}
 		});
         

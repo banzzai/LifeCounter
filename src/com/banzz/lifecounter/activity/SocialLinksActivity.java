@@ -6,18 +6,19 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.banzz.lifecounter.R;
 import com.banzz.lifecounter.common.Utils.Constants;
 
-public class HelpUsActivity extends FullScreenActivity {
+public class SocialLinksActivity extends FullScreenActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         
-        setContentView(R.layout.helpus_activity);
+        setContentView(R.layout.activity_social);
         
         Button mRateButton = (Button) findViewById(R.id.rate_button);
         mRateButton.setOnClickListener(new OnClickListener() {
@@ -42,7 +43,7 @@ public class HelpUsActivity extends FullScreenActivity {
 			
 			@Override
 			public void onClick(View arg0) {
-				Toast.makeText(HelpUsActivity.this, HelpUsActivity.this.getString(R.string.donation_thanks), Toast.LENGTH_LONG).show();
+				Toast.makeText(SocialLinksActivity.this, SocialLinksActivity.this.getString(R.string.donation_thanks), Toast.LENGTH_LONG).show();
 				startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.PAYPAL_DONATIONS)));
 			}
 		});
@@ -73,6 +74,15 @@ public class HelpUsActivity extends FullScreenActivity {
                 startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.TWITTER_URL)));
             }
         });
+        
+        ImageButton mMenuButton = (ImageButton) findViewById(R.id.front_title);
+        mMenuButton.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				finish();
+			}
+		});
 	}
 
     private void sendMail() {
@@ -84,7 +94,7 @@ public class HelpUsActivity extends FullScreenActivity {
         try {
             startActivity(Intent.createChooser(i, getString(R.string.send_feedback)));
         } catch (android.content.ActivityNotFoundException ex) {
-            Toast.makeText(HelpUsActivity.this, getString(R.string.no_mail_client), Toast.LENGTH_SHORT).show();
+            Toast.makeText(SocialLinksActivity.this, getString(R.string.no_mail_client), Toast.LENGTH_SHORT).show();
         }
     }
 }

@@ -71,16 +71,22 @@ public class Utils {
 	
 	public static void initUtils(Context context)
 	{
-		Constants.FONT_HELVETICA_NUEUE = Typeface.createFromAsset(context.getAssets(), "fonts/"+Constants.STRING_HELVETICA_NUEUE+".ttf");
-		Constants.FONT_HELVETICA_NUEUE_CONDENSED = Typeface.createFromAsset(context.getAssets(), "fonts/"+Constants.STRING_HELVETICA_NUEUE_CONDENSED+".ttf");
-		
+		if (Constants.FONT_HELVETICA_NUEUE == null)
+		{
+			Constants.FONT_HELVETICA_NUEUE = Typeface.createFromAsset(context.getAssets(), "fonts/"+Constants.STRING_HELVETICA_NUEUE+".ttf");
+			Constants.FONT_HELVETICA_NUEUE_CONDENSED = Typeface.createFromAsset(context.getAssets(), "fonts/"+Constants.STRING_HELVETICA_NUEUE_CONDENSED+".ttf");
+		}
+			
 		if (mStorageString == null)
 		{
 			File sdCardDirectory = Environment.getExternalStorageDirectory();
 			mStorageString = sdCardDirectory + "/" + context.getString(R.string.app_name) + "/";	
 		}
 		
-		mPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+		if (mPreferences == null)
+		{
+			mPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+		}
 	}
 	
 	/**

@@ -1,5 +1,7 @@
 package com.banzz.lifecounter.activity;
 
+import com.banzz.lifecounter.common.Utils;
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
@@ -25,10 +27,19 @@ public class FullScreenActivity extends Activity {
 	    requestWindowFeature(Window.FEATURE_NO_TITLE);
 	    getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         
+	    Utils.initUtils(getApplicationContext());
+	    
 	    if (android.os.Build.VERSION.SDK_INT >= 19)
         {
         	hideNavigationControls();
         }
+	}
+	
+	@Override
+	protected void onResume()
+	{
+		super.onResume();
+		Utils.initUtils(getApplicationContext());
 	}
 	
 	private void hideNavigationControls()
