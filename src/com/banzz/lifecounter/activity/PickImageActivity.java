@@ -286,7 +286,11 @@ public class PickImageActivity extends FullScreenActivity {
 		{
 			return null;
 		}
-		return player.getId() + "_" + (imageType==INDEX_LARGE?"_large":imageType==INDEX_TALL?"_tall":"_thumb") + ".png";
+		return player.getId() 
+				+ (imageType == INDEX_LARGE ? Utils.Constants.LARGE_FILE_NAME_SUFFIX 
+    				: imageType == INDEX_TALL ? Utils.Constants.TALL_FILE_NAME_SUFFIX
+    				: Utils.Constants.THUMBNAIL_FILE_NAME_SUFFIX) 
+    			+ ".png";
 	}
 	
 	// Gets the temp file name corresponding to the player name and aspect ratio
@@ -296,7 +300,7 @@ public class PickImageActivity extends FullScreenActivity {
 		{
 			return null;
 		}
-		return player.getId() + "_" + (isLarge ? Constants.TEMP_LARGE_FILE_NAME : Constants.TEMP_FILE_NAME);
+		return player.getId() + (isLarge ? Constants.TEMP_LARGE_FILE_NAME : Constants.TEMP_FILE_NAME);
 	}
 	
 	/**

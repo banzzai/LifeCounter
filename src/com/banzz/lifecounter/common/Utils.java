@@ -62,10 +62,13 @@ public class Utils
 		public static final String KEY_PLAYER_TWO = "player_two";
 		public static final String KEY_TOURNAMENT_PLAYERS = "tournament_players";
 
-		// Config
+		// Profiles file names
 		public static final String PROFILES_FILE_NAME = "/players.JSON";
 		public static final String TEMP_FILE_NAME = "temp.jpg";
 		public static final String TEMP_LARGE_FILE_NAME = "temp_large.jpg";
+		public static final String THUMBNAIL_FILE_NAME_SUFFIX = "_thumb";
+		public static final String LARGE_FILE_NAME_SUFFIX = "_thumb";
+		public static final String TALL_FILE_NAME_SUFFIX = "_thumb";
 
 		// Fonts
 		public static Typeface FONT_HELVETICA_NUEUE = null;
