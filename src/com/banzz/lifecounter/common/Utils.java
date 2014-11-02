@@ -1,10 +1,15 @@
 package com.banzz.lifecounter.common;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
 
 import com.banzz.lifecounter.R;
+import com.google.gson.Gson;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -14,6 +19,7 @@ import android.graphics.Typeface;
 import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.widget.Toast;
 
 public class Utils {
 	private static final String TAG = Utils.class.getName();
@@ -86,6 +92,92 @@ public class Utils {
 		if (mPreferences == null)
 		{
 			mPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+		}
+	}
+	
+	/**
+	 * Adding default player profiles if there is no profile added.
+	 * 
+	 * @param context of the app.
+	 */
+	public static void fillInDefaultProfiles(final Context context)
+	{
+		if (loadProfiles(context) == null)
+		{
+			InputStream fis = context.getResources().openRawResource(R.raw.default_profiles);
+			
+			Gson gson = new Gson();
+			if (fis == null) 
+			{
+				Log.e(TAG, "Couldn't load the default player json!");
+				return;
+			} 
+			else 
+			{
+				Reader reader = new InputStreamReader(fis);
+				saveProfiles(gson.fromJson(reader, Player[].class), context);
+			}
+		}
+	}
+	
+	/**
+	 * Save a list of profiles to the local storage.
+	 * 
+	 * @param profiles List of profiles to be saved.
+	 * @param context Context of the app.
+	 */
+	public static void saveProfiles(final Player[] profiles, final Context context)
+	{
+		Gson gson = new Gson();
+		String json = gson.toJson(profiles);
+		String fileName = Constants.PROFILES_FILE_NAME;
+		
+		FileOutputStream fos;
+		try {
+			File image = new File(Utils.getAppStoragePath(), fileName);
+			if (!image.exists()) {
+				image.createNewFile();
+			}	
+			
+			fos = new FileOutputStream(image);
+			fos.write(json.getBytes());
+			fos.close();
+		} catch (Exception e) {
+			Toast.makeText(context, "JSON WRITE FAILED", Toast.LENGTH_LONG).show();
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * Loading all player profiles.
+	 * 
+	 * @param context Context of the app.
+	 * @return List of all player profiles.
+	 */
+	public static Player[] loadProfiles(final Context context)
+	{
+		String fileName = Constants.PROFILES_FILE_NAME;
+
+	    InputStream fis = null;
+		try 
+		{
+			fis = new FileInputStream(Utils.getAppStoragePath() + fileName);
+		}
+		catch (Exception e)
+		{
+			Log.e(TAG, "Couldn't load profiles");
+		}
+		
+		Gson gson = new Gson();
+		if (fis == null)
+		{
+			Log.e(TAG, "Couldn't load player profiles from the local storage");
+			return null;
+		}
+		else
+		{
+			Reader reader = new InputStreamReader(fis);
+			return gson.fromJson(reader, Player[].class);
 		}
 	}
 	

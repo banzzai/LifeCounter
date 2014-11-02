@@ -1,7 +1,7 @@
 package com.banzz.lifecounter.dialog;
 
-import java.io.File;
 import java.io.FileInputStream;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 
@@ -11,6 +11,7 @@ import kankan.wheel.widget.adapters.AbstractWheelTextAdapter;
 import com.banzz.lifecounter.R;
 import com.banzz.lifecounter.common.Player;
 import com.banzz.lifecounter.common.RoundedImageView;
+import com.banzz.lifecounter.common.Utils;
 import com.banzz.lifecounter.common.Utils.Constants;
 import com.google.gson.Gson;
 
@@ -43,18 +44,21 @@ public class LoadPlayerDialog extends LifeCounterDialog {
 		
 		String fileName = Constants.PROFILES_FILE_NAME;
 
-	    File externalDir = mContext.getExternalFilesDir(null);
-		FileInputStream fis = null;
+	    InputStream fis = null;
 		try {
-			fis = new FileInputStream(externalDir + fileName);
+			fis = new FileInputStream(Utils.getAppStoragePath() + fileName);
 
 		} catch (Exception e) {
 			Log.e(TAG, "Couldn't load profiles");
 		}
 		
+		if (fis == null) {
+			fis = context.getResources().openRawResource(R.raw.default_profiles);
+		}
+		
 		Gson gson = new Gson();
 		if (fis == null) {
-			//Empty list
+			Log.e(TAG, "Couldn't load the default player json!");
 		} else {
 			Reader reader = new InputStreamReader(fis);
 			mUsers = gson.fromJson(reader, Player[].class);

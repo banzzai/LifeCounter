@@ -29,6 +29,7 @@ import android.widget.Toast;
 
 import com.banzz.lifecounter.R;
 import com.banzz.lifecounter.common.Player;
+import com.banzz.lifecounter.common.Utils;
 import com.banzz.lifecounter.common.Utils.Constants;
 import com.google.gson.Gson;
 
@@ -111,10 +112,9 @@ public class DeletePlayerActivity extends FullScreenActivity {
 	    String fileName = Constants.PROFILES_FILE_NAME;
 	    //Bad bad casts here. Then again, this is not meant to be adaptable code, used in x different activities;
 	    //worse case scenario it crashes and it'll serve as a reminder to set a listener...
-	    File externalDir = getExternalFilesDir(null);
-		FileInputStream fis = null;
+	    FileInputStream fis = null;
 		try {
-			fis = new FileInputStream(externalDir + fileName);
+			fis = new FileInputStream(Utils.getAppStoragePath() + fileName);
 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -139,11 +139,10 @@ public class DeletePlayerActivity extends FullScreenActivity {
 		Gson gson = new Gson();
 		String json = gson.toJson(mUsers);
 		String fileName = Constants.PROFILES_FILE_NAME;
-		File externalDir = getExternalFilesDir(null);
 		
 		FileOutputStream fos;
 		try {
-			File image = new File(externalDir, fileName);
+			File image = new File(Utils.getAppStoragePath(), fileName);
 			if (!image.exists()) {
 				image.createNewFile();
 			}	
