@@ -15,16 +15,26 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
 import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.Toast;
 
+/**
+ * Various Utils functions. Basically everything that can be used in several places.
+ */
 public class Utils
 {
 	private static final String TAG = Utils.class.getName();
 
+	private static String mStorageString;
+	private static SharedPreferences mPreferences;
+
+	/**
+	 * All app constants.
+	 */
 	public static class Constants
 	{
 		// Game parameters
@@ -39,7 +49,7 @@ public class Utils
 		public static final int ACTION_LOAD_PLAYERS = 1;
 		public static final int ACTION_FLIP_PLAYER_2 = 2;
 
-		// Misc
+		// Urls and social links
 		public static final String PAYPAL_DONATIONS = "https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=BD7UPFTH3FTFL&lc=US&item_name=Mayor%20Suplex&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted";
 		public static final String APP_STORE_DONATIONS = "https://play.google.com/store/apps/details?id=com.banzz.lifecounter";
 		public static final String BLOG_URL = "http://bullzzai.wordpress.com/";
@@ -57,6 +67,7 @@ public class Utils
 		public static final int REQUEST_EDIT_WIZARD = 6;
 		public static final int REQUEST_NEW_TOURNAMENT = 7;
 
+		// Intent extras keys
 		public static final String KEY_PLAYER_TARGET = "player_target";
 		public static final String KEY_PLAYER_ONE = "player_one";
 		public static final String KEY_PLAYER_TWO = "player_two";
@@ -67,8 +78,8 @@ public class Utils
 		public static final String TEMP_FILE_NAME = "temp.jpg";
 		public static final String TEMP_LARGE_FILE_NAME = "temp_large.jpg";
 		public static final String THUMBNAIL_FILE_NAME_SUFFIX = "_thumb";
-		public static final String LARGE_FILE_NAME_SUFFIX = "_thumb";
-		public static final String TALL_FILE_NAME_SUFFIX = "_thumb";
+		public static final String LARGE_FILE_NAME_SUFFIX = "_large";
+		public static final String TALL_FILE_NAME_SUFFIX = "_tall";
 
 		// Fonts
 		public static Typeface FONT_HELVETICA_NUEUE = null;
@@ -77,9 +88,28 @@ public class Utils
 		public static String STRING_HELVETICA_NUEUE_CONDENSED = "HelveticaNeueC";
 	}
 
-	private static String mStorageString;
-	private static SharedPreferences mPreferences;
+	/**
+	 * Image type enum (tall, large, thumb).
+	 */
+	public enum ImageType
+	{
+		/**
+		 * Tall image (portrait mode)
+		 */
+		TALL_IMAGE, 
+		/**
+		 * Large image (landscape mode)
+		 */
+		LARGE_IMAGE,
+		/**
+		 * Thumbnail image (load profile dialog)
+		 */
+		THUMBNAIL_IMAGE
+	}
 
+	/**
+	 * Needs to be called once at the start of the app, to initialize things like local storage path and fonts.
+	 */
 	public static void initUtils(Context context)
 	{
 		if (Constants.FONT_HELVETICA_NUEUE == null)
@@ -103,10 +133,82 @@ public class Utils
 	}
 
 	/**
+	 * Once at the first start of the app, convert raw resources into local files for the default
+	 * profiles. The default profiles only need to be created once, then what happens to them is
+	 * down to the user.
+	 *
+	 * @param context
+	 *            Context of the app.
+	 */
+	public static void checkDefaultProfiles(final Context context)
+	{
+		if (!getBooleanPreference(context.getString(R.string.key_default_profiles_created), false))
+		{
+			// Load default profile list from the shipped json
+			final InputStream fis = context.getResources().openRawResource(R.raw.default_profiles);
+
+			final Gson gson = new Gson();
+			if (fis == null)
+			{
+				Log.e(TAG, "checkDefaultProfiles() Couldn't load the default player json!");
+			}
+			else
+			{
+				final Reader reader = new InputStreamReader(fis);
+				final Player[] defaultProfiles = gson.fromJson(reader, Player[].class);
+
+				// Going through the list of players
+				for (int i = 0; i < defaultProfiles.length; i++)
+				{
+					final Player defaultProfile = defaultProfiles[i];
+
+					// Save large version of the profile's background
+					convertRawToLocal(defaultProfile, ImageType.LARGE_IMAGE, context);
+
+					// Save tall version of the profile's background
+					convertRawToLocal(defaultProfile, ImageType.TALL_IMAGE, context);
+
+					// Save thumbnail for the profile
+					convertRawToLocal(defaultProfile, ImageType.THUMBNAIL_IMAGE, context);
+				}
+
+				// Save the default profiles into the usable profile list json.
+				saveProfiles(defaultProfiles, context);
+			}
+
+			// Save the key to not go through it again.
+			setBooleanPreference(context.getString(R.string.key_default_profiles_created), true);
+		}
+	}
+
+	// Search for a resource with the corresponding name and save it to local storage
+	private static void convertRawToLocal(final Player profile, final ImageType imageType, final Context context)
+	{
+		final String resourceName = profile.getName()
+				+ (imageType == ImageType.LARGE_IMAGE ? Utils.Constants.LARGE_FILE_NAME_SUFFIX
+						: imageType == ImageType.TALL_IMAGE ? Utils.Constants.TALL_FILE_NAME_SUFFIX
+								: Utils.Constants.THUMBNAIL_FILE_NAME_SUFFIX);
+
+		final String localStorageName = resourceName + ".png";
+
+		final int drawableResourceId = context.getResources().getIdentifier(resourceName, "drawable", context.getPackageName());
+		final Bitmap bitmapImage = BitmapFactory.decodeResource(context.getResources(), drawableResourceId);
+		
+		try
+		{
+			saveImage(localStorageName, bitmapImage);
+		}
+		catch (IOException e)
+		{
+			Log.e(TAG, "Failed to save " + localStorageName + " for " + profile.getName());
+		}
+	}
+
+	/**
 	 * Adding default player profiles if there is no profile added.
 	 * 
 	 * @param context
-	 *            of the app.
+	 *            Context of the app.
 	 */
 	public static void fillInDefaultProfiles(final Context context)
 	{
@@ -200,8 +302,9 @@ public class Utils
 	 * Save an image to the app storage.
 	 * 
 	 * @param imageName
-	 *            name of the image file
-	 * @bitmapImage the image itself
+	 *            Name of the image file
+	 * @param bitmapImage
+	 *            The image itself
 	 * @context Context used to retrieve the app's path
 	 */
 	public static void saveImage(String imageName, Bitmap bitmapImage) throws IOException
@@ -223,12 +326,11 @@ public class Utils
 	}
 
 	/**
-	 * Generate an id for a new user profile. The implementation is primitive I
-	 * don't think we need too sophisticated code here right now.
+	 * Generate an id for a new user profile. The implementation is primitive I don't think we need
+	 * too sophisticated code here right now.
 	 * 
 	 * @param context
-	 *            Context used to retrieve the setting containing the next
-	 *            available id
+	 *            Context used to retrieve the setting containing the next available id
 	 * @return next available id
 	 */
 	public static String generateProfileId(Context context)
@@ -341,7 +443,7 @@ public class Utils
 	}
 
 	/**
-	 * Getting current version of the app
+	 * Getting current version of the app.
 	 * 
 	 * @param context
 	 *            needed to call the package manager

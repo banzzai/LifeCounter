@@ -1,11 +1,5 @@
 package com.banzz.lifecounter.activity;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -36,7 +30,6 @@ import com.banzz.lifecounter.common.Player;
 import com.banzz.lifecounter.common.Utils;
 import com.banzz.lifecounter.common.Utils.Constants;
 import com.banzz.lifecounter.dialog.PickColorDialog;
-import com.google.gson.Gson;
 
 public class EditPlayerActivity extends FullScreenActivity implements OnClickListener, PickColorDialog.PickColorDialogListener
 {
@@ -250,7 +243,8 @@ public class EditPlayerActivity extends FullScreenActivity implements OnClickLis
 			}
 		});
 
-		loadSavedProfiles();
+		mUsers = Utils.loadProfiles(this);
+		
 		updateUI(true);
 
 		wizardLayout = (RelativeLayout) findViewById(R.id.edit_wizard_layout);
@@ -345,36 +339,6 @@ public class EditPlayerActivity extends FullScreenActivity implements OnClickLis
 		dialog.show();
 	}
 
-	private void loadSavedProfiles()
-	{
-		String fileName = Constants.PROFILES_FILE_NAME;
-		// Bad bad casts here. Then again, this is not meant to be adaptable
-		// code, used in x different activities;
-		// Worse case scenario it crashes and it'll serve as a reminder to set a
-		// listener...
-		FileInputStream fis = null;
-		try
-		{
-			fis = new FileInputStream(Utils.getAppStoragePath() + fileName);
-
-		}
-		catch (Exception e)
-		{
-			Log.e(TAG, "Couldn't load file " + fileName);
-		}
-
-		Gson gson = new Gson();
-		if (fis == null)
-		{
-			Log.e(TAG, "Empty Json");
-		}
-		else
-		{
-			Reader reader = new InputStreamReader(fis);
-			mUsers = gson.fromJson(reader, Player[].class);
-		}
-	}
-
 	private Player[] addPlayer(final Player player, final Player[] players)
 	{
 		int length = players == null ? 0 : players.length;
@@ -393,44 +357,18 @@ public class EditPlayerActivity extends FullScreenActivity implements OnClickLis
 	{
 		if (mReplaceIndex == -1)
 		{
+			Log.d(TAG, "Saving profile " + players[mSelectedPlayer].getName());
 			Toast.makeText(this, "Saving profile " + players[mSelectedPlayer].getName(), Toast.LENGTH_LONG).show();
 			mUsers = addPlayer(players[mSelectedPlayer], mUsers);
 		}
 		else
 		{
+			Log.d(TAG, "Replacing profile " + players[mSelectedPlayer].getName());
 			Toast.makeText(this, "Replacing profile " + players[mSelectedPlayer].getName(), Toast.LENGTH_LONG).show();
 			mUsers[mReplaceIndex] = new Player(players[mSelectedPlayer]);
 		}
 
-		savePlayers();
-	}
-
-	private void savePlayers()
-	{
-		Gson gson = new Gson();
-		String json = gson.toJson(mUsers);
-		String fileName = Constants.PROFILES_FILE_NAME;
-
-		FileOutputStream fos;
-		try
-		{
-			File image = new File(Utils.getAppStoragePath(), fileName);
-			if (!image.exists())
-			{
-				image.createNewFile();
-			}
-
-			fos = new FileOutputStream(image);
-			// fos = openFileOutput(externalDir + fileName,
-			// Context.MODE_PRIVATE);
-			fos.write(json.getBytes());
-			fos.close();
-		}
-		catch (Exception e)
-		{
-			Toast.makeText(this, "JSON WRITE FAILED", Toast.LENGTH_LONG).show();
-			e.printStackTrace();
-		}
+		Utils.saveProfiles(mUsers, this);
 	}
 
 	private void updateUI(final boolean checkPlaque)
@@ -558,13 +496,6 @@ public class EditPlayerActivity extends FullScreenActivity implements OnClickLis
 		players[mSelectedPlayer].setBackGroundId(player0_back_number);
 		updateUI();
 	}
-
-	// @Override
-	// public void onValidateLoad(Player player, int player_slot) {
-	// mSelectedPlayer = player_slot;
-	// players[player_slot] = new Player(player);
-	// updateUI();
-	// }
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent intent)

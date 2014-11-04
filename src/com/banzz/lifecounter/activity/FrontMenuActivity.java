@@ -63,6 +63,7 @@ public class FrontMenuActivity extends FullScreenActivity implements CloseWizard
         super.onCreate(savedInstanceState);
         
         Utils.initUtils(getApplicationContext());
+        Utils.checkDefaultProfiles(getApplicationContext());
         
         setContentView(R.layout.activity_front_menu);
         

@@ -1,10 +1,5 @@
 package com.banzz.lifecounter.activity;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -25,13 +20,10 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.banzz.lifecounter.R;
 import com.banzz.lifecounter.common.Player;
 import com.banzz.lifecounter.common.Utils;
-import com.banzz.lifecounter.common.Utils.Constants;
-import com.google.gson.Gson;
 
 public class DeletePlayerActivity extends FullScreenActivity {
 	private Player[] mUsers;
@@ -43,7 +35,12 @@ public class DeletePlayerActivity extends FullScreenActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_delete_player);
 		
-        loadSavedProfiles();
+        mUsers = Utils.loadProfiles(this);
+        mMarkedForDeletion = new boolean[mUsers.length];
+        for (int i=0; i<mUsers.length; i++)
+        {
+            mMarkedForDeletion[i] = false;
+        }
         
         Button mDeleteButton = (Button) findViewById(R.id.ok_delete_button);
         mDeleteButton.setOnClickListener(new OnClickListener() {
@@ -104,57 +101,9 @@ public class DeletePlayerActivity extends FullScreenActivity {
                 }
             }
             mUsers = newUsers;
-            savePlayers();
+            
+            Utils.saveProfiles(mUsers, this);
         }
-	}
-	
-	private void loadSavedProfiles() {
-	    String fileName = Constants.PROFILES_FILE_NAME;
-	    //Bad bad casts here. Then again, this is not meant to be adaptable code, used in x different activities;
-	    //worse case scenario it crashes and it'll serve as a reminder to set a listener...
-	    FileInputStream fis = null;
-		try {
-			fis = new FileInputStream(Utils.getAppStoragePath() + fileName);
-
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		Gson gson = new Gson();
-		if (fis == null) {
-			//Empty list
-		} else {
-			Reader reader = new InputStreamReader(fis);
-			mUsers = gson.fromJson(reader, Player[].class);
-            mMarkedForDeletion = new boolean[mUsers.length];
-            for (int i=0; i<mUsers.length; i++)
-            {
-                mMarkedForDeletion[i] = false;
-            }
-		}
-	}
-
-	private void savePlayers() {
-		Gson gson = new Gson();
-		String json = gson.toJson(mUsers);
-		String fileName = Constants.PROFILES_FILE_NAME;
-		
-		FileOutputStream fos;
-		try {
-			File image = new File(Utils.getAppStoragePath(), fileName);
-			if (!image.exists()) {
-				image.createNewFile();
-			}	
-			
-			fos = new FileOutputStream(image);
-			//fos = openFileOutput(externalDir + fileName, Context.MODE_PRIVATE);
-			fos.write(json.getBytes());
-			fos.close();
-		} catch (Exception e) {
-			Toast.makeText(this, "JSON WRITE FAILED", Toast.LENGTH_LONG).show();
-			e.printStackTrace();
-		}
 	}
 	
 	private class PlayerProfileAdapter extends ArrayAdapter<Player> {

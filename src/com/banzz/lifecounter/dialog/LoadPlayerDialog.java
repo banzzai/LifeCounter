@@ -42,31 +42,11 @@ public class LoadPlayerDialog extends LifeCounterDialog {
 		
 		this.setContentView(R.layout.load_player);
 		
-		String fileName = Constants.PROFILES_FILE_NAME;
-
-	    InputStream fis = null;
-		try {
-			fis = new FileInputStream(Utils.getAppStoragePath() + fileName);
-
-		} catch (Exception e) {
-			Log.e(TAG, "Couldn't load profiles");
-		}
+		mUsers = Utils.loadProfiles(context);
 		
-		if (fis == null) {
-			fis = context.getResources().openRawResource(R.raw.default_profiles);
-		}
-		
-		Gson gson = new Gson();
-		if (fis == null) {
-			Log.e(TAG, "Couldn't load the default player json!");
-		} else {
-			Reader reader = new InputStreamReader(fis);
-			mUsers = gson.fromJson(reader, Player[].class);
-			
-			if (mUsers != null && mUsers.length > 0) {
-				mUserLeftWheelAdapter = new UserWheelAdapter(mUsers, mContext, true);
-				mUserRightWheelAdapter = new UserWheelAdapter(mUsers, mContext, false);
-			}
+		if (mUsers != null && mUsers.length > 0) {
+			mUserLeftWheelAdapter = new UserWheelAdapter(mUsers, mContext, true);
+			mUserRightWheelAdapter = new UserWheelAdapter(mUsers, mContext, false);
 		}
 
 		mPlayerOneProfileWheel = (WheelView) findViewById(R.id.player_one_profile);
