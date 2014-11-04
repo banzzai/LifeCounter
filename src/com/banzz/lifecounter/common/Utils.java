@@ -96,7 +96,7 @@ public class Utils
 		/**
 		 * Tall image (portrait mode)
 		 */
-		TALL_IMAGE, 
+		TALL_IMAGE,
 		/**
 		 * Large image (landscape mode)
 		 */
@@ -108,7 +108,8 @@ public class Utils
 	}
 
 	/**
-	 * Needs to be called once at the start of the app, to initialize things like local storage path and fonts.
+	 * Needs to be called once at the start of the app, to initialize things like local storage path
+	 * and fonts.
 	 */
 	public static void initUtils(Context context)
 	{
@@ -193,7 +194,7 @@ public class Utils
 
 		final int drawableResourceId = context.getResources().getIdentifier(resourceName, "drawable", context.getPackageName());
 		final Bitmap bitmapImage = BitmapFactory.decodeResource(context.getResources(), drawableResourceId);
-		
+
 		try
 		{
 			saveImage(localStorageName, bitmapImage);

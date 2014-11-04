@@ -244,7 +244,7 @@ public class EditPlayerActivity extends FullScreenActivity implements OnClickLis
 		});
 
 		mUsers = Utils.loadProfiles(this);
-		
+
 		updateUI(true);
 
 		wizardLayout = (RelativeLayout) findViewById(R.id.edit_wizard_layout);
